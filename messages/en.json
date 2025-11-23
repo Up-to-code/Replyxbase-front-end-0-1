@@ -30,27 +30,115 @@
       "feature3Title": "Custom Personality",
       "feature3Desc": "Match your brand's voice and tone."
     },
-    "CRM": {
-      "badge": "Smart CRM",
-      "title": "Turn conversations into customers.",
-      "description": "Automatically capture leads and build detailed customer profiles from every interaction.",
-      "feature1Title": "Auto-Capture",
-      "feature1Desc": "Save contact details automatically.",
-      "feature2Title": "Interaction History",
-      "feature2Desc": "View every past conversation."
+    "Marquee": {
+      "realEstate": "Real Estate Empire",
+      "ecommerce": "E-commerce Giants",
+      "healthcare": "Healthcare Heroes",
+      "technology": "Tech Innovators",
+      "finance": "Finance Leaders",
+      "whatsapp": "WhatsApp Business",
+      "telegram": "Telegram Bot",
+      "website": "Web Chat"
     },
-    "Analytics": {
-      "badge": "Analytics",
-      "title": "Data-driven decisions.",
-      "description": "Track team performance, response times, and customer satisfaction in real-time.",
-      "feature1Title": "Live Metrics",
-      "feature1Desc": "Monitor active conversations and agent status.",
-      "feature2Title": "Performance Reports",
-      "feature2Desc": "Detailed insights to improve your support."
+    "TrustedBy": {
+      "title": "Trusted by leading companies",
+      "companies": {
+        "techflow": "TechFlow",
+        "growthlabs": "GrowthLabs",
+        "elevate": "Elevate",
+        "globalcorp": "GlobalCorp",
+        "nextgen": "NextGen Systems",
+        "futureworks": "FutureWorks"
+      }
     },
-    "Omnichannel": {
-      "title": "Central Intelligence for Your Business",
-      "subtitle": "Watch how Replyxbase unifies every customer interaction into a single, powerful stream of actionable data."
+    "Features": {
+      "title": "One Platform. Unlimited Growth.",
+      "subtitle": "Everything you need to manage customer conversations, sales, and support in one place.",
+      "Inbox": {
+        "badge": "Unified Inbox",
+        "title": "All your conversations in one place",
+        "description": "Stop switching between apps. Manage WhatsApp, Telegram, and Website messages from a single interface.",
+        "benefit1": "User-friendly interface",
+        "benefit2": "Auto-assign chats to team",
+        "benefit3": "Instant notifications",
+        "messages": {
+          "msg1": { "sender": "Sarah Ahmed", "text": "Hi, can I book an appointment?" },
+          "msg2": { "sender": "Mike Ali", "text": "Thanks, the service was great!" },
+          "msg3": { "sender": "Site Visitor", "text": "What are your pricing plans?" }
+        },
+        "Mock": {
+          "headerTitle": "Replyxbase Inbox",
+          "statusTitle": "Status",
+          "statusOnline": "All Systems Operational",
+          "aiFormPlaceholder": "Type your reply..."
+        }
+      },
+      "Agents": {
+        "badge": "AI Agents",
+        "title": "Hire a team that never sleeps",
+        "description": "Create custom AI agents to answer queries, book appointments, and qualify leads 24/7.",
+        "feature1Title": "Custom Training",
+        "feature1Desc": "Train your agent on your own data.",
+        "feature2Title": "Multilingual",
+        "feature2Desc": "Speak to customers in their preferred language.",
+        "feature3Title": "Seamless Integration",
+        "feature3Desc": "Works with your existing tools.",
+        "cta": "See Agents in Action",
+        "Mock": {
+          "salesBot": "Sales Bot Alpha",
+          "leadGen": "Lead Gen",
+          "supportHelper": "Support Helper",
+          "customerService": "Customer Service",
+          "active": "Active",
+          "conversations": "Conversations",
+          "conversion": "Conversion"
+        }
+      },
+      "CRM": {
+        "badge": "Smart CRM",
+        "title": "Turn conversations into customers.",
+        "description": "Automatically capture leads and build detailed customer profiles from every interaction.",
+        "feature1Title": "Auto-Capture",
+        "feature1Desc": "Save contact details automatically.",
+        "feature2Title": "Interaction History",
+        "feature2Desc": "View every past conversation.",
+        "Mock": {
+          "name": "Sarah Jenkins",
+          "company": "TechFlow",
+          "vip": "VIP",
+          "activeDeal": "Active Deal",
+          "enterprise": "Enterprise",
+          "recentActivity": "Recent Activity",
+          "demoCall": "Demo Call Scheduled",
+          "invoiceSent": "Invoice Sent",
+          "tomorrow2pm": "Tomorrow 2:00 PM",
+          "twoHoursAgo": "2 hours ago",
+          "bookingTitle": "Book a Call",
+          "bookingDate": "Select Date",
+          "bookingTime": "Select Time",
+          "confirmBooking": "Confirm Booking"
+        }
+      },
+      "Analytics": {
+        "badge": "Analytics",
+        "title": "Data-driven decisions.",
+        "description": "Track team performance, response times, and customer satisfaction in real-time.",
+        "feature1Title": "Live Metrics",
+        "feature1Desc": "Monitor active conversations and agent status.",
+        "feature2Title": "Performance Reports",
+        "feature2Desc": "Detailed insights to improve your support.",
+        "Mock": {
+          "performanceOverview": "Performance Overview",
+          "last7Days": "Last 7 Days",
+          "responseTime": "Response Time",
+          "csatScore": "CSAT Score",
+          "resolutionRate": "Resolution Rate"
+        }
+      },
+      "Omnichannel": {
+        "title": "Central Intelligence for Your Business",
+        "subtitle": "Watch how Replyxbase unifies every customer interaction into a single, powerful stream of actionable data."
+      }
     },
     "Testimonials": {
       "title": "Trusted by Teams",

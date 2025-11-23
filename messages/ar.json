@@ -54,6 +54,17 @@
         "finance": "المالية",
         "other": "أخرى"
     },
+    "TrustedBy": {
+      "title": "موثوق من قبل شركات رائدة",
+      "companies": {
+        "techflow": "TechFlow",
+        "growthlabs": "GrowthLabs",
+        "elevate": "Elevate",
+        "globalcorp": "GlobalCorp",
+        "nextgen": "NextGen Systems",
+        "futureworks": "FutureWorks"
+      }
+    },
     "Features": {
       "title": "منصة واحدة. نمو لا محدود.",
       "subtitle": "كل ما تحتاجه لإدارة محادثات العملاء، المبيعات، والدعم الفني في مكان واحد.",

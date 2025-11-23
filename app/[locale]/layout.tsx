@@ -154,7 +154,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       </head>
       <body 
-        className={`${cairo.className} antialiased`}
+        className={`${cairo.className} antialiased overflow-x-hidden`}
         suppressHydrationWarning
       >
         <NextIntlClientProvider 

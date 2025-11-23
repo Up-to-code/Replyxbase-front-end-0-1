@@ -164,8 +164,8 @@ const FeatureInbox = () => {
 
       
       {/* Decorative Background Elements */}
-      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-purple-50/50 rounded-full blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute top-0 ltr:right-0 rtl:left-0 -translate-y-1/2 ltr:translate-x-1/2 rtl:-translate-x-1/2 w-[600px] h-[600px] bg-blue-50/50 rounded-full blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute bottom-0 ltr:left-0 rtl:right-0 translate-y-1/2 ltr:-translate-x-1/2 rtl:translate-x-1/2 w-[500px] h-[500px] bg-purple-50/50 rounded-full blur-3xl -z-10 pointer-events-none" />
     </section>
   );
 };

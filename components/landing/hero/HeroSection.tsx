@@ -1,15 +1,24 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { ArrowRight, MessageCircle, Send, Globe, CheckCircle2, Sparkles, Bot, Zap, Cpu, Activity, Layers } from "lucide-react";
+import { ArrowRight, MessageCircle, Send, Globe, CheckCircle2, Sparkles, Zap, Cpu, Layers } from "lucide-react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
-const HeroSection = ({ session }: { session: any }) => {
+const HeroSection = ({ session: initialSession }: { session?: any }) => {
+  const { data: session } = authClient.useSession();
   const t = useTranslations("Landing.Hero");
   const tCommon = useTranslations("Common");
 
-  const brandColor = "#2A4D9A"; // User specified brand color
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const channels = [
     { name: "WhatsApp", icon: MessageCircle, color: "bg-[#25D366]", delay: 0 },
@@ -23,8 +32,8 @@ const HeroSection = ({ session }: { session: any }) => {
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
       {/* Background Gradients */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-5%] w-[800px] h-[800px] bg-[#2A4D9A]/10 rounded-full blur-3xl opacity-60 animate-pulse-slow"></div>
-        <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-purple-100/30 rounded-full blur-3xl opacity-60 animate-pulse-slow delay-1000"></div>
+        <div className="absolute top-[-10%] ltr:right-[-5%] rtl:left-[-5%] w-[800px] h-[800px] bg-[#2A4D9A]/10 rounded-full blur-3xl opacity-60 animate-pulse-slow"></div>
+        <div className="absolute bottom-[-10%] ltr:left-[-5%] rtl:right-[-5%] w-[600px] h-[600px] bg-purple-100/30 rounded-full blur-3xl opacity-60 animate-pulse-slow delay-1000"></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -104,10 +113,10 @@ const HeroSection = ({ session }: { session: any }) => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative w-[500px] h-[500px] flex items-center justify-center"
+              className="relative w-[280px] h-[280px] sm:w-[500px] sm:h-[500px] flex items-center justify-center scale-90 sm:scale-100"
             >
               {/* Central Platform Hub */}
-              <div className="relative z-20 w-48 h-48 bg-white rounded-full shadow-2xl flex items-center justify-center border-4 border-white ring-1 ring-gray-100">
+              <div className="relative z-20 w-32 h-32 sm:w-48 sm:h-48 bg-white rounded-full shadow-2xl flex items-center justify-center border-4 border-white ring-1 ring-gray-100">
                  {/* Logo / Brand Representation */}
                  <div className="flex flex-col items-center justify-center gap-2">
                     <div className="w-16 h-16 bg-[#2A4D9A] rounded-2xl flex items-center justify-center shadow-lg shadow-[#2A4D9A]/30">
@@ -124,7 +133,7 @@ const HeroSection = ({ session }: { session: any }) => {
               {/* Converging Channels */}
               {channels.map((channel, index) => {
                   const angle = (index * 360) / channels.length - 90; // Start from top
-                  const radius = 220; // Start radius
+                  const radius = isMobile ? 130 : 220; 
                   
                   return (
                       <motion.div
