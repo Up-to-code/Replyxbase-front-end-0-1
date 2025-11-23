@@ -340,7 +340,7 @@ export function Header({
   return (
     <header className="h-16 bg-white border-b border-gray-200 flex items-center sticky top-0 z-40">
       <div className="w-full">
-        <div className="container mx-auto px-4 max-w-7xl flex items-center justify-between">
+        <div className="w-full px-4 flex items-center justify-between">
           {/* Left: Menu button only */}
           <div className="flex items-center gap-4 flex-1">
             <button

@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
@@ -59,7 +60,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         />
 
         <main className="flex-1 overflow-auto bg-gray-50">
-          <div className="container mx-auto px-4 py-8 max-w-7xl">{children}</div>
+          <div className="h-full w-full">{children}</div>
         </main>
       </div>
     </div>

@@ -296,7 +296,9 @@
           "title": "قاعدة المعرفة",
           "subtitle": "درب وكيلك على مصادر بياناتك.",
           "uploadTitle": "رفع المستندات",
+          "uploadDesc": "قم بسحب وإفلات ملفاتك هنا أو انقر للتصفح.",
           "systemPromptPlaceholder": "أنت مساعد مفيد...",
+          "systemPromptLabel": "موجه النظام",
           "improveWithAI": "تحسين بالذكاء الاصطناعي"
         },
         "successTitle": "تم إنشاء الوكيل بنجاح!",

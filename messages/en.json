@@ -296,7 +296,9 @@
           "title": "Knowledge Base",
           "subtitle": "Train your agent on your data sources.",
           "uploadTitle": "Upload Documents",
+          "uploadDesc": "Drag and drop your files here or click to browse.",
           "systemPromptPlaceholder": "You are a helpful assistant...",
+          "systemPromptLabel": "System Prompt",
           "improveWithAI": "Improve with AI"
         },
         "successTitle": "Agent Created Successfully!",

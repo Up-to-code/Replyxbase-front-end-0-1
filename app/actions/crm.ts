@@ -8,27 +8,27 @@ import { generateMinimalBookings, mockCustomers } from '@/app/[locale]/dashboard
 // Simulate a database in memory
 // Note: In a real serverless environment, this wouldn't persist.
 // For this demo, it works as long as the server process stays alive.
-export let dbBookings: Booking[] = [];
-export let dbCustomers: Customer[] = [...mockCustomers];
+let dbBookings: Booking[] = [];
+let dbCustomers: Customer[] = [...mockCustomers];
 let isInitialized = false;
 
-export function initializeDb() {
+function initializeDb() {
   if (!isInitialized) {
     dbBookings = generateMinimalBookings();
     isInitialized = true;
   }
 }
 
-export function setDbBookings(bookings: Booking[]) {
+function setDbBookings(bookings: Booking[]) {
   dbBookings = bookings;
 }
 
-export function setDbCustomers(customers: Customer[]) {
+function setDbCustomers(customers: Customer[]) {
   dbCustomers = customers;
 }
 
 // Helper to simulate network delay
-export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // --- Activities Actions ---
 export async function logActivity(
