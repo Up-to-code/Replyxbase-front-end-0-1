@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Booking, BookingFormData, CalendarView as CalendarViewType, MainView } from './types';
 import { useFilters } from './hooks/useFilters';
 import { getBookings, createBooking, updateBooking, deleteBooking } from './actions/bookings';
@@ -31,6 +32,9 @@ interface CRMProps {
 }
 
 export default function CRM({ initialBookings, initialPagination, initialCustomers }: CRMProps) {
+  // i18n
+  const t = useTranslations("Dashboard.CRM");
+
   // State
   const [view, setView] = useState<MainView>('kanban');
   const [calendarView, setCalendarView] = useState<CalendarViewType>('month');
@@ -183,7 +187,7 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
             exit={{ opacity: 0, y: -20 }}
             className={`fixed top-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-white font-medium ${
               toast.type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'
-            }`}
+            } rtl:right-auto rtl:left-4`}
           >
             {toast.message}
           </motion.div>
@@ -196,8 +200,8 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Bookings & CRM</h1>
-              <p className="text-sm text-gray-500 mt-1">Manage your appointments and customer relationships</p>
+              <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+              <p className="text-sm text-gray-500 mt-1">{t("subtitle")}</p>
             </div>
             <div className="flex items-center gap-3">
               <ViewToggle mainView={view} setMainView={setView} />
@@ -210,7 +214,7 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
                 className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium shadow-sm shadow-blue-200"
               >
                 <Plus className="w-4 h-4" />
-                New Customer
+                {t("newCustomer")}
               </button>
             </div>
           </div>

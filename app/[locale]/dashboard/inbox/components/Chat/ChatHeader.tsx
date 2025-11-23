@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Conversation } from '../../types';
 import { ArrowLeft, Globe, MessageCircle, Smartphone, User, Bot, UserCheck } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface ChatHeaderProps {
   conversation: Conversation;
@@ -17,6 +18,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   onBack
 }) => {
   const router = useRouter();
+  const t = useTranslations("Dashboard.Inbox");
 
   const getPlatformIcon = (platform: Conversation['platform']) => {
     switch (platform) {
@@ -34,7 +36,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
           onClick={onBack}
           className="md:hidden p-2 hover:bg-gray-50 rounded-full"
         >
-          <ArrowLeft className="w-6 h-6 text-gray-600" />
+          <ArrowLeft className="w-6 h-6 text-gray-600 rtl:rotate-180" />
         </button>
         <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-lg">
           {conversation.customerName.charAt(0)}
@@ -46,8 +48,8 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
               conversation.customerStatus === 'online' ? 'bg-green-500' :
               conversation.customerStatus === 'away' ? 'bg-yellow-500' : 'bg-gray-400'
             }`} />
-            {conversation.customerStatus === 'online' ? 'Active now' : 
-             conversation.customerStatus === 'away' ? 'Away' : 'Offline'}
+            {conversation.customerStatus === 'online' ? t("activeNow") : 
+             conversation.customerStatus === 'away' ? t("away") : t("offline")}
           </div>
         </div>
       </div>
@@ -57,7 +59,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <button
           onClick={() => router.push(`/dashboard/crm?customerId=${conversation.customerId}`)}
           className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
-          title="Go to CRM Profile"
+          title={t("goToCRM")}
         >
           <UserCheck className="w-5 h-5" />
         </button>
@@ -73,7 +75,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             }`}
           >
             <User className="w-4 h-4" />
-            Human
+            {t("humanMode")}
           </button>
           <button
             onClick={() => setIsAIMode(true)}
@@ -84,14 +86,14 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             }`}
           >
             <Bot className="w-4 h-4" />
-            AI Agent
+            {t("aiMode")}
           </button>
         </div>
 
         <div className="h-8 w-px bg-gray-200 mx-2" />
 
         <div className="px-4 py-2 bg-gray-50 rounded-full flex items-center gap-2">
-          <span className="text-sm font-medium text-gray-500">Source:</span>
+          <span className="text-sm font-medium text-gray-500">{t("source")}:</span>
           {getPlatformIcon(conversation.platform)}
           <span className="text-sm font-medium text-gray-900 capitalize">{conversation.platform}</span>
         </div>

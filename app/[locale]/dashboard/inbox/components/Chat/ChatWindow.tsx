@@ -5,6 +5,7 @@ import { MessageList } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { MessageCircle, AlertCircle, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 interface ChatWindowProps {
   conversation?: Conversation;
@@ -32,6 +33,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   onRetry
 }) => {
   const [newMessage, setNewMessage] = useState('');
+  const t = useTranslations("Dashboard.Inbox");
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,8 +63,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
         <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
           <MessageCircle className="w-12 h-12 text-gray-300" />
         </div>
-        <h3 className="text-2xl font-semibold text-gray-900 mb-2">Select a conversation</h3>
-        <p className="text-base text-gray-500">Choose a chat from the sidebar to start messaging</p>
+        <h3 className="text-2xl font-semibold text-gray-900 mb-2">{t("emptyState.title")}</h3>
+        <p className="text-base text-gray-500">{t("emptyState.subtitle")}</p>
       </div>
     );
   }

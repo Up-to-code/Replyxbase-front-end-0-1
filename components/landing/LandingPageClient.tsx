@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Zap, MessageCircle, Users, BarChart3, Bot, Play, Rocket,
   CheckCircle2, Star, Check, Linkedin, Instagram,
@@ -38,7 +39,9 @@ const container = {
 // --- Components ---
 
 const HeroSection = () => {
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const t = useTranslations("Landing.Hero");
+  const tCommon = useTranslations("Common");
+
   return (
     <section className="relative pt-32 pb-24 overflow-hidden bg-white">
       {/* Modern Grid Background */}
@@ -54,8 +57,8 @@ const HeroSection = () => {
             >
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 border border-gray-200 text-sm font-medium text-gray-600 mb-8 hover:bg-gray-100 transition-colors cursor-pointer">
                     <span className="flex h-2 w-2 rounded-full bg-blue-500"></span>
-                    New: WhatsApp Business API Integration
-                    <ArrowRight className="w-4 h-4 ml-1 text-gray-400" />
+                    {t("badge")}
+                    <ArrowRight className="w-4 h-4 ms-1 text-gray-400 rtl:rotate-180" />
                 </div>
             </motion.div>
             
@@ -64,10 +67,8 @@ const HeroSection = () => {
                 animate="visible"
                 variants={fadeInUp}
                 className="text-6xl md:text-8xl font-bold text-gray-900 mb-8 tracking-tight leading-[1] text-balance"
-            >
-              Your AI Customer <br/>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Service Agent.</span>
-            </motion.h1>
+                dangerouslySetInnerHTML={{ __html: t.raw("title") }}
+            />
             
             <motion.p 
                 initial="hidden"
@@ -75,8 +76,7 @@ const HeroSection = () => {
                 variants={fadeInUp}
                 className="text-xl md:text-2xl text-gray-500 mb-12 max-w-3xl leading-relaxed font-light text-balance"
             >
-              Connect WhatsApp, Telegram, and Forms. Let AI handle the conversations, 
-              save data to your CRM, and collaborate with your team.
+              {t("subtitle")}
             </motion.p>
             
             <motion.div 
@@ -85,17 +85,17 @@ const HeroSection = () => {
                 variants={fadeInUp}
                 className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center mb-20"
             >
-              <Button variant="primary" size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-blue-500/20 hover:shadow-blue-500/30 transition-all hover:-translate-y-0.5 bg-blue-600 hover:bg-blue-700 border-none" aria-label="Start Free Trial">
-                Start Free Trial
+              <Button variant="primary" size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-blue-500/20 hover:shadow-blue-500/30 transition-all hover:-translate-y-0.5 bg-blue-600 hover:bg-blue-700 border-none" aria-label={tCommon("startFreeTrial")}>
+                {tCommon("startFreeTrial")}
               </Button>
               <Button
                 variant="outline"
                 size="lg"
                 className="h-14 px-8 text-lg rounded-full border-gray-200 hover:bg-gray-50 text-gray-600 bg-white"
                 icon={Play}
-                aria-label="Watch Demo"
+                aria-label={tCommon("watchDemo")}
               >
-                Watch Demo
+                {tCommon("watchDemo")}
               </Button>
             </motion.div>
 
@@ -124,26 +124,29 @@ const HeroSection = () => {
   );
 };
 
-const Marquee = () => (
-    <div className="py-12 bg-white border-b border-gray-100 overflow-hidden relative">
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
-        
-        <div className="flex w-max gap-16 animate-marquee opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-            {[...Array(2)].map((_, i) => (
-                <React.Fragment key={i}>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><MessageCircle className="w-8 h-8" /> WhatsApp</div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Send className="w-8 h-8" /> Telegram</div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Slack className="w-8 h-8" /> Slack</div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Trello className="w-8 h-8" /> Trello</div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Mail className="w-8 h-8" /> Gmail</div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Globe className="w-8 h-8" /> Website</div>
-                    <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Figma className="w-8 h-8" /> Figma</div>
-                </React.Fragment>
-            ))}
+const Marquee = () => {
+    const t = useTranslations("Landing.Marquee");
+    return (
+        <div className="py-12 bg-white border-b border-gray-100 overflow-hidden relative" dir="ltr">
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
+            
+            <div className="flex w-max gap-16 animate-marquee opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+                {[...Array(2)].map((_, i) => (
+                    <React.Fragment key={i}>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><MessageCircle className="w-8 h-8" /> {t("whatsapp")}</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Send className="w-8 h-8" /> {t("telegram")}</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Slack className="w-8 h-8" /> {t("slack")}</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Trello className="w-8 h-8" /> {t("trello")}</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Mail className="w-8 h-8" /> {t("gmail")}</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Globe className="w-8 h-8" /> {t("website")}</div>
+                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Figma className="w-8 h-8" /> {t("figma")}</div>
+                    </React.Fragment>
+                ))}
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 // Bento Grid Components
 const BentoCard = ({ 
@@ -173,83 +176,86 @@ const BentoCard = ({
     </div>
 );
 
-const FeaturesBento = () => (
-    <section className="py-32 bg-gray-50/50">
-        <div className="container mx-auto px-6">
-            <div className="text-center max-w-3xl mx-auto mb-20">
-                <h2 className="text-4xl font-bold text-gray-900 mb-6">Everything you need. Nothing you don't.</h2>
-                <p className="text-lg text-gray-600">
-                    Powerful features wrapped in a simple, elegant interface.
-                </p>
-            </div>
+const FeaturesBento = () => {
+    const t = useTranslations("Landing.Features");
+    return (
+        <section className="py-32 bg-gray-50/50">
+            <div className="container mx-auto px-6">
+                <div className="text-center max-w-3xl mx-auto mb-20">
+                    <h2 className="text-4xl font-bold text-gray-900 mb-6">{t("title")}</h2>
+                    <p className="text-lg text-gray-600">
+                        {t("subtitle")}
+                    </p>
+                </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                {/* Large Card - Unified Inbox */}
-                <BentoCard 
-                    title="Unified Inbox" 
-                    description="Manage WhatsApp, Telegram, and Webchat from one place. No more tab switching."
-                    icon={MessageSquare}
-                    className="md:col-span-2 min-h-[400px]"
-                >
-                    <div className="absolute bottom-0 right-0 w-[90%] h-[80%] bg-gray-100 rounded-tl-2xl border-t border-l border-gray-200 shadow-sm overflow-hidden">
-                        <Image src="/assets/feature_inbox.png" alt="Inbox" fill className="object-cover object-top" />
-                    </div>
-                </BentoCard>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                    {/* Large Card - Unified Inbox */}
+                    <BentoCard 
+                        title={t("inboxTitle")} 
+                        description={t("inboxDesc")}
+                        icon={MessageSquare}
+                        className="md:col-span-2 min-h-[400px]"
+                    >
+                        <div className="absolute bottom-0 right-0 w-[90%] h-[80%] bg-gray-100 rounded-tl-2xl border-t border-l border-gray-200 shadow-sm overflow-hidden rtl:right-auto rtl:left-0 rtl:rounded-tl-none rtl:rounded-tr-2xl rtl:border-l-0 rtl:border-r">
+                            <Image src="/assets/feature_inbox.png" alt="Inbox" fill className="object-cover object-top" />
+                        </div>
+                    </BentoCard>
 
-                {/* Tall Card - AI Auto-Pilot */}
-                <BentoCard 
-                    title="AI Auto-Pilot" 
-                    description="Train your agent on your data. It handles 80% of queries instantly."
-                    icon={Bot}
-                    className="md:row-span-2 min-h-[400px]"
-                >
-                     <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-blue-50 to-transparent flex items-end justify-center pb-8">
-                        <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 w-[80%]">
-                            <div className="flex gap-3 mb-3">
-                                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><Bot className="w-4 h-4 text-blue-600"/></div>
-                                <div className="bg-gray-100 rounded-2xl rounded-tl-none p-3 text-sm text-gray-600 flex-1">
-                                    Hello! How can I help you today?
+                    {/* Tall Card - AI Auto-Pilot */}
+                    <BentoCard 
+                        title={t("aiTitle")} 
+                        description={t("aiDesc")}
+                        icon={Bot}
+                        className="md:row-span-2 min-h-[400px]"
+                    >
+                        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-blue-50 to-transparent flex items-end justify-center pb-8">
+                            <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 w-[80%]">
+                                <div className="flex gap-3 mb-3">
+                                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><Bot className="w-4 h-4 text-blue-600"/></div>
+                                    <div className="bg-gray-100 rounded-2xl rounded-tl-none p-3 text-sm text-gray-600 flex-1 rtl:rounded-tl-2xl rtl:rounded-tr-none">
+                                        Hello! How can I help you today?
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex gap-3 justify-end">
-                                <div className="bg-blue-600 rounded-2xl rounded-tr-none p-3 text-sm text-white">
-                                    I need to check my order status.
+                                <div className="flex gap-3 justify-end">
+                                    <div className="bg-blue-600 rounded-2xl rounded-tr-none p-3 text-sm text-white rtl:rounded-tr-2xl rtl:rounded-tl-none">
+                                        I need to check my order status.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                     </div>
-                </BentoCard>
+                    </BentoCard>
 
-                {/* Small Card - CRM */}
-                <BentoCard 
-                    title="Built-in CRM" 
-                    description="Auto-save customer details and history."
-                    icon={Database}
-                    className="min-h-[300px]"
-                >
-                    <div className="absolute bottom-4 right-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center animate-pulse">
-                        <UserPlus className="w-8 h-8 text-blue-600" />
-                    </div>
-                </BentoCard>
+                    {/* Small Card - CRM */}
+                    <BentoCard 
+                        title={t("crmTitle")} 
+                        description={t("crmDesc")}
+                        icon={Database}
+                        className="min-h-[300px]"
+                    >
+                        <div className="absolute bottom-4 right-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center animate-pulse rtl:right-auto rtl:left-4">
+                            <UserPlus className="w-8 h-8 text-blue-600" />
+                        </div>
+                    </BentoCard>
 
-                {/* Small Card - Analytics */}
-                <BentoCard 
-                    title="Analytics" 
-                    description="Track response times and resolution rates."
-                    icon={BarChart3}
-                    className="min-h-[300px]"
-                >
-                    <div className="absolute bottom-0 left-0 right-0 h-32 flex items-end justify-around px-8 pb-8">
-                        <div className="w-8 bg-blue-200 h-12 rounded-t-lg"></div>
-                        <div className="w-8 bg-blue-300 h-20 rounded-t-lg"></div>
-                        <div className="w-8 bg-blue-400 h-16 rounded-t-lg"></div>
-                        <div className="w-8 bg-blue-600 h-24 rounded-t-lg"></div>
-                    </div>
-                </BentoCard>
+                    {/* Small Card - Analytics */}
+                    <BentoCard 
+                        title={t("analyticsTitle")} 
+                        description={t("analyticsDesc")}
+                        icon={BarChart3}
+                        className="min-h-[300px]"
+                    >
+                        <div className="absolute bottom-0 left-0 right-0 h-32 flex items-end justify-around px-8 pb-8">
+                            <div className="w-8 bg-blue-200 h-12 rounded-t-lg"></div>
+                            <div className="w-8 bg-blue-300 h-20 rounded-t-lg"></div>
+                            <div className="w-8 bg-blue-400 h-16 rounded-t-lg"></div>
+                            <div className="w-8 bg-blue-600 h-24 rounded-t-lg"></div>
+                        </div>
+                    </BentoCard>
+                </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 const TestimonialCard = ({ quote, author, role, company }: { quote: string, author: string, role: string, company: string }) => (
     <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
@@ -267,36 +273,39 @@ const TestimonialCard = ({ quote, author, role, company }: { quote: string, auth
     </div>
 );
 
-const TestimonialsSection = () => (
-    <section className="py-24 bg-white border-y border-gray-100">
-        <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Loved by Support Teams</h2>
-                <p className="text-gray-600">Don't just take our word for it.</p>
+const TestimonialsSection = () => {
+    const t = useTranslations("Landing.Testimonials");
+    return (
+        <section className="py-24 bg-white border-y border-gray-100">
+            <div className="container mx-auto px-6">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("title")}</h2>
+                    <p className="text-gray-600">{t("subtitle")}</p>
+                </div>
+                <div className="grid md:grid-cols-3 gap-8">
+                    <TestimonialCard 
+                        quote={t("quote1")}
+                        author={t("author1")}
+                        role={t("role1")}
+                        company={t("company1")}
+                    />
+                    <TestimonialCard 
+                        quote={t("quote2")}
+                        author={t("author2")}
+                        role={t("role2")}
+                        company={t("company2")}
+                    />
+                    <TestimonialCard 
+                        quote={t("quote3")}
+                        author={t("author3")}
+                        role={t("role3")}
+                        company={t("company3")}
+                    />
+                </div>
             </div>
-            <div className="grid md:grid-cols-3 gap-8">
-                <TestimonialCard 
-                    quote="ChatConnect cut our response time by 90%. The AI agent is incredibly accurate."
-                    author="Sarah Jenkins"
-                    role="Head of Support"
-                    company="TechFlow"
-                />
-                <TestimonialCard 
-                    quote="Finally, a tool that brings WhatsApp and Telegram into one dashboard. A game changer."
-                    author="Michael Chen"
-                    role="Founder"
-                    company="GrowthLabs"
-                />
-                <TestimonialCard 
-                    quote="The CRM integration is seamless. We never lose track of a lead anymore."
-                    author="Emma Wilson"
-                    role="Sales Director"
-                    company="Elevate"
-                />
-            </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 const PricingCard = ({
   name,
@@ -304,7 +313,8 @@ const PricingCard = ({
   description,
   features,
   highlight = false,
-  isAnnual
+  isAnnual,
+  tCommon
 }: {
   name: string;
   price: string;
@@ -312,6 +322,7 @@ const PricingCard = ({
   features: string[];
   highlight?: boolean;
   isAnnual: boolean;
+  tCommon: any;
 }) => (
   <div className={`h-full p-8 rounded-3xl border flex flex-col transition-all duration-300 ${highlight ? 'bg-gray-900 text-white border-gray-900 shadow-2xl scale-105' : 'bg-white border-gray-200 text-gray-900 hover:border-gray-300'}`}>
         <div className="mb-8">
@@ -335,20 +346,22 @@ const PricingCard = ({
             className={`w-full rounded-full h-12 ${highlight ? 'bg-blue-600 hover:bg-blue-500 border-none text-white' : 'border-gray-200 hover:bg-gray-50'}`}
             aria-label={`Get Started with ${name} plan`}
         >
-            Get Started
+            {tCommon("getStarted")}
         </Button>
   </div>
 );
 
 const PricingSection = () => {
     const [isAnnual, setIsAnnual] = useState(true);
+    const t = useTranslations("Landing.Pricing");
+    const tCommon = useTranslations("Common");
 
     return (
       <section id="pricing" className="py-32 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">Simple, Transparent Pricing</h2>
-            <p className="text-gray-600 text-lg mb-8">Start for free, scale as you grow.</p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">{t("title")}</h2>
+            <p className="text-gray-600 text-lg mb-8">{t("subtitle")}</p>
             
             {/* Toggle */}
             <div className="flex items-center justify-center gap-4 p-1 bg-gray-100 rounded-full w-fit mx-auto">
@@ -356,39 +369,42 @@ const PricingSection = () => {
                     onClick={() => setIsAnnual(false)}
                     className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${!isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
                 >
-                    Monthly
+                    {t("monthly")}
                 </button>
                 <button 
                     onClick={() => setIsAnnual(true)}
                     className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
                 >
-                    Yearly <span className="text-green-600 text-xs font-bold ml-1">-20%</span>
+                    {t("yearly")} <span className="text-green-600 text-xs font-bold ms-1">{t("save")}</span>
                 </button>
             </div>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center mb-20">
             <PricingCard 
-                name="Starter"
+                name={t("starter")}
                 price="$0"
-                description="For individuals."
-                features={["1 AI Agent", "100 Conversations/mo", "Community Support"]}
+                description={t("starterDesc")}
+                features={[t("features.1agent"), t("features.100conv"), t("features.community")]}
                 isAnnual={isAnnual}
+                tCommon={tCommon}
             />
             <PricingCard 
-                name="Pro"
+                name={t("pro")}
                 price={isAnnual ? "$39" : "$49"}
-                description="For growing teams."
-                features={["3 AI Agents", "Unlimited Conversations", "Priority Support", "Analytics", "Custom Branding"]}
+                description={t("proDesc")}
+                features={[t("features.3agents"), t("features.unlimitedConv"), t("features.priority"), t("features.analytics"), t("features.branding")]}
                 highlight={true}
                 isAnnual={isAnnual}
+                tCommon={tCommon}
             />
             <PricingCard 
-                name="Enterprise"
+                name={t("enterprise")}
                 price="Custom"
-                description="For organizations."
-                features={["Unlimited Agents", "Dedicated Success Manager", "SLA", "Custom Integrations"]}
+                description={t("enterpriseDesc")}
+                features={[t("features.unlimitedAgents"), t("features.successManager"), t("features.sla"), t("features.customIntegrations")]}
                 isAnnual={isAnnual}
+                tCommon={tCommon}
             />
           </div>
         </div>
@@ -396,87 +412,97 @@ const PricingSection = () => {
     );
 };
 
-const CTASection = () => (
-    <section className="py-32 bg-white">
-        <div className="container mx-auto px-6">
-            <div className="bg-gray-900 rounded-[2.5rem] p-12 md:p-24 text-center relative overflow-hidden">
-                {/* Abstract Shapes */}
-                <div className="absolute top-0 left-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-                <div className="absolute bottom-0 right-0 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
-                
-                <div className="relative z-10 max-w-3xl mx-auto">
-                    <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
-                        Ready to automate your support?
-                    </h2>
-                    <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-                        Join thousands of companies using ChatConnect to delight customers and save time.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Button variant="white" size="lg" className="h-14 px-10 rounded-full text-lg text-gray-900 hover:bg-gray-100 border-none" aria-label="Start Free Trial">
-                            Start Free Trial
-                        </Button>
-                        <Button variant="outline" size="lg" className="h-14 px-10 rounded-full text-lg text-white border-gray-700 hover:bg-gray-800 hover:text-white" aria-label="Contact Sales">
-                            Contact Sales
-                        </Button>
+const CTASection = () => {
+    const t = useTranslations("Landing.CTA");
+    const tCommon = useTranslations("Common");
+    return (
+        <section className="py-32 bg-white">
+            <div className="container mx-auto px-6">
+                <div className="bg-gray-900 rounded-[2.5rem] p-12 md:p-24 text-center relative overflow-hidden">
+                    {/* Abstract Shapes */}
+                    <div className="absolute top-0 left-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 rtl:left-auto rtl:right-0 rtl:translate-x-1/2"></div>
+                    <div className="absolute bottom-0 right-0 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 rtl:right-auto rtl:left-0 rtl:-translate-x-1/2"></div>
+                    
+                    <div className="relative z-10 max-w-3xl mx-auto">
+                        <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
+                            {t("title")}
+                        </h2>
+                        <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                            {t("subtitle")}
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                            <Button variant="white" size="lg" className="h-14 px-10 rounded-full text-lg text-gray-900 hover:bg-gray-100 border-none" aria-label={tCommon("startFreeTrial")}>
+                                {tCommon("startFreeTrial")}
+                            </Button>
+                            <Button variant="outline" size="lg" className="h-14 px-10 rounded-full text-lg text-white border-gray-700 hover:bg-gray-800 hover:text-white" aria-label={tCommon("contactSales")}>
+                                {tCommon("contactSales")}
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
-const Footer = () => (
-  <footer className="bg-white pt-20 pb-10 border-t border-gray-100">
-    <div className="container mx-auto px-6">
-      <div className="grid md:grid-cols-6 gap-12 mb-20">
-        <div className="md:col-span-2">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
+const Footer = () => {
+  const t = useTranslations("Landing.Footer");
+  const tCommon = useTranslations("Common");
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="bg-white pt-20 pb-10 border-t border-gray-100">
+      <div className="container mx-auto px-6">
+        <div className="grid md:grid-cols-6 gap-12 mb-20">
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Zap className="w-4 h-4 text-white" />
+              </div>
+              <span className="font-bold text-xl text-gray-900">ChatConnect</span>
             </div>
-            <span className="font-bold text-xl text-gray-900">ChatConnect</span>
+            <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-xs">
+              {t("desc")}
+            </p>
+            <div className="flex gap-4">
+              {[Linkedin, Instagram, Globe].map((Icon, i) => (
+                  <a key={i} href="#" className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-900 hover:text-white transition-colors" aria-label="Social Link">
+                      <Icon className="w-4 h-4" />
+                  </a>
+              ))}
+            </div>
           </div>
-          <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-xs">
-            Building the future of customer communication with artificial intelligence.
-          </p>
-          <div className="flex gap-4">
-            {[Linkedin, Instagram, Globe].map((Icon, i) => (
-                <a key={i} href="#" className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-900 hover:text-white transition-colors" aria-label="Social Link">
-                    <Icon className="w-4 h-4" />
-                </a>
-            ))}
-          </div>
+          
+          {[
+              { title: t("product"), links: ["features", "pricing", "integrations", "changelog"] },
+              { title: t("company"), links: ["about", "careers", "blog", "contact"] },
+              { title: t("resources"), links: ["docs", "api", "community", "help"] },
+              { title: t("legal"), links: ["privacy", "terms", "security", "status"] },
+          ].map((col, i) => (
+              <div key={i}>
+                  <h4 className="font-bold text-gray-900 mb-6">{col.title}</h4>
+                  <ul className="space-y-4">
+                      {col.links.map((linkKey, j) => (
+                          <li key={j}>
+                              <a href="#" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">{t(`links.${linkKey}`)}</a>
+                          </li>
+                      ))}
+                  </ul>
+              </div>
+          ))}
         </div>
         
-        {[
-            { title: "Product", links: ["Features", "Pricing", "Integrations", "Changelog"] },
-            { title: "Company", links: ["About", "Careers", "Blog", "Contact"] },
-            { title: "Resources", links: ["Documentation", "API Reference", "Community", "Help Center"] },
-            { title: "Legal", links: ["Privacy", "Terms", "Security", "Status"] },
-        ].map((col, i) => (
-            <div key={i}>
-                <h4 className="font-bold text-gray-900 mb-6">{col.title}</h4>
-                <ul className="space-y-4">
-                    {col.links.map((link, j) => (
-                        <li key={j}>
-                            <a href="#" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">{link}</a>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        ))}
-      </div>
-      
-      <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
-        <div>&copy; 2024 ChatConnect Inc. All rights reserved.</div>
-        <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span>All systems operational</span>
+        <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+          <div>{tCommon("copyright", {year})}</div>
+          <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span>{tCommon("allSystemsOperational")}</span>
+          </div>
         </div>
       </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 // --- Chat Widget ---
 const ChatWidget = () => {
@@ -485,6 +511,7 @@ const ChatWidget = () => {
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const t = useTranslations("Landing.Widget");
 
     // Auto-open and greet
     useEffect(() => {
@@ -493,11 +520,11 @@ const ChatWidget = () => {
             setIsTyping(true);
             setTimeout(() => {
                 setIsTyping(false);
-                setMessages([{ role: 'ai', text: "Hi there! 👋 I'm the ChatConnect AI agent. How can I help you automate your support today?" }]);
+                setMessages([{ role: 'ai', text: t("welcome") }]);
             }, 1500);
         }, 3000);
         return () => clearTimeout(timer);
-    }, []);
+    }, [t]);
 
     // Scroll to bottom
     useEffect(() => {
@@ -515,18 +542,18 @@ const ChatWidget = () => {
         // Simulate AI response
         setTimeout(() => {
             setIsTyping(false);
-            let response = "That's a great question! ChatConnect can definitely help with that. Would you like to see a live demo?";
-            if (userMsg.toLowerCase().includes("pricing")) {
-                response = "We offer flexible pricing starting at $0/mo for individuals. Our Pro plan is $39/mo. Check out the Pricing section for more details!";
-            } else if (userMsg.toLowerCase().includes("whatsapp")) {
-                response = "Yes! We support full WhatsApp Business API integration. You can manage all your WhatsApp chats directly from our dashboard.";
+            let response = t("aiResponseDefault");
+            if (userMsg.toLowerCase().includes("pricing") || userMsg.includes("سعر")) {
+                response = t("aiResponsePricing");
+            } else if (userMsg.toLowerCase().includes("whatsapp") || userMsg.includes("واتساب")) {
+                response = t("aiResponseWhatsapp");
             }
             setMessages(prev => [...prev, { role: 'ai', text: response }]);
         }, 1500);
     };
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4">
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4 rtl:right-auto rtl:left-6 rtl:items-start">
             {/* Callout */}
             {!isOpen && (
                 <motion.div 
@@ -538,7 +565,7 @@ const ChatWidget = () => {
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                     </span>
-                    Try the AI Agent
+                    {t("callout")}
                 </motion.div>
             )}
 
@@ -557,10 +584,10 @@ const ChatWidget = () => {
                                     <Bot className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <div className="font-bold">ChatConnect AI</div>
+                                    <div className="font-bold">{t("title")}</div>
                                     <div className="text-xs text-blue-100 flex items-center gap-1">
                                         <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
-                                        Online
+                                        {t("online")}
                                     </div>
                                 </div>
                             </div>
@@ -573,14 +600,14 @@ const ChatWidget = () => {
                         <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4 min-h-[300px]">
                             {messages.map((msg, i) => (
                                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-br-none' : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm'}`}>
+                                    <div className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-br-none rtl:rounded-br-2xl rtl:rounded-bl-none' : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm rtl:rounded-bl-2xl rtl:rounded-br-none'}`}>
                                         {msg.text}
                                     </div>
                                 </div>
                             ))}
                             {isTyping && (
                                 <div className="flex justify-start">
-                                    <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-bl-none shadow-sm flex gap-1">
+                                    <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-bl-none shadow-sm flex gap-1 rtl:rounded-bl-2xl rtl:rounded-br-none">
                                         <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
                                         <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></span>
                                         <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></span>
@@ -600,7 +627,7 @@ const ChatWidget = () => {
                                     type="text" 
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
-                                    placeholder="Ask me anything..."
+                                    placeholder={t("placeholder")}
                                     className="flex-1 bg-gray-100 border-none rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
                                 />
                                 <button 
@@ -608,11 +635,11 @@ const ChatWidget = () => {
                                     disabled={!inputValue.trim()}
                                     className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    <Send className="w-4 h-4" />
+                                    <Send className="w-4 h-4 rtl:rotate-180" />
                                 </button>
                             </form>
                             <div className="text-center mt-2">
-                                <span className="text-[10px] text-gray-400">Powered by ChatConnect AI</span>
+                                <span className="text-[10px] text-gray-400">{t("poweredBy")}</span>
                             </div>
                         </div>
                     </motion.div>
@@ -634,6 +661,8 @@ const ChatWidget = () => {
 
 const LandingPageClient = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const tCommon = useTranslations("Common");
+  const tFooter = useTranslations("Landing.Footer");
 
   return (
     <div className="min-h-screen bg-white font-sans overflow-x-hidden text-gray-900 selection:bg-blue-100 selection:text-blue-900">
@@ -650,19 +679,19 @@ const LandingPageClient = () => {
             </div>
             
             <nav className="hidden md:flex items-center gap-8">
-              {["Features", "Pricing", "Resources", "Company"].map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
-                  {item}
+              {["features", "pricing", "resources", "company"].map((item) => (
+                <a key={item} href={`#${item}`} className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                  {tFooter(`links.${item}`)}
                 </a>
               ))}
             </nav>
             
             <div className="hidden md:flex items-center gap-4">
               <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                Log In
+                {tCommon("logIn")}
               </Button>
               <Button variant="primary" size="sm" className="rounded-full px-6 bg-gray-900 hover:bg-gray-800 border-none text-white">
-                Sign Up
+                {tCommon("signUp")}
               </Button>
             </div>
             

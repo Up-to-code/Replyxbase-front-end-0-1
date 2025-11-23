@@ -1,5 +1,6 @@
 import React from 'react';
 import { TrendingUp, Users, Calendar } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Booking } from '../../types';
 
 /**
@@ -16,6 +17,8 @@ interface StatsOverviewProps {
  * Displays key statistics about bookings (Total, Pending, Confirmed).
  */
 export const StatsOverview: React.FC<StatsOverviewProps> = ({ bookings, isLoading }) => {
+  const t = useTranslations("Dashboard.CRM.Stats");
+
   const stats = React.useMemo(() => {
     const totalBookings = bookings.length;
     const pendingBookings = bookings.filter(b => b.status === 'pending').length;
@@ -23,28 +26,28 @@ export const StatsOverview: React.FC<StatsOverviewProps> = ({ bookings, isLoadin
 
     return [
       {
-        title: 'Total Bookings',
+        title: t("totalBookings"),
         value: totalBookings,
         icon: Calendar,
         color: 'text-blue-600',
         bg: 'bg-blue-50',
       },
       {
-        title: 'Pending',
+        title: t("pending"),
         value: pendingBookings,
         icon: Users,
         color: 'text-amber-600',
         bg: 'bg-amber-50',
       },
       {
-        title: 'Confirmed',
+        title: t("confirmed"),
         value: confirmedBookings,
         icon: TrendingUp,
         color: 'text-emerald-600',
         bg: 'bg-emerald-50',
       },
     ];
-  }, [bookings]);
+  }, [bookings, t]);
 
   if (isLoading) {
     return (

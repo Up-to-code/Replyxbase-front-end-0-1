@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useInbox } from '../hooks/useInbox';
 import { useAutoReply } from '../hooks/useAutoReply';
 import { SidebarHeader } from './Sidebar/SidebarHeader';
@@ -12,6 +13,7 @@ export const InboxClient: React.FC = () => {
   const searchParams = useSearchParams();
   const [isMobileListVisible, setIsMobileListVisible] = useState(true);
   const [isAIMode, setIsAIMode] = useState(true);
+  const t = useTranslations("Dashboard.Inbox");
 
   const {
     conversations,

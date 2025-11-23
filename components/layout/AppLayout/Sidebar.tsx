@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Agent, NavigationItem, Translator } from "./types";
 import { AGENT_ICONS, NAVIGATION, USER } from "./constants";
+import { useRTL } from "@/hooks/useRTL";
 
 // Logo Component
 function LogoSection({
@@ -19,6 +20,8 @@ function LogoSection({
   sidebarOpen: boolean;
   onToggle: () => void;
 }) {
+  const { isRTL } = useRTL();
+  
   return (
     <div className="h-16 border-b border-zinc-800 flex items-center px-6 bg-zinc-900">
       <div className="flex items-center justify-between w-full">
@@ -39,7 +42,11 @@ function LogoSection({
           aria-label="Toggle sidebar"
           type="button"
         >
-          {sidebarOpen ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+          {sidebarOpen ? (
+            isRTL ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />
+          ) : (
+            isRTL ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />
+          )}
         </button>
       </div>
     </div>
@@ -52,11 +59,13 @@ function NavigationButton({
   isActive,
   sidebarOpen,
   onClick,
+  label,
 }: {
   item: NavigationItem;
   isActive: boolean;
   sidebarOpen: boolean;
   onClick: () => void;
+  label: string;
 }) {
   const Icon = item.icon;
   return (
@@ -71,7 +80,7 @@ function NavigationButton({
       aria-current={isActive ? "page" : undefined}
     >
       <Icon className={`w-5 h-5 shrink-0 ${isActive ? "text-white" : "text-zinc-400 group-hover:text-white"}`} />
-      {sidebarOpen && <span className="ml-3 font-medium">{item.label}</span>}
+      {sidebarOpen && <span className="ml-3 font-medium">{label}</span>}
     </button>
   );
 }
@@ -182,6 +191,7 @@ export function Sidebar({
             isActive={isActiveRoute(item.href)}
             sidebarOpen={sidebarOpen}
             onClick={() => router.push(item.href)}
+            label={t(`Sidebar.${item.label.toLowerCase()}`)}
           />
         ))}
 
