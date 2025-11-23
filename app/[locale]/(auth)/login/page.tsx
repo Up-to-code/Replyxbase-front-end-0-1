@@ -8,16 +8,37 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/Card';
 import { Separator } from '@/components/ui/Separator';
+import { authClient } from '@/lib/auth-client';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const t = useTranslations("Auth.Login");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate login
-    setTimeout(() => setIsLoading(false), 1500);
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const { error } = await authClient.signIn.email({
+        email,
+        password,
+      });
+
+      if (error) {
+        // TODO: Handle error (show toast, etc.)
+        console.error(error);
+      } else {
+        // Redirect or handle success
+        window.location.href = "/";
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
