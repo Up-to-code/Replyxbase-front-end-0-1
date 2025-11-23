@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import locales from "@/i18n/request";
 import "./globals.css";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
+import { Toaster } from "sonner";
 
 // Font configuration
 const cairo = Cairo({
@@ -14,13 +15,13 @@ const cairo = Cairo({
 
 // SEO Configuration
 const SITE_CONFIG = {
-  title: "ChatConnect - AI Agent Platform",
-  description: "Build, manage, and deploy AI agents with ChatConnect's powerful platform",
+  title: "ChatLink - AI Agent Platform",
+  description: "Build, manage, and deploy AI agents with ChatLink's powerful platform",
   keywords: "AI, chatbots, automation, CRM, agents, automation",
-  authors: [{ name: "ChatConnect Team" }],
-  creator: "ChatConnect",
-  publisher: "ChatConnect",
-  metadataBase: new URL("https://chatconnect.example.com"),
+  authors: [{ name: "ChatLink Team" }],
+  creator: "ChatLink",
+  publisher: "ChatLink",
+  metadataBase: new URL("https://chatlink.ai"),
 };
 
 export const metadata: Metadata = {
@@ -163,6 +164,7 @@ export default async function RootLayout({
         >
           <ConvexClientProvider>
             {children}
+            <Toaster />
           </ConvexClientProvider>
         </NextIntlClientProvider>
       </body>

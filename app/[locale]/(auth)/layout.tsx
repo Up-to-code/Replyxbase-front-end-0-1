@@ -1,17 +1,22 @@
 import React from 'react';
 import Link from 'next/link';
 import { Zap } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const year = new Date().getFullYear();
+
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Modern Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white"></div>
+      {/* Abstract Background */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-3xl opacity-60"></div>
+          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-purple-100/50 rounded-full blur-3xl opacity-60"></div>
+      </div>
 
       {/* Logo */}
       <div className="relative z-10 mb-8">
@@ -20,7 +25,7 @@ export default function AuthLayout({
             <Zap className="w-5 h-5 text-white" />
           </div>
           <span className="font-bold text-2xl text-gray-900 tracking-tight">
-            ChatConnect
+            ChatLink
           </span>
         </Link>
       </div>
@@ -32,7 +37,7 @@ export default function AuthLayout({
 
       {/* Footer */}
       <div className="relative z-10 mt-8 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} ChatConnect Inc.
+        &copy; {year} ChatLink Inc.
       </div>
     </div>
   );

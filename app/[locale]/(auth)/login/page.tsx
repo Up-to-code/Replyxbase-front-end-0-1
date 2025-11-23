@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/Card';
 import { Separator } from '@/components/ui/Separator';
 import { authClient } from '@/lib/auth-client';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,14 +29,13 @@ export default function LoginPage() {
       });
 
       if (error) {
-        // TODO: Handle error (show toast, etc.)
-        console.error(error);
+        toast.error(error.message || t("error"));
       } else {
-        // Redirect or handle success
+        toast.success(t("success"));
         window.location.href = "/";
       }
     } catch (err) {
-      console.error(err);
+      toast.error(t("error"));
     } finally {
       setIsLoading(false);
     }
@@ -93,6 +93,7 @@ export default function LoginPage() {
             <div className="grid gap-2">
                 <Input
                     id="email"
+                    name="email"
                     placeholder={t("emailPlaceholder")}
                     type="email"
                     autoCapitalize="none"
@@ -105,6 +106,7 @@ export default function LoginPage() {
             <div className="grid gap-2">
                 <Input
                     id="password"
+                    name="password"
                     placeholder={t("passwordPlaceholder")}
                     type="password"
                     autoCapitalize="none"

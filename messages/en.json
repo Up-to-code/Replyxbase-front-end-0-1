@@ -9,68 +9,77 @@
     "signUp": "Sign Up",
     "contactSales": "Contact Sales",
     "startFreeTrial": "Start Free Trial",
-    "copyright": "© {year} ChatConnect Inc. All rights reserved.",
-    "allSystemsOperational": "All systems operational"
+    "copyright": "© {year} Replyxbase Inc. All rights reserved.",
+    "allSystemsOperational": "All systems operational",
+    "dashboard": "Dashboard"
   },
   "Landing": {
+    "Metadata": {
+      "title": "Replyxbase - AI Customer Support & Sales Automation",
+      "description": "Automate your customer support and sales with AI agents. Connect WhatsApp, Telegram, and more."
+    },
     "Hero": {
       "badge": "New: WhatsApp Business API Integration",
-      "title": "Your AI Customer <br/> <span class='text-primary'>Service Agent.</span>",
-      "subtitle": "Connect WhatsApp, Telegram, and Forms. Let AI handle the conversations, save data to your CRM, and collaborate with your team."
+      "title": "One Brain. <highlight>All Channels.</highlight> Zero Chaos.",
+      "subtitle": "Connect WhatsApp, Telegram, and Webchat to a single AI that handles support, sales, and bookings automatically.",
+      "cta": "Explore AI Agents",
+      "feature1Title": "Instant Responses",
+      "feature1Desc": "Zero wait time for your customers.",
+      "feature2Title": "Smart Handoff",
+      "feature2Desc": "Seamlessly transfer complex issues to humans.",
+      "feature3Title": "Custom Personality",
+      "feature3Desc": "Match your brand's voice and tone."
     },
-    "Metadata": {
-      "title": "ChatConnect - AI-Powered Customer Support Platform",
-      "description": "Automate your customer support with AI agents. Unified inbox for WhatsApp, Telegram, and Web. Increase sales and reduce response times."
+    "CRM": {
+      "badge": "Smart CRM",
+      "title": "Turn conversations into customers.",
+      "description": "Automatically capture leads and build detailed customer profiles from every interaction.",
+      "feature1Title": "Auto-Capture",
+      "feature1Desc": "Save contact details automatically.",
+      "feature2Title": "Interaction History",
+      "feature2Desc": "View every past conversation."
     },
-    "Marquee": {
-      "whatsapp": "WhatsApp",
-      "telegram": "Telegram",
-      "slack": "Slack",
-      "trello": "Trello",
-      "gmail": "Gmail",
-      "website": "Website",
-      "figma": "Figma"
+    "Analytics": {
+      "badge": "Analytics",
+      "title": "Data-driven decisions.",
+      "description": "Track team performance, response times, and customer satisfaction in real-time.",
+      "feature1Title": "Live Metrics",
+      "feature1Desc": "Monitor active conversations and agent status.",
+      "feature2Title": "Performance Reports",
+      "feature2Desc": "Detailed insights to improve your support."
     },
-    "Features": {
-      "title": "Everything you need. Nothing you don't.",
-      "subtitle": "Powerful features wrapped in a simple, elegant interface.",
-      "inboxTitle": "Unified Inbox",
-      "inboxDesc": "Manage WhatsApp, Telegram, and Webchat from one place. No more tab switching.",
-      "aiTitle": "AI Auto-Pilot",
-      "aiDesc": "Train your agent on your data. It handles 80% of queries instantly.",
-      "crmTitle": "Built-in CRM",
-      "crmDesc": "Auto-save customer details and history.",
-      "analyticsTitle": "Analytics",
-      "analyticsDesc": "Track response times and resolution rates."
+    "Omnichannel": {
+      "title": "Central Intelligence for Your Business",
+      "subtitle": "Watch how Replyxbase unifies every customer interaction into a single, powerful stream of actionable data."
     },
     "Testimonials": {
-      "title": "Loved by Support Teams",
-      "subtitle": "Don't just take our word for it.",
-      "quote1": "ChatConnect cut our response time by 90%. The AI agent is incredibly accurate.",
+      "title": "Trusted by Teams",
+      "subtitle": "See how Replyxbase is changing the way businesses communicate.",
+      "quote1": "Replyxbase transformed our support. The AI agent is a lifesaver.",
       "author1": "Sarah Jenkins",
       "role1": "Head of Support",
       "company1": "TechFlow",
-      "quote2": "Finally, a tool that brings WhatsApp and Telegram into one dashboard. A game changer.",
+      "quote2": "Finally, a real unified inbox. It just works.",
       "author2": "Michael Chen",
       "role2": "Founder",
       "company2": "GrowthLabs",
-      "quote3": "The CRM integration is seamless. We never lose track of a lead anymore.",
+      "quote3": "The CRM integration is seamless. Highly recommended.",
       "author3": "Emma Wilson",
       "role3": "Sales Director",
       "company3": "Elevate"
     },
     "Pricing": {
-      "title": "Simple, Transparent Pricing",
-      "subtitle": "Start for free, scale as you grow.",
+      "title": "Simple Pricing",
+      "subtitle": "Start for free. Upgrade as you grow.",
       "monthly": "Monthly",
       "yearly": "Yearly",
-      "save": "-20%",
+      "save": "Save 20%",
       "starter": "Starter",
-      "starterDesc": "For individuals.",
+      "starterDesc": "Perfect for individuals.",
       "pro": "Pro",
       "proDesc": "For growing teams.",
       "enterprise": "Enterprise",
-      "enterpriseDesc": "For organizations.",
+      "enterpriseDesc": "For large organizations.",
       "features": {
         "1agent": "1 AI Agent",
         "100conv": "100 Conversations/mo",
@@ -78,20 +87,20 @@
         "3agents": "3 AI Agents",
         "unlimitedConv": "Unlimited Conversations",
         "priority": "Priority Support",
-        "analytics": "Analytics",
+        "analytics": "Advanced Analytics",
         "branding": "Custom Branding",
         "unlimitedAgents": "Unlimited Agents",
         "successManager": "Dedicated Success Manager",
-        "sla": "SLA",
+        "sla": "99.9% SLA",
         "customIntegrations": "Custom Integrations"
       }
     },
     "CTA": {
-      "title": "Ready to automate your support?",
-      "subtitle": "Join thousands of companies using ChatConnect to delight customers and save time."
+      "title": "Ready to get started?",
+      "subtitle": "Join thousands of businesses using Replyxbase today."
     },
     "Footer": {
-      "desc": "Building the future of customer communication with artificial intelligence.",
+      "desc": "The future of customer communication.",
       "product": "Product",
       "company": "Company",
       "resources": "Resources",
@@ -118,15 +127,15 @@
       }
     },
     "Widget": {
-      "callout": "Try the AI Agent",
-      "title": "ChatConnect AI",
+      "callout": "Chat with AI",
+      "title": "Replyxbase AI",
       "online": "Online",
-      "welcome": "Hi there! 👋 I'm the ChatConnect AI agent. How can I help you automate your support today?",
-      "placeholder": "Ask me anything...",
-      "poweredBy": "Powered by ChatConnect AI",
-      "aiResponseDefault": "That's a great question! ChatConnect can definitely help with that. Would you like to see a live demo?",
-      "aiResponsePricing": "We offer flexible pricing starting at $0/mo for individuals. Our Pro plan is $39/mo. Check out the Pricing section for more details!",
-      "aiResponseWhatsapp": "Yes! We support full WhatsApp Business API integration. You can manage all your WhatsApp chats directly from our dashboard."
+      "welcome": "Hello! 👋 I'm the Replyxbase AI assistant. How can I help you today?",
+      "placeholder": "Type your message...",
+      "poweredBy": "Powered by Replyxbase",
+      "aiResponseDefault": "I can help with that! Replyxbase is designed to streamline your support. Want a demo?",
+      "aiResponsePricing": "Our pricing starts at $0/mo. The Pro plan is $39/mo. Check out the Pricing section!",
+      "aiResponseWhatsapp": "Yes, we support WhatsApp Business API! You can manage it all from here."
     }
   },
   "Auth": {
@@ -179,7 +188,6 @@
         "conversations": "Conversations",
         "conversion": "Conversion"
       },
-
       "bookings": {
         "title": "Today's Calls",
         "upcoming": "{count} Upcoming",
@@ -226,11 +234,6 @@
           "integrations": "Integrations",
           "settings": "Settings"
         },
-        "knowledge": {
-          "title": "Knowledge Base",
-          "subtitle": "Manage agent knowledge sources",
-          "manage": "Manage"
-        },
         "integrations": {
           "title": "Active Integrations",
           "subtitle": "Manage connected channels",
@@ -243,20 +246,7 @@
         },
         "activity": {
           "title": "Recent Activity",
-          "subtitle": "Latest actions performed by this agent"
-        },
-        "status": {
-          "title": "Agent Status",
-          "subtitle": "Control agent availability",
-          "pause": "Pause Agent"
-        }
-      },
-      "Create": {
-        "title": "Create New Agent",
-        "subtitle": "Configure your AI agent's personality and knowledge base.",
-        "backToAgents": "Back to Agents",
-        "steps": {
-          "1": "Basic Info",
+          "subtitle": "Latest actions performed by this agent",
           "2": "Knowledge",
           "3": "Channels"
         },
@@ -294,7 +284,8 @@
         },
         "knowledge": {
           "title": "Knowledge Base",
-          "subtitle": "Train your agent on your data sources.",
+          "subtitle": "Manage agent knowledge sources",
+          "manage": "Manage",
           "uploadTitle": "Upload Documents",
           "uploadDesc": "Drag and drop your files here or click to browse.",
           "systemPromptPlaceholder": "You are a helpful assistant...",
@@ -456,53 +447,42 @@
       "Status": {
         "pending": "Pending",
         "confirmed": "Confirmed",
-        "cancelled": "Cancelled",
-        "completed": "Completed",
-        "no-show": "No Show"
+        "cancelled": "Cancelled"
       },
-      "Priority": {
-        "normal": "Normal",
-        "high": "High",
-        "urgent": "Urgent"
+      "Table": {
+        "dateTime": "Date & Time",
+        "service": "Service",
+        "status": "Status",
+        "actions": "Actions"
       },
-      "Bookings": {
-        "Table": {
-          "customer": "Customer",
-          "contact": "Contact",
-          "dateTime": "Date & Time",
-          "service": "Service",
-          "status": "Status",
-          "actions": "Actions"
-        },
-        "Details": {
-          "title": "Booking Details",
-          "customerDetails": "Customer Details",
-          "bookingInfo": "Booking Information",
-          "internalNotes": "Internal Notes",
-          "tags": "Tags",
-          "activityLog": "Activity Log",
-          "chatTooltip": "Chat with Customer",
-          "editTooltip": "Edit Booking",
-          "deleteTooltip": "Delete Booking",
-          "closeTooltip": "Close",
-          "status": "Status",
-          "priority": "Priority",
-          "rating": "Rating",
-          "serviceType": "Service Type",
-          "duration": "Duration",
-          "people": "People",
-          "occasion": "Occasion",
-          "location": "Location",
-          "specialRequests": "Special Requests",
-          "minutes": "minutes"
-        },
-        "DeleteModal": {
-          "title": "Delete Booking",
-          "subtitle": "This action cannot be undone",
-          "confirmation": "Are you sure you want to delete this booking? All associated data will be permanently removed.",
-          "cancel": "Cancel",
-          "delete": "Delete Booking"
-        }
+      "Details": {
+        "title": "Booking Details",
+        "customerDetails": "Customer Details",
+        "bookingInfo": "Booking Information",
+        "internalNotes": "Internal Notes",
+        "tags": "Tags",
+        "activityLog": "Activity Log",
+        "chatTooltip": "Chat with Customer",
+        "editTooltip": "Edit Booking",
+        "deleteTooltip": "Delete Booking",
+        "closeTooltip": "Close",
+        "status": "Status",
+        "priority": "Priority",
+        "rating": "Rating",
+        "serviceType": "Service Type",
+        "duration": "Duration",
+        "people": "People",
+        "occasion": "Occasion",
+        "location": "Location",
+        "specialRequests": "Special Requests",
+        "minutes": "minutes"
+      },
+      "DeleteModal": {
+        "title": "Delete Booking",
+        "subtitle": "This action cannot be undone",
+        "confirmation": "Are you sure you want to delete this booking? All associated data will be permanently removed.",
+        "cancel": "Cancel",
+        "delete": "Delete Booking"
       },
       "Activities": {
         "Form": {

@@ -9,29 +9,29 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Landing.Metadata" });
+  const t = await getTranslations({ locale, namespace: "Landing" });
 
   return {
-    title: t("title"),
-    description: t("description"),
+    title: t("Metadata.title"),
+    description: t("Metadata.description"),
     openGraph: {
-      title: t("title"),
-      description: t("description"),
+      title: t("Metadata.title"),
+      description: t("Metadata.description"),
       type: "website",
-      url: "https://chatconnect.com",
+      url: "https://chatlink.com",
       images: [
         {
           url: "/assets/dashboard_hero.png",
           width: 1200,
           height: 630,
-          alt: t("title"),
+          alt: t("Metadata.title"),
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: t("title"),
-      description: t("description"),
+      title: t("Metadata.title"),
+      description: t("Metadata.description"),
       images: ["/assets/dashboard_hero.png"],
     },
   };
@@ -39,12 +39,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function LandingPage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Landing.Metadata" });
+  const t = await getTranslations({ locale, namespace: "Landing" });
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "ChatConnect",
+    "name": "ChatLink",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Web",
     "offers": {
@@ -52,7 +52,7 @@ export default async function LandingPage({ params }: Props) {
       "price": "0",
       "priceCurrency": "USD"
     },
-    "description": t("description"),
+    "description": t("Metadata.description"),
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.8",

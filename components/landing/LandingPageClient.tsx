@@ -12,13 +12,21 @@ import {
   ShieldCheck, MessageSquareText, Pause, ArrowRight,
   MoveRight, Layers, Command, ChevronDown, Plus,
   Cpu, Share2, Zap as ZapIcon, Slack, Trello, Figma, Github, Mail,
-  XCircle, CheckCircle, Database, UserPlus, Quote, X
+  XCircle, CheckCircle, Database, UserPlus, Quote, X, Building, ShoppingBag, HeartPulse, Banknote
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Avatar } from "@/components/ui/Avatar";
 import { Separator } from "@/components/ui/Separator";
+import FeatureInbox from "./features/FeatureInbox";
+import FeatureAgents from "./features/FeatureAgents";
+import FeatureCRM from "./features/FeatureCRM";
+import FeatureAnalytics from "./features/FeatureAnalytics";
+import HeroSection from "./hero/HeroSection";
+import OmnichannelFlow from "./features/OmnichannelFlow";
+import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 
 // --- Animations ---
 const fadeInUp = {
@@ -38,109 +46,34 @@ const container = {
 
 // --- Components ---
 
-const HeroSection = () => {
-  const t = useTranslations("Landing.Hero");
-  const tCommon = useTranslations("Common");
-
-  return (
-    <section className="relative pt-32 pb-24 overflow-hidden bg-white">
-      {/* Modern Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-white"></div>
-      
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
-            <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-            >
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 border border-gray-200 text-sm font-medium text-gray-600 mb-8 hover:bg-gray-100 transition-colors cursor-pointer">
-                    <span className="flex h-2 w-2 rounded-full bg-blue-500"></span>
-                    {t("badge")}
-                    <ArrowRight className="w-4 h-4 ms-1 text-gray-400 rtl:rotate-180" />
-                </div>
-            </motion.div>
-            
-            <motion.h1 
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-                className="text-6xl md:text-8xl font-bold text-gray-900 mb-8 tracking-tight leading-[1] text-balance"
-                dangerouslySetInnerHTML={{ __html: t.raw("title") }}
-            />
-            
-            <motion.p 
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-                className="text-xl md:text-2xl text-gray-500 mb-12 max-w-3xl leading-relaxed font-light text-balance"
-            >
-              {t("subtitle")}
-            </motion.p>
-            
-            <motion.div 
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp}
-                className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center mb-20"
-            >
-              <Button variant="primary" size="lg" className="h-14 px-8 text-lg rounded-full shadow-xl shadow-blue-500/20 hover:shadow-blue-500/30 transition-all hover:-translate-y-0.5 bg-blue-600 hover:bg-blue-700 border-none" aria-label={tCommon("startFreeTrial")}>
-                {tCommon("startFreeTrial")}
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="h-14 px-8 text-lg rounded-full border-gray-200 hover:bg-gray-50 text-gray-600 bg-white"
-                icon={Play}
-                aria-label={tCommon("watchDemo")}
-              >
-                {tCommon("watchDemo")}
-              </Button>
-            </motion.div>
-
-            {/* Hero Image with Tilt Effect */}
-            <motion.div 
-                initial={{ opacity: 0, y: 40, rotateX: 10 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ duration: 1, delay: 0.2, type: "spring" }}
-                className="relative w-full max-w-6xl mx-auto perspective-1000"
-            >
-                <div className="relative rounded-2xl border border-gray-200 bg-gray-50/50 p-2 shadow-2xl backdrop-blur-sm">
-                    <div className="rounded-xl overflow-hidden border border-gray-200 bg-white aspect-[16/10] relative">
-                         <Image 
-                            src="/assets/dashboard_hero.png" 
-                            alt="ChatConnect Dashboard Interface" 
-                            fill
-                            className="object-cover"
-                            priority
-                        />
-                    </div>
-                </div>
-            </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 const Marquee = () => {
     const t = useTranslations("Landing.Marquee");
+    const industries = [
+        { icon: Building, label: "realEstate" },
+        { icon: ShoppingBag, label: "ecommerce" },
+        { icon: HeartPulse, label: "healthcare" },
+        { icon: Cpu, label: "technology" },
+        { icon: Banknote, label: "finance" },
+        { icon: MessageCircle, label: "whatsapp" },
+        { icon: Send, label: "telegram" },
+        { icon: Globe, label: "website" },
+    ];
+
     return (
-        <div className="py-12 bg-white border-b border-gray-100 overflow-hidden relative" dir="ltr">
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10"></div>
+        <div className="py-16 bg-white border-b border-gray-100 overflow-hidden relative" dir="ltr">
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
             
-            <div className="flex w-max gap-16 animate-marquee opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-                {[...Array(2)].map((_, i) => (
+            <div className="flex w-max gap-16 animate-marquee">
+                {[...Array(4)].map((_, i) => (
                     <React.Fragment key={i}>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><MessageCircle className="w-8 h-8" /> {t("whatsapp")}</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Send className="w-8 h-8" /> {t("telegram")}</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Slack className="w-8 h-8" /> {t("slack")}</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Trello className="w-8 h-8" /> {t("trello")}</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Mail className="w-8 h-8" /> {t("gmail")}</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Globe className="w-8 h-8" /> {t("website")}</div>
-                        <div className="flex items-center gap-2 text-xl font-bold text-gray-800"><Figma className="w-8 h-8" /> {t("figma")}</div>
+                        {industries.map((item, index) => (
+                            <div key={index} className="flex items-center gap-3 text-xl font-bold text-gray-400 hover:text-blue-600 transition-colors cursor-default">
+                                <item.icon className="w-8 h-8" />
+                                <span>{t(item.label)}</span>
+                            </div>
+                        ))}
                     </React.Fragment>
                 ))}
             </div>
@@ -148,121 +81,18 @@ const Marquee = () => {
     );
 };
 
-// Bento Grid Components
-const BentoCard = ({ 
-    title, 
-    description, 
-    icon: Icon, 
-    className, 
-    children 
-}: { 
-    title: string, 
-    description: string, 
-    icon: any, 
-    className?: string,
-    children?: React.ReactNode 
-}) => (
-    <div className={`bg-white rounded-3xl border border-gray-200 p-8 flex flex-col relative overflow-hidden hover:shadow-lg transition-all duration-300 group ${className}`}>
-        <div className="mb-6 z-10">
-            <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Icon className="w-6 h-6 text-blue-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">{title}</h3>
-            <p className="text-gray-500 leading-relaxed">{description}</p>
-        </div>
-        <div className="flex-1 relative z-0">
-            {children}
-        </div>
-    </div>
-);
 
-const FeaturesBento = () => {
-    const t = useTranslations("Landing.Features");
-    return (
-        <section className="py-32 bg-gray-50/50">
-            <div className="container mx-auto px-6">
-                <div className="text-center max-w-3xl mx-auto mb-20">
-                    <h2 className="text-4xl font-bold text-gray-900 mb-6">{t("title")}</h2>
-                    <p className="text-lg text-gray-600">
-                        {t("subtitle")}
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-                    {/* Large Card - Unified Inbox */}
-                    <BentoCard 
-                        title={t("inboxTitle")} 
-                        description={t("inboxDesc")}
-                        icon={MessageSquare}
-                        className="md:col-span-2 min-h-[400px]"
-                    >
-                        <div className="absolute bottom-0 right-0 w-[90%] h-[80%] bg-gray-100 rounded-tl-2xl border-t border-l border-gray-200 shadow-sm overflow-hidden rtl:right-auto rtl:left-0 rtl:rounded-tl-none rtl:rounded-tr-2xl rtl:border-l-0 rtl:border-r">
-                            <Image src="/assets/feature_inbox.png" alt="Inbox" fill className="object-cover object-top" />
-                        </div>
-                    </BentoCard>
-
-                    {/* Tall Card - AI Auto-Pilot */}
-                    <BentoCard 
-                        title={t("aiTitle")} 
-                        description={t("aiDesc")}
-                        icon={Bot}
-                        className="md:row-span-2 min-h-[400px]"
-                    >
-                        <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-blue-50 to-transparent flex items-end justify-center pb-8">
-                            <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 w-[80%]">
-                                <div className="flex gap-3 mb-3">
-                                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><Bot className="w-4 h-4 text-blue-600"/></div>
-                                    <div className="bg-gray-100 rounded-2xl rounded-tl-none p-3 text-sm text-gray-600 flex-1 rtl:rounded-tl-2xl rtl:rounded-tr-none">
-                                        Hello! How can I help you today?
-                                    </div>
-                                </div>
-                                <div className="flex gap-3 justify-end">
-                                    <div className="bg-blue-600 rounded-2xl rounded-tr-none p-3 text-sm text-white rtl:rounded-tr-2xl rtl:rounded-tl-none">
-                                        I need to check my order status.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </BentoCard>
-
-                    {/* Small Card - CRM */}
-                    <BentoCard 
-                        title={t("crmTitle")} 
-                        description={t("crmDesc")}
-                        icon={Database}
-                        className="min-h-[300px]"
-                    >
-                        <div className="absolute bottom-4 right-4 w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center animate-pulse rtl:right-auto rtl:left-4">
-                            <UserPlus className="w-8 h-8 text-blue-600" />
-                        </div>
-                    </BentoCard>
-
-                    {/* Small Card - Analytics */}
-                    <BentoCard 
-                        title={t("analyticsTitle")} 
-                        description={t("analyticsDesc")}
-                        icon={BarChart3}
-                        className="min-h-[300px]"
-                    >
-                        <div className="absolute bottom-0 left-0 right-0 h-32 flex items-end justify-around px-8 pb-8">
-                            <div className="w-8 bg-blue-200 h-12 rounded-t-lg"></div>
-                            <div className="w-8 bg-blue-300 h-20 rounded-t-lg"></div>
-                            <div className="w-8 bg-blue-400 h-16 rounded-t-lg"></div>
-                            <div className="w-8 bg-blue-600 h-24 rounded-t-lg"></div>
-                        </div>
-                    </BentoCard>
-                </div>
-            </div>
-        </section>
-    );
-};
 
 const TestimonialCard = ({ quote, author, role, company }: { quote: string, author: string, role: string, company: string }) => (
-    <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-        <Quote className="w-8 h-8 text-blue-100 mb-6" />
-        <p className="text-lg text-gray-700 mb-6 leading-relaxed">"{quote}"</p>
+    <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 group">
+        <div className="mb-6">
+            {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 text-yellow-400 inline-block fill-yellow-400" />
+            ))}
+        </div>
+        <p className="text-lg text-gray-700 mb-8 leading-relaxed font-medium">"{quote}"</p>
         <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg group-hover:scale-110 transition-transform">
                 {author[0]}
             </div>
             <div>
@@ -276,11 +106,11 @@ const TestimonialCard = ({ quote, author, role, company }: { quote: string, auth
 const TestimonialsSection = () => {
     const t = useTranslations("Landing.Testimonials");
     return (
-        <section className="py-24 bg-white border-y border-gray-100">
+        <section className="py-32 bg-gray-50/50 border-y border-gray-100">
             <div className="container mx-auto px-6">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-4">{t("title")}</h2>
-                    <p className="text-gray-600">{t("subtitle")}</p>
+                <div className="text-center mb-20 max-w-2xl mx-auto">
+                    <h2 className="text-4xl font-bold text-gray-900 mb-6">{t("title")}</h2>
+                    <p className="text-xl text-gray-600">{t("subtitle")}</p>
                 </div>
                 <div className="grid md:grid-cols-3 gap-8">
                     <TestimonialCard 
@@ -324,26 +154,34 @@ const PricingCard = ({
   isAnnual: boolean;
   tCommon: any;
 }) => (
-  <div className={`h-full p-8 rounded-3xl border flex flex-col transition-all duration-300 ${highlight ? 'bg-gray-900 text-white border-gray-900 shadow-2xl scale-105' : 'bg-white border-gray-200 text-gray-900 hover:border-gray-300'}`}>
-        <div className="mb-8">
-            <h3 className={`text-lg font-medium mb-2 ${highlight ? 'text-gray-300' : 'text-gray-500'}`}>{name}</h3>
-            <div className="flex items-baseline gap-1">
-                <span className="text-5xl font-bold tracking-tight">{price}</span>
-                <span className={`text-sm ${highlight ? 'text-gray-400' : 'text-gray-500'}`}>{isAnnual ? '/mo' : '/mo'}</span>
+  <div className={`h-full p-10 rounded-[2rem] flex flex-col transition-all duration-300 relative ${highlight ? 'bg-gray-900 text-white shadow-2xl scale-105 z-10 ring-1 ring-gray-900' : 'bg-white border border-gray-100 text-gray-900 hover:shadow-xl hover:-translate-y-1'}`}>
+        {highlight && (
+            <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide shadow-lg shadow-blue-600/30">
+                Most Popular
             </div>
-            <p className={`mt-4 text-sm ${highlight ? 'text-gray-400' : 'text-gray-500'}`}>{description}</p>
+        )}
+        <div className="mb-8">
+            <h3 className={`text-xl font-bold mb-4 ${highlight ? 'text-white' : 'text-gray-900'}`}>{name}</h3>
+            <div className="flex items-baseline gap-1 mb-4">
+                <span className="text-5xl font-bold tracking-tight">{price}</span>
+                <span className={`text-lg ${highlight ? 'text-gray-400' : 'text-gray-500'}`}>{isAnnual ? '/mo' : '/mo'}</span>
+            </div>
+            <p className={`text-base ${highlight ? 'text-gray-400' : 'text-gray-500'}`}>{description}</p>
         </div>
-        <ul className="space-y-4 mb-8 flex-1">
+        <Separator className={`mb-8 ${highlight ? 'bg-gray-800' : 'bg-gray-100'}`} />
+        <ul className="space-y-5 mb-10 flex-1">
             {features.map((f, i) => (
-                <li key={i} className="flex items-center gap-3 text-sm">
-                    <Check className={`w-5 h-5 ${highlight ? 'text-blue-400' : 'text-blue-600'}`} />
+                <li key={i} className="flex items-start gap-3 text-base">
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${highlight ? 'bg-blue-500/20' : 'bg-blue-50'}`}>
+                        <Check className={`w-4 h-4 ${highlight ? 'text-blue-400' : 'text-blue-600'}`} />
+                    </div>
                     <span className={highlight ? 'text-gray-300' : 'text-gray-700'}>{f}</span>
                 </li>
             ))}
         </ul>
         <Button 
             variant={highlight ? 'primary' : 'outline'} 
-            className={`w-full rounded-full h-12 ${highlight ? 'bg-blue-600 hover:bg-blue-500 border-none text-white' : 'border-gray-200 hover:bg-gray-50'}`}
+            className={`w-full rounded-2xl h-14 text-lg font-semibold transition-all ${highlight ? 'bg-white text-gray-900 hover:bg-gray-100 border-none' : 'border-2 border-gray-100 hover:border-gray-900 hover:bg-transparent text-gray-900'}`}
             aria-label={`Get Started with ${name} plan`}
         >
             {tCommon("getStarted")}
@@ -359,28 +197,28 @@ const PricingSection = () => {
     return (
       <section id="pricing" className="py-32 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-6">{t("title")}</h2>
-            <p className="text-gray-600 text-lg mb-8">{t("subtitle")}</p>
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8">{t("title")}</h2>
+            <p className="text-xl text-gray-600 mb-10">{t("subtitle")}</p>
             
             {/* Toggle */}
-            <div className="flex items-center justify-center gap-4 p-1 bg-gray-100 rounded-full w-fit mx-auto">
+            <div className="flex items-center justify-center gap-2 p-1.5 bg-gray-100 rounded-full w-fit mx-auto border border-gray-200">
                 <button 
                     onClick={() => setIsAnnual(false)}
-                    className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${!isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+                    className={`px-8 py-3 rounded-full text-sm font-bold transition-all ${!isAnnual ? 'bg-white shadow-md text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
                 >
                     {t("monthly")}
                 </button>
                 <button 
                     onClick={() => setIsAnnual(true)}
-                    className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${isAnnual ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+                    className={`px-8 py-3 rounded-full text-sm font-bold transition-all flex items-center gap-2 ${isAnnual ? 'bg-white shadow-md text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
                 >
-                    {t("yearly")} <span className="text-green-600 text-xs font-bold ms-1">{t("save")}</span>
+                    {t("yearly")} <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-[10px] uppercase tracking-wide">{t("save")}</span>
                 </button>
             </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center mb-20">
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto items-start">
             <PricingCard 
                 name={t("starter")}
                 price="$0"
@@ -418,23 +256,23 @@ const CTASection = () => {
     return (
         <section className="py-32 bg-white">
             <div className="container mx-auto px-6">
-                <div className="bg-gray-900 rounded-[2.5rem] p-12 md:p-24 text-center relative overflow-hidden">
+                <div className="bg-gray-900 rounded-[3rem] p-12 md:p-32 text-center relative overflow-hidden shadow-2xl">
                     {/* Abstract Shapes */}
-                    <div className="absolute top-0 left-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 rtl:left-auto rtl:right-0 rtl:translate-x-1/2"></div>
-                    <div className="absolute bottom-0 right-0 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 rtl:right-auto rtl:left-0 rtl:-translate-x-1/2"></div>
+                    <div className="absolute top-0 left-0 w-96 h-96 bg-blue-600/30 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600/30 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2"></div>
                     
-                    <div className="relative z-10 max-w-3xl mx-auto">
-                        <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight">
+                    <div className="relative z-10 max-w-4xl mx-auto">
+                        <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight leading-tight">
                             {t("title")}
                         </h2>
-                        <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
+                        <p className="text-xl md:text-2xl text-gray-400 mb-16 max-w-2xl mx-auto leading-relaxed">
                             {t("subtitle")}
                         </p>
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                            <Button variant="white" size="lg" className="h-14 px-10 rounded-full text-lg text-gray-900 hover:bg-gray-100 border-none" aria-label={tCommon("startFreeTrial")}>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                            <Button variant="white" size="lg" className="h-16 px-12 rounded-full text-xl font-bold text-gray-900 hover:bg-gray-100 border-none shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all" aria-label={tCommon("startFreeTrial")}>
                                 {tCommon("startFreeTrial")}
                             </Button>
-                            <Button variant="outline" size="lg" className="h-14 px-10 rounded-full text-lg text-white border-gray-700 hover:bg-gray-800 hover:text-white" aria-label={tCommon("contactSales")}>
+                            <Button variant="outline" size="lg" className="h-16 px-12 rounded-full text-xl font-bold text-white border-2 border-gray-700 hover:bg-gray-800 hover:border-gray-800 hover:text-white transition-all" aria-label={tCommon("contactSales")}>
                                 {tCommon("contactSales")}
                             </Button>
                         </div>
@@ -451,23 +289,23 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-white pt-20 pb-10 border-t border-gray-100">
+    <footer className="bg-white pt-24 pb-12 border-t border-gray-100">
       <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-6 gap-12 mb-20">
+        <div className="grid md:grid-cols-6 gap-12 mb-24">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                <Zap className="w-6 h-6 text-white" />
               </div>
-              <span className="font-bold text-xl text-gray-900">ChatConnect</span>
+              <span className="font-bold text-2xl text-gray-900 tracking-tight">Replyxbase</span>
             </div>
-            <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-xs">
+            <p className="text-gray-500 text-base leading-relaxed mb-8 max-w-xs">
               {t("desc")}
             </p>
             <div className="flex gap-4">
               {[Linkedin, Instagram, Globe].map((Icon, i) => (
-                  <a key={i} href="#" className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-900 hover:text-white transition-colors" aria-label="Social Link">
-                      <Icon className="w-4 h-4" />
+                  <a key={i} href="#" className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-900 hover:text-white transition-all hover:-translate-y-1" aria-label="Social Link">
+                      <Icon className="w-5 h-5" />
                   </a>
               ))}
             </div>
@@ -480,11 +318,11 @@ const Footer = () => {
               { title: t("legal"), links: ["privacy", "terms", "security", "status"] },
           ].map((col, i) => (
               <div key={i}>
-                  <h4 className="font-bold text-gray-900 mb-6">{col.title}</h4>
+                  <h4 className="font-bold text-gray-900 mb-8 text-lg">{col.title}</h4>
                   <ul className="space-y-4">
                       {col.links.map((linkKey, j) => (
                           <li key={j}>
-                              <a href="#" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">{t(`links.${linkKey}`)}</a>
+                              <a href="#" className="text-base text-gray-500 hover:text-blue-600 transition-colors font-medium">{t(`links.${linkKey}`)}</a>
                           </li>
                       ))}
                   </ul>
@@ -492,10 +330,10 @@ const Footer = () => {
           ))}
         </div>
         
-        <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+        <div className="border-t border-gray-100 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-400 font-medium">
           <div>{tCommon("copyright", {year})}</div>
-          <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+          <div className="flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-100">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               <span>{tCommon("allSystemsOperational")}</span>
           </div>
         </div>
@@ -512,19 +350,6 @@ const ChatWidget = () => {
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const t = useTranslations("Landing.Widget");
-
-    // Auto-open and greet
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsOpen(true);
-            setIsTyping(true);
-            setTimeout(() => {
-                setIsTyping(false);
-                setMessages([{ role: 'ai', text: t("welcome") }]);
-            }, 1500);
-        }, 3000);
-        return () => clearTimeout(timer);
-    }, [t]);
 
     // Scroll to bottom
     useEffect(() => {
@@ -553,64 +378,57 @@ const ChatWidget = () => {
     };
 
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4 rtl:right-auto rtl:left-6 rtl:items-start">
-            {/* Callout */}
-            {!isOpen && (
-                <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="bg-white px-4 py-2 rounded-full shadow-lg border border-gray-100 text-sm font-medium text-gray-700 flex items-center gap-2"
-                >
-                    <span className="relative flex h-3 w-3">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                    </span>
-                    {t("callout")}
-                </motion.div>
-            )}
-
+        <div className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-4 rtl:right-auto rtl:left-8 rtl:items-start">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div 
                         initial={{ opacity: 0, y: 20, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        className="bg-white rounded-2xl shadow-2xl border border-gray-200 w-[350px] md:w-[400px] overflow-hidden flex flex-col max-h-[600px]"
+                        className="bg-white rounded-[2rem] shadow-2xl border border-gray-100 w-[380px] md:w-[420px] overflow-hidden flex flex-col max-h-[650px]"
                     >
                         {/* Header */}
-                        <div className="bg-blue-600 p-4 flex items-center justify-between text-white">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div className="bg-white p-6 flex items-center justify-between border-b border-gray-100">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-600/20">
                                     <Bot className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <div className="font-bold">{t("title")}</div>
-                                    <div className="text-xs text-blue-100 flex items-center gap-1">
-                                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
+                                    <div className="font-bold text-lg text-gray-900">{t("title")}</div>
+                                    <div className="text-xs text-green-600 font-medium flex items-center gap-1.5 bg-green-50 px-2 py-0.5 rounded-full w-fit mt-1">
+                                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
                                         {t("online")}
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={() => setIsOpen(false)} className="p-1 hover:bg-white/20 rounded-lg transition-colors">
+                            <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-900">
                                 <X className="w-5 h-5" />
                             </button>
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 p-4 overflow-y-auto bg-gray-50 space-y-4 min-h-[300px]">
+                        <div className="flex-1 p-6 overflow-y-auto bg-gray-50/50 space-y-6 min-h-[350px]">
+                            {messages.length === 0 && (
+                                <div className="text-center py-10">
+                                    <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <Sparkles className="w-8 h-8 text-blue-600" />
+                                    </div>
+                                    <p className="text-gray-500 text-sm max-w-[200px] mx-auto">{t("welcome")}</p>
+                                </div>
+                            )}
                             {messages.map((msg, i) => (
                                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                                    <div className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-br-none rtl:rounded-br-2xl rtl:rounded-bl-none' : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none shadow-sm rtl:rounded-bl-2xl rtl:rounded-br-none'}`}>
+                                    <div className={`max-w-[85%] p-4 rounded-2xl text-sm leading-relaxed shadow-sm ${msg.role === 'user' ? 'bg-blue-600 text-white rounded-br-none rtl:rounded-br-2xl rtl:rounded-bl-none' : 'bg-white border border-gray-100 text-gray-800 rounded-bl-none rtl:rounded-bl-2xl rtl:rounded-br-none'}`}>
                                         {msg.text}
                                     </div>
                                 </div>
                             ))}
                             {isTyping && (
                                 <div className="flex justify-start">
-                                    <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-bl-none shadow-sm flex gap-1 rtl:rounded-bl-2xl rtl:rounded-br-none">
-                                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
-                                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-75"></span>
-                                        <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-150"></span>
+                                    <div className="bg-white border border-gray-100 p-4 rounded-2xl rounded-bl-none shadow-sm flex gap-1.5 rtl:rounded-bl-2xl rtl:rounded-br-none">
+                                        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"></span>
+                                        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce delay-75"></span>
+                                        <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce delay-150"></span>
                                     </div>
                                 </div>
                             )}
@@ -621,25 +439,25 @@ const ChatWidget = () => {
                         <div className="p-4 bg-white border-t border-gray-100">
                             <form 
                                 onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-                                className="flex gap-2"
+                                className="flex gap-3"
                             >
                                 <input 
                                     type="text" 
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     placeholder={t("placeholder")}
-                                    className="flex-1 bg-gray-100 border-none rounded-full px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
+                                    className="flex-1 bg-gray-50 border-transparent focus:bg-white focus:border-blue-200 focus:ring-4 focus:ring-blue-50 rounded-full px-6 py-3 text-sm transition-all outline-none"
                                 />
                                 <button 
                                     type="submit"
                                     disabled={!inputValue.trim()}
-                                    className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
                                 >
-                                    <Send className="w-4 h-4 rtl:rotate-180" />
+                                    <Send className="w-5 h-5 rtl:rotate-180" />
                                 </button>
                             </form>
-                            <div className="text-center mt-2">
-                                <span className="text-[10px] text-gray-400">{t("poweredBy")}</span>
+                            <div className="text-center mt-3">
+                                <span className="text-[10px] text-gray-400 font-medium uppercase tracking-wider">{t("poweredBy")}</span>
                             </div>
                         </div>
                     </motion.div>
@@ -648,10 +466,10 @@ const ChatWidget = () => {
 
             {/* Launcher */}
             <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-14 h-14 bg-blue-600 rounded-full shadow-xl flex items-center justify-center text-white hover:bg-blue-700 transition-colors z-50"
+                className="w-16 h-16 bg-blue-600 rounded-full shadow-2xl shadow-blue-600/40 flex items-center justify-center text-white hover:bg-blue-700 transition-colors z-50 ring-4 ring-white"
             >
                 {isOpen ? <ChevronDown className="w-8 h-8" /> : <MessageCircle className="w-8 h-8" />}
             </motion.button>
@@ -663,36 +481,51 @@ const LandingPageClient = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const tCommon = useTranslations("Common");
   const tFooter = useTranslations("Landing.Footer");
+  const { data: session } = authClient.useSession();
 
   return (
     <div className="min-h-screen bg-white font-sans overflow-x-hidden text-gray-900 selection:bg-blue-100 selection:text-blue-900">
-      <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
+      <header className="fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-gray-100">
         <div className="container mx-auto px-6">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
+          <div className="flex items-center justify-between h-24">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
+                <Zap className="w-6 h-6 text-white" />
               </div>
-              <span className="font-bold text-xl text-gray-900">
-                ChatConnect
+              <span className="font-bold text-2xl text-gray-900 tracking-tight">
+                Replyxbase
               </span>
             </div>
             
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-10">
               {["features", "pricing", "resources", "company"].map((item) => (
-                <a key={item} href={`#${item}`} className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
+                <a key={item} href={`#${item}`} className="text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors">
                   {tFooter(`links.${item}`)}
                 </a>
               ))}
             </nav>
             
             <div className="hidden md:flex items-center gap-4">
-              <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
-                {tCommon("logIn")}
-              </Button>
-              <Button variant="primary" size="sm" className="rounded-full px-6 bg-gray-900 hover:bg-gray-800 border-none text-white">
-                {tCommon("signUp")}
-              </Button>
+              {session ? (
+                <Link href="/dashboard">
+                  <Button variant="primary" size="sm" className="rounded-full px-8 h-12 bg-gray-900 hover:bg-gray-800 border-none text-white font-semibold shadow-lg hover:shadow-xl transition-all">
+                    {tCommon("dashboard")}
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900 font-semibold h-12 px-6">
+                      {tCommon("logIn")}
+                    </Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button variant="primary" size="sm" className="rounded-full px-8 h-12 bg-gray-900 hover:bg-gray-800 border-none text-white font-semibold shadow-lg hover:shadow-xl transition-all">
+                      {tCommon("signUp")}
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
             
             <button className="md:hidden p-2" onClick={() => setMobileNavOpen(true)} aria-label="Open Menu">
@@ -703,9 +536,15 @@ const LandingPageClient = () => {
       </header>
 
       <main>
-        <HeroSection />
+        <HeroSection session={session} />
         <Marquee />
-        <FeaturesBento />
+        <OmnichannelFlow />
+        <div id="features">
+          <FeatureInbox />
+          <FeatureAgents />
+          <FeatureCRM />
+          <FeatureAnalytics />
+        </div>
         <TestimonialsSection />
         <PricingSection />
         <CTASection />
