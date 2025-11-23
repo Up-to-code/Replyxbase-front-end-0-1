@@ -1,9 +1,68 @@
 'use server';
 
-import { Booking, BookingFormData, SortField, SortDirection } from '../types';
-import { calculateEndTime } from '../utils';
-import { dbBookings, dbCustomers, initializeDb, delay, setDbBookings, setDbCustomers } from './db';
+import { Booking, BookingFormData, SortField, SortDirection, Customer } from '@/app/[locale]/dashboard/crm/types';
+import { calculateEndTime } from '@/app/[locale]/dashboard/crm/utils';
+import { generateMinimalBookings, mockCustomers } from '@/app/[locale]/dashboard/crm/mockData';
 
+// --- DB Simulation ---
+// Simulate a database in memory
+// Note: In a real serverless environment, this wouldn't persist.
+// For this demo, it works as long as the server process stays alive.
+export let dbBookings: Booking[] = [];
+export let dbCustomers: Customer[] = [...mockCustomers];
+let isInitialized = false;
+
+export function initializeDb() {
+  if (!isInitialized) {
+    dbBookings = generateMinimalBookings();
+    isInitialized = true;
+  }
+}
+
+export function setDbBookings(bookings: Booking[]) {
+  dbBookings = bookings;
+}
+
+export function setDbCustomers(customers: Customer[]) {
+  dbCustomers = customers;
+}
+
+// Helper to simulate network delay
+export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+// --- Activities Actions ---
+export async function logActivity(
+  type: 'call' | 'email' | 'note' | 'meeting',
+  content: string,
+  relatedTo: 'booking' | 'customer',
+  relatedId: string
+) {
+  initializeDb();
+  await delay(300);
+
+  const activity: any = {
+    id: `activity-${Date.now()}`,
+    type,
+    content,
+    createdAt: new Date(),
+    createdBy: 'CurrentUser', // Mock user
+    relatedTo,
+    relatedId
+  };
+
+  if (relatedTo === 'booking') {
+    const booking = dbBookings.find(b => b.id === relatedId);
+    if (booking) {
+      booking.activities = [...(booking.activities || []), activity];
+    }
+  } else {
+    // Handle customer activities if needed
+  }
+
+  return { success: true, activity };
+}
+
+// --- Bookings Actions ---
 export async function getBookings(
   page: number = 1,
   itemsPerPage: number = 10,
@@ -245,4 +304,47 @@ export async function updateBookingStatus(bookingId: string, status: Booking['st
     return { success: true, booking };
   }
   return { success: false, error: 'Booking not found' };
+}
+
+// --- Calendar Actions ---
+export async function getAllBookingsForCalendar(
+    filters?: {
+        search?: string;
+        status?: string;
+        service?: string;
+    }
+) {
+    initializeDb();
+    await delay(300);
+
+    let filtered = [...dbBookings];
+
+    // Apply filters (same as above, could be refactored)
+    if (filters) {
+        if (filters.search) {
+            const searchLower = filters.search.toLowerCase();
+            filtered = filtered.filter(b =>
+                b.customer.fullName.toLowerCase().includes(searchLower) ||
+                b.customer.email.toLowerCase().includes(searchLower) ||
+                b.customer.phone.includes(filters.search!)
+            );
+        }
+
+        if (filters.status && filters.status !== 'all') {
+            filtered = filtered.filter(b => b.status === filters.status);
+        }
+
+        if (filters.service && filters.service !== 'all') {
+            filtered = filtered.filter(b => b.serviceType === filters.service);
+        }
+    }
+    
+    return filtered;
+}
+
+// --- Customers Actions ---
+export async function getCustomers() {
+  initializeDb();
+  await delay(200);
+  return dbCustomers;
 }

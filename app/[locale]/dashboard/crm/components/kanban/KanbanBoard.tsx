@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Clock, MapPin, User, Check, X } from 'lucide-react';
+import { Clock, MapPin, Check, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Booking } from '../../types';
-import { StatusBadge, PriorityBadge } from '../ui/Badges';
+import { PriorityBadge } from '../ui/Badges';
 
 /**
  * Props for the KanbanBoard component.
@@ -20,18 +21,20 @@ interface KanbanBoardProps {
   isLoading?: boolean;
 }
 
-const defaultColumns: { id: Booking['status']; title: string; color: string }[] = [
-  { id: 'pending', title: 'Pending', color: 'bg-amber-50 border-amber-200' },
-  { id: 'confirmed', title: 'Confirmed', color: 'bg-emerald-50 border-emerald-200' },
-  { id: 'completed', title: 'Completed', color: 'bg-blue-50 border-blue-200' },
-  { id: 'cancelled', title: 'Cancelled', color: 'bg-rose-50 border-rose-200' },
-  { id: 'no-show', title: 'No Show', color: 'bg-gray-50 border-gray-200' },
+const defaultColumns: { id: Booking['status']; titleKey: string; color: string }[] = [
+  { id: 'pending', titleKey: 'pending', color: 'bg-amber-50 border-amber-200' },
+  { id: 'confirmed', titleKey: 'confirmed', color: 'bg-emerald-50 border-emerald-200' },
+  { id: 'completed', titleKey: 'completed', color: 'bg-blue-50 border-blue-200' },
+  { id: 'cancelled', titleKey: 'cancelled', color: 'bg-rose-50 border-rose-200' },
+  { id: 'no-show', titleKey: 'no-show', color: 'bg-gray-50 border-gray-200' },
 ];
 
 /**
  * Displays bookings in a Kanban board format with drag-and-drop support.
  */
 export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onStatusChange, onUpdateBooking, isLoading }) => {
+  const t = useTranslations("Dashboard.CRM.Kanban");
+  const tStatus = useTranslations("Dashboard.CRM.Status");
   const [draggedBookingId, setDraggedBookingId] = useState<string | null>(null);
   
   // Column Renaming State
@@ -47,10 +50,10 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
     // Initialize column titles
     const titles: { [key: string]: string } = {};
     defaultColumns.forEach(col => {
-      titles[col.id] = col.title;
+      titles[col.id] = tStatus(col.titleKey);
     });
     setColumnTitles(titles);
-  }, []);
+  }, [tStatus]);
 
   const handleDragStart = (e: React.DragEvent, bookingId: string) => {
     setDraggedBookingId(bookingId);
@@ -131,7 +134,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
     <div className="flex gap-4 overflow-x-auto pb-4 px-4 min-h-[calc(100vh-200px)]">
       {defaultColumns.map((column) => {
         const columnBookings = getBookingsByStatus(column.id);
-        const currentTitle = columnTitles[column.id] || column.title;
+        const currentTitle = columnTitles[column.id] || tStatus(column.titleKey);
         
         return (
           <div
@@ -157,7 +160,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
                   <h3 
                     className="font-semibold text-gray-900 cursor-text hover:bg-gray-50 px-2 py-1 rounded"
                     onDoubleClick={() => startEditingColumn(column.id, currentTitle)}
-                    title="Double click to rename"
+                    title={t("renameTooltip")}
                   >
                     {currentTitle}
                   </h3>
@@ -184,7 +187,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
                   {editingBookingId === booking.id ? (
                     <div className="space-y-3">
                       <div>
-                        <label className="text-xs text-gray-500 block mb-1">Customer Name</label>
+                        <label className="text-xs text-gray-500 block mb-1">{t("customerName")}</label>
                         <input
                           type="text"
                           value={editForm.fullName}
@@ -238,7 +241,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
                             {booking.date.toLocaleDateString()} • {booking.startTime}
                           </span>
                           {new Date(booking.date) < new Date() && booking.status === 'pending' && (
-                            <span className="bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded text-[10px]">Overdue</span>
+                            <span className="bg-rose-100 text-rose-600 px-1.5 py-0.5 rounded text-[10px]">{t("overdue")}</span>
                           )}
                         </div>
                         
@@ -259,13 +262,13 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
                              booking.status === 'completed' ? 'bg-blue-500' :
                              'bg-gray-300'
                            }`} />
-                           <span className="text-xs text-gray-500 capitalize">{booking.status}</span>
+                           <span className="text-xs text-gray-500 capitalize">{tStatus(booking.status)}</span>
                         </div>
                         <span 
                           onClick={() => onView(booking)}
                           className="text-xs text-gray-400 group-hover:text-blue-600 transition-colors cursor-pointer"
                         >
-                          View Details →
+                          {t("viewDetails")} →
                         </span>
                       </div>
                     </div>
@@ -275,7 +278,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
               
               {columnBookings.length === 0 && (
                 <div className="text-center py-8 text-gray-400 text-sm border-2 border-dashed border-gray-200 rounded-lg">
-                  No bookings
+                  {t("noBookings")}
                 </div>
               )}
             </div>

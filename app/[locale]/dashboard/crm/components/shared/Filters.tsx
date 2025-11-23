@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Plus, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { SortField, SortDirection } from '../../types';
 import { serviceTypes } from '../../mockData';
 import { DynamicFilter } from '../../hooks/useFilters';
@@ -62,6 +63,8 @@ export const Filters: React.FC<FiltersProps> = ({
   updateDynamicFilter
 }) => {
   const [showFilters, setShowFilters] = useState(false);
+  const t = useTranslations("Dashboard.CRM.Filters");
+  const tStatus = useTranslations("Dashboard.CRM.Status");
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4 transition-all duration-200 mx-4">
@@ -69,13 +72,13 @@ export const Filters: React.FC<FiltersProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-3">
         <div className="lg:col-span-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 rtl:left-auto rtl:right-3" />
             <input
               type="text"
-              placeholder="Search by customer name, email, or phone..."
+              placeholder={t("searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 rtl:pl-4 rtl:pr-10"
             />
           </div>
         </div>
@@ -86,7 +89,7 @@ export const Filters: React.FC<FiltersProps> = ({
             className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-gray-200 transition-all duration-200"
           >
             <Filter className="w-4 h-4" />
-            Filters
+            {t("filters")}
             {dynamicFilters.length > 0 && (
               <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
                 {dynamicFilters.length}
@@ -103,11 +106,11 @@ export const Filters: React.FC<FiltersProps> = ({
               }}
               className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
-              <option value="date-desc">Newest First</option>
-              <option value="date-asc">Oldest First</option>
-              <option value="customer-asc">Customer A-Z</option>
-              <option value="customer-desc">Customer Z-A</option>
-              <option value="priority-asc">Priority</option>
+              <option value="date-desc">{t("newestFirst")}</option>
+              <option value="date-asc">{t("oldestFirst")}</option>
+              <option value="customer-asc">{t("customerAZ")}</option>
+              <option value="customer-desc">{t("customerZA")}</option>
+              <option value="priority-asc">{t("priority")}</option>
             </select>
           </div>
         </div>
@@ -125,7 +128,7 @@ export const Filters: React.FC<FiltersProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Status Filter
+                  {t("statusFilter")}
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {['all', 'pending', 'confirmed', 'completed', 'cancelled', 'no-show'].map((status) => (
@@ -138,7 +141,7 @@ export const Filters: React.FC<FiltersProps> = ({
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                       }`}
                     >
-                      {status === 'all' ? 'All Statuses' : status.charAt(0).toUpperCase() + status.slice(1)}
+                      {status === 'all' ? t("allStatuses") : tStatus(status as any)}
                     </button>
                   ))}
                 </div>
@@ -146,14 +149,14 @@ export const Filters: React.FC<FiltersProps> = ({
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Service Type
+                  {t("serviceType")}
                 </label>
                 <select
                   value={serviceFilter}
                   onChange={(e) => setServiceFilter(e.target.value)}
                   className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
-                  <option value="all">All Services</option>
+                  <option value="all">{t("allServices")}</option>
                   {serviceTypes.map(service => (
                     <option key={service} value={service}>{service}</option>
                   ))}
@@ -162,7 +165,7 @@ export const Filters: React.FC<FiltersProps> = ({
 
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Date Range
+                  {t("dateRange")}
                 </label>
                 <div className="flex gap-2 items-center">
                   <input
@@ -186,13 +189,13 @@ export const Filters: React.FC<FiltersProps> = ({
             {addDynamicFilter && (
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-between items-center mb-3">
-                  <h4 className="text-sm font-medium text-gray-900">Advanced Filters</h4>
+                  <h4 className="text-sm font-medium text-gray-900">{t("advancedFilters")}</h4>
                   <button
                     onClick={addDynamicFilter}
                     className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
                   >
                     <Plus className="w-4 h-4" />
-                    Add Filter Rule
+                    {t("addFilterRule")}
                   </button>
                 </div>
                 
@@ -210,9 +213,9 @@ export const Filters: React.FC<FiltersProps> = ({
                         onChange={(e) => updateDynamicFilter?.(filter.id, { field: e.target.value })}
                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
                       >
-                        <option value="price">Price</option>
-                        <option value="people">People</option>
-                        <option value="duration">Duration</option>
+                        <option value="price">{t("Dynamic.price")}</option>
+                        <option value="people">{t("Dynamic.people")}</option>
+                        <option value="duration">{t("Dynamic.duration")}</option>
                       </select>
                       
                       <select
@@ -220,16 +223,16 @@ export const Filters: React.FC<FiltersProps> = ({
                         onChange={(e) => updateDynamicFilter?.(filter.id, { operator: e.target.value as any })}
                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
                       >
-                        <option value="equals">Equals</option>
-                        <option value="gt">Greater Than</option>
-                        <option value="lt">Less Than</option>
+                        <option value="equals">{t("Dynamic.equals")}</option>
+                        <option value="gt">{t("Dynamic.gt")}</option>
+                        <option value="lt">{t("Dynamic.lt")}</option>
                       </select>
                       
                       <input
                         type="text"
                         value={filter.value}
                         onChange={(e) => updateDynamicFilter?.(filter.id, { value: e.target.value })}
-                        placeholder="Value..."
+                        placeholder={t("Dynamic.valuePlaceholder")}
                         className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm"
                       />
                       
@@ -242,7 +245,7 @@ export const Filters: React.FC<FiltersProps> = ({
                     </motion.div>
                   ))}
                   {dynamicFilters.length === 0 && (
-                    <p className="text-sm text-gray-500 italic">No advanced filters applied.</p>
+                    <p className="text-sm text-gray-500 italic">{t("noAdvancedFilters")}</p>
                   )}
                 </div>
               </div>

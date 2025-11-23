@@ -1,7 +1,7 @@
 import React from "react";
 import { Metadata } from "next";
-import DashboardClient from "./components/DashboardClient";
 import { getTranslations } from "next-intl/server";
+import { SettingsClient } from "./components/SettingsClient";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -9,7 +9,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Dashboard.Home" });
+  const t = await getTranslations({ locale, namespace: "Dashboard.Settings" });
 
   return {
     title: t("title"),
@@ -17,6 +17,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function DashboardPage() {
-  return <DashboardClient />;
+export default function SettingsPage() {
+  return <SettingsClient />;
 }

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Booking, BookingFormData } from '../types';
-import { getBookings, createBooking, updateBooking, deleteBooking, updateBookingStatus, logActivity } from '../actions';
+import { getBookings, createBooking, updateBooking, deleteBooking, updateBookingStatus, logActivity } from '@/app/actions/crm';
 import { useFilters } from './useFilters';
 
 export const useBookings = (filters: ReturnType<typeof useFilters>) => {

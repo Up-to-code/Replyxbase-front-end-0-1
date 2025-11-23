@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Phone, Eye, Trash2, MapPin } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Booking } from '../../types';
 import { StatusBadge } from '../ui/Badges';
 import { Pagination } from '../shared/Pagination';
@@ -37,6 +38,8 @@ export const BookingTable: React.FC<BookingTableProps> = ({
   onPageChange,
   isLoading
 }) => {
+  const t = useTranslations("Dashboard.CRM.Bookings.Table");
+
   if (isLoading) {
     return (
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-200 mx-4">
@@ -44,12 +47,12 @@ export const BookingTable: React.FC<BookingTableProps> = ({
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Customer</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Contact</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Date & Time</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Service</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Status</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Actions</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("customer")}</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("contact")}</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("dateTime")}</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("service")}</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("status")}</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -69,12 +72,12 @@ export const BookingTable: React.FC<BookingTableProps> = ({
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
-              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Customer</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Contact</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Date & Time</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Service</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Status</th>
-              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm">Actions</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("customer")}</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("contact")}</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("dateTime")}</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("service")}</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("status")}</th>
+              <th className="text-left py-3 px-4 font-semibold text-gray-900 text-sm rtl:text-right">{t("actions")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">

@@ -108,11 +108,19 @@ interface RootLayoutProps {
   }>;
 }
 
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
+
 export default async function RootLayout({
   children,
   params,
 }: Readonly<RootLayoutProps>) {
   const { locale } = await params;
+
+  // Ensure that the incoming `locale` is valid
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
   
   // Set the locale for next-intl
   setRequestLocale(locale);

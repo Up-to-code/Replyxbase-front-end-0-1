@@ -40,23 +40,23 @@ export const USER = {
 };
 
 export const NOTIFICATIONS: Notification[] = [
-  { id: 1, label: "New message from Sarah", time: "2 min ago", type: "message", read: false },
-  { id: 2, label: "Payment received for order #2842", time: "1 hour ago", type: "payment", read: false },
-  { id: 3, label: "System update available", time: "2 hours ago", type: "update", read: true },
-  { id: 4, label: "Security alert: New login detected", time: "3 hours ago", type: "security", read: false },
-  { id: 5, label: "Your subscription renews in 7 days", time: "5 hours ago", type: "system", read: true },
-  { id: 6, label: "New follower: TechCorp Inc", time: "6 hours ago", type: "message", read: true },
-  { id: 7, label: "Download completed: Monthly report", time: "1 day ago", type: "system", read: true },
+  { id: 1, label: "messageFromSarah", time: "2minAgo", type: "message", read: false },
+  { id: 2, label: "paymentReceived", time: "1hourAgo", type: "payment", read: false },
+  { id: 3, label: "systemUpdate", time: "2hoursAgo", type: "update", read: true },
+  { id: 4, label: "securityAlert", time: "3hoursAgo", type: "security", read: false },
+  { id: 5, label: "subscriptionRenew", time: "5hoursAgo", type: "system", read: true },
+  { id: 6, label: "newFollower", time: "6hoursAgo", type: "message", read: true },
+  { id: 7, label: "downloadCompleted", time: "1dayAgo", type: "system", read: true },
 ];
 
 export const PROFILE_MENU: ProfileMenuItem[] = [
-  { label: "Profile", icon: User, href: "/dashboard/profile", description: "View your personal profile" },
-  { label: "Billing", icon: CreditCard, href: "/dashboard/billing", description: "Manage billing and subscription" },
-  { label: "Security", icon: Shield, href: "/dashboard/security", description: "Security and privacy settings" },
-  { label: "Downloads", icon: Download, href: "/dashboard/downloads", description: "Your downloaded files" },
-  { label: "Settings", icon: Settings, href: "/dashboard/settings", description: "Account and app settings" },
-  { label: "Help", icon: HelpCircle, href: "/dashboard/help", description: "Get help and support" },
-  { label: "Sign Out", icon: LogOut, action: "logout", description: "Sign out of your account" },
+  { label: "profile", icon: User, href: "/dashboard/profile", description: "profileDesc" },
+  { label: "billing", icon: CreditCard, href: "/dashboard/billing", description: "billingDesc" },
+  { label: "security", icon: Shield, href: "/dashboard/security", description: "securityDesc" },
+  { label: "downloads", icon: Download, href: "/dashboard/downloads", description: "downloadsDesc" },
+  { label: "settings", icon: Settings, href: "/dashboard/settings", description: "settingsDesc" },
+  { label: "help", icon: HelpCircle, href: "/dashboard/help", description: "helpDesc" },
+  { label: "signOut", icon: LogOut, action: "logout", description: "signOutDesc" },
 ];
 
 // Agent type icons mapping

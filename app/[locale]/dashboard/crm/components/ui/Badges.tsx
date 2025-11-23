@@ -1,5 +1,6 @@
 import React from 'react';
 import { Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Booking } from '../../types';
 
 /**
@@ -22,6 +23,8 @@ interface PriorityBadgeProps {
  * Displays a badge representing the booking status.
  */
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
+  const t = useTranslations("Dashboard.CRM.Status");
+  
   const statusConfig: Record<Booking['status'], { color: string, icon: React.ElementType }> = {
     pending: { color: 'bg-amber-100 text-amber-800 border-amber-200', icon: Clock },
     confirmed: { color: 'bg-emerald-100 text-emerald-800 border-emerald-200', icon: CheckCircle },
@@ -36,7 +39,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   return (
     <span className={`inline-flex items-center gap-1.5 px-2 py-1.5 rounded-full text-xs font-medium border ${config.color}`}>
       <Icon className="w-3 h-3" />
-      {status.charAt(0).toUpperCase() + status.slice(1)}
+      {t(status)}
     </span>
   );
 };
@@ -45,6 +48,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
  * Displays a badge representing the booking priority.
  */
 export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority }) => {
+  const t = useTranslations("Dashboard.CRM.Priority");
+
   const priorityConfig: Record<Booking['priority'], { color: string }> = {
     normal: { color: 'bg-gray-100 text-gray-800 border-gray-200' },
     high: { color: 'bg-orange-100 text-orange-800 border-orange-200' },
@@ -55,7 +60,7 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority }) => {
 
   return (
     <span className={`inline-flex items-center gap-1.5 px-2 py-1.5 rounded-full text-xs font-medium border ${config.color}`}>
-      {priority.charAt(0).toUpperCase() + priority.slice(1)}
+      {t(priority)}
     </span>
   );
 };

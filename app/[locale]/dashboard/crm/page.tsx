@@ -1,7 +1,6 @@
 import React from 'react'
 import CRM from './CRM'
-import { getBookings } from './actions/bookings'
-import { getCustomers } from './actions/customers'
+import { getBookings, getCustomers } from '@/app/actions/crm'
 
 async function page() {
   const [bookingsData, customers] = await Promise.all([

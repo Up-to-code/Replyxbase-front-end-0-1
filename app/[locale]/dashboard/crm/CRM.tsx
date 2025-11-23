@@ -6,7 +6,7 @@ import { Plus } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Booking, BookingFormData, CalendarView as CalendarViewType, MainView } from './types';
 import { useFilters } from './hooks/useFilters';
-import { getBookings, createBooking, updateBooking, deleteBooking } from './actions/bookings';
+import { getBookings, createBooking, updateBooking, deleteBooking } from '@/app/actions/crm';
 import { Header } from './components/shared/Header';
 import { Filters } from './components/shared/Filters';
 import { ViewToggle } from './components/shared/ViewToggle';

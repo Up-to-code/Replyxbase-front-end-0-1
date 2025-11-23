@@ -80,7 +80,7 @@ function NavigationButton({
       aria-current={isActive ? "page" : undefined}
     >
       <Icon className={`w-5 h-5 shrink-0 ${isActive ? "text-white" : "text-zinc-400 group-hover:text-white"}`} />
-      {sidebarOpen && <span className="ml-3 font-medium">{label}</span>}
+      {sidebarOpen && <span className="ms-3 font-medium">{label}</span>}
     </button>
   );
 }
@@ -101,7 +101,7 @@ function AgentButton({
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-center w-full px-4 py-3 rounded-lg transition-all duration-200 ease-in-out text-left group ${
+      className={`flex items-center w-full px-4 py-3 rounded-lg transition-all duration-200 ease-in-out text-start group ${
         isActive
           ? "bg-zinc-800 text-white border border-zinc-700"
           : "text-zinc-400 hover:text-white hover:bg-zinc-800"
@@ -112,7 +112,7 @@ function AgentButton({
           <div className="relative flex items-center justify-center">
             <AgentIcon className={`w-4 h-4 ${isActive ? "text-blue-400" : "text-zinc-400 group-hover:text-white"}`} />
             <div
-              className={`absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full border border-zinc-900 ${
+              className={`absolute -top-0.5 -end-0.5 w-2 h-2 rounded-full border border-zinc-900 ${
                 agent.status === "active" ? "bg-green-500" : "bg-zinc-500"
               }`}
             />
@@ -175,7 +175,7 @@ export function Sidebar({
 
   return (
     <aside
-      className={`bg-zinc-900 border-r border-zinc-800 ${
+      className={`bg-zinc-900 border-e border-zinc-800 ${
         sidebarOpen ? "w-64" : "w-20"
       } transition-all duration-300 flex flex-col`}
     >
@@ -205,7 +205,7 @@ export function Sidebar({
         >
           <Plus className="w-5 h-5" />
           {sidebarOpen && (
-            <span className="ml-3 font-medium">{t("createAgent")}</span>
+            <span className="ms-3 font-medium">{t("createAgent")}</span>
           )}
         </button>
 

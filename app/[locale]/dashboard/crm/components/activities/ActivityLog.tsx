@@ -1,6 +1,7 @@
 import React from 'react';
 import { Activity } from '../../types';
 import { Phone, Mail, FileText, Users, Clock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 /**
  * Props for the ActivityLog component.
@@ -14,6 +15,8 @@ interface ActivityLogProps {
  * Displays a chronological log of activities (calls, emails, notes, meetings).
  */
 export const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => {
+  const t = useTranslations("Dashboard.CRM.Activities.Log");
+  
   const getIcon = (type: Activity['type']) => {
     switch (type) {
       case 'call': return <Phone className="w-4 h-4 text-blue-500" />;
@@ -26,7 +29,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => {
   if (!activities || activities.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
-        <p>No activities recorded yet.</p>
+        <p>{t("noActivities")}</p>
       </div>
     );
   }
@@ -48,7 +51,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => {
             </div>
             <p className="text-sm text-gray-600 mt-1 whitespace-pre-wrap">{activity.content}</p>
             <div className="mt-2 text-xs text-gray-400">
-              Logged by {activity.createdBy}
+              {t("loggedBy", { name: activity.createdBy })}
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Booking } from '../../types';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
@@ -28,6 +29,7 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
   booking
 }) => {
   const modalRef = useOutsideClick(onClose);
+  const t = useTranslations("Dashboard.CRM.Bookings.DeleteModal");
 
   return (
     <AnimatePresence>
@@ -55,8 +57,8 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
                   <AlertCircle className="w-5 h-5 text-rose-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Delete Booking</h3>
-                  <p className="text-sm text-gray-600">This action cannot be undone</p>
+                  <h3 className="text-lg font-semibold text-gray-900">{t("title")}</h3>
+                  <p className="text-sm text-gray-600">{t("subtitle")}</p>
                 </div>
               </div>
               
@@ -71,7 +73,7 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
               )}
               
               <p className="text-gray-700 mb-6">
-                Are you sure you want to delete this booking? All associated data will be permanently removed.
+                {t("confirmation")}
               </p>
               
               <div className="flex gap-3">
@@ -79,13 +81,13 @@ export const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = (
                   onClick={onClose}
                   className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-all duration-200"
                 >
-                  Cancel
+                  {t("cancel")}
                 </button>
                 <button
                   onClick={onConfirm}
                   className="flex-1 px-4 py-2 bg-rose-600 text-white rounded-lg font-medium hover:bg-rose-700 transition-all duration-200"
                 >
-                  Delete Booking
+                  {t("delete")}
                 </button>
               </div>
             </div>

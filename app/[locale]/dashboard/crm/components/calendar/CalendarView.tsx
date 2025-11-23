@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight, Clock, Users, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { Booking, CalendarView } from '../../types';
 import { StatusBadge } from '../ui/Badges';
 import { generateTimeSlots, getDaysInMonth } from '../../utils';
@@ -19,6 +20,8 @@ const CalendarSwitcher: React.FC<CalendarSwitcherProps> = ({
   view,
   onViewChange
 }) => {
+  const t = useTranslations("Dashboard.CRM.Calendar");
+
   const navigateDate = (direction: 'prev' | 'next') => {
     const newDate = new Date(currentDate);
     
@@ -38,6 +41,8 @@ const CalendarSwitcher: React.FC<CalendarSwitcherProps> = ({
   };
 
   const formatHeaderDate = () => {
+    // Note: In a real app, you'd want to use useFormatter from next-intl for date formatting
+    // to respect the current locale. For now, we'll stick to the existing logic but it could be improved.
     switch (view) {
       case 'month':
         return currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
@@ -65,7 +70,7 @@ const CalendarSwitcher: React.FC<CalendarSwitcherProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigateDate('prev')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 rtl:rotate-180"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -73,11 +78,11 @@ const CalendarSwitcher: React.FC<CalendarSwitcherProps> = ({
             onClick={() => onDateChange(new Date())}
             className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-200"
           >
-            Today
+            {t("today")}
           </button>
           <button
             onClick={() => navigateDate('next')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 rtl:rotate-180"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -95,7 +100,7 @@ const CalendarSwitcher: React.FC<CalendarSwitcherProps> = ({
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
+            {t(viewType)}
           </button>
         ))}
       </div>
@@ -138,6 +143,8 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
   onViewChange,
   isLoading = false
 }) => {
+  const t = useTranslations("Dashboard.CRM.Calendar");
+  
   const getBookingsForDate = (date: Date): Booking[] => {
     return bookings.filter(booking => 
       booking.date.toDateString() === date.toDateString()
@@ -229,7 +236,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                     ))}
                     {dayBookings.length > 3 && (
                       <div className="text-xs text-gray-500 text-center">
-                        +{dayBookings.length - 3} more
+                        {t("more", { count: dayBookings.length - 3 })}
                       </div>
                     )}
                   </div>
