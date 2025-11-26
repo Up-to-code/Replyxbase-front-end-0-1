@@ -124,22 +124,6 @@ export const Pagination: React.FC<PaginationProps> = ({
 
     const pageSizes = [10, 25, 50, 100];
 
-    return (
-      <div className="flex items-center gap-2">
-        <span className="text-gray-600 text-sm">{t("show")}</span>
-        <select
-          value={pageSize}
-          onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-          className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {pageSizes.map(size => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
   };
 
   // Minimal variant - just previous/next

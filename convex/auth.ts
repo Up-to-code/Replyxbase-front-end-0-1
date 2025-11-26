@@ -1,11 +1,13 @@
 import { createClient, type GenericCtx } from "@convex-dev/better-auth";
 import { convex } from "@convex-dev/better-auth/plugins";
+import { organization } from "better-auth/plugins";
 import { components } from "./_generated/api";
 import { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
 import { betterAuth } from "better-auth";
 import { polar, checkout, portal, usage, webhooks } from "@polar-sh/better-auth";
 import { Polar } from "@polar-sh/sdk";
+import { customAdapter } from "./customAdapter";
 
 const siteUrl = process.env.SITE_URL ?? process.env.CONVEX_SITE_URL ?? "http://localhost:3000";
 
@@ -25,7 +27,7 @@ export const createAuth = (
       level: "debug",
     },
     baseURL: siteUrl,
-    database: authComponent.adapter(ctx),
+    database: customAdapter(ctx),
     user: {
       modelName: "user",
     },
@@ -46,6 +48,8 @@ export const createAuth = (
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex(),
+      // Organization plugin for multi-tenant support
+      organization(),
       // ...(process.env.POLAR_ACCESS_TOKEN && process.env.POLAR_ACCESS_TOKEN !== "your_polar_access_token_here"
       //   ? [
       //       polar({

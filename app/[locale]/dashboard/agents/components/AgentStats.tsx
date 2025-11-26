@@ -41,7 +41,7 @@ export const AgentStats: React.FC = () => {
       value: '1,234',
       change: 12.5,
       icon: MessageSquare,
-      color: 'bg-blue-500 text-blue-600'
+      color: 'bg-primary text-primary'
     },
     {
       title: t('activeUsers'),

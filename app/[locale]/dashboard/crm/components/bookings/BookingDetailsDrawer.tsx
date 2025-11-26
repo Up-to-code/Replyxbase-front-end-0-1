@@ -100,14 +100,14 @@ export const BookingDetailsDrawer: React.FC<BookingDetailsDrawerProps> = ({
                              router.push(`/dashboard/inbox?customerId=${booking.customer.id}`);
                           }
                         }}
-                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                        className="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
                         title={t("chatTooltip")}
                       >
                         <MessageSquare className="w-5 h-5" />
                       </button>
                       <button
                         onClick={() => onEdit(booking)}
-                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                        className="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
                         title={t("editTooltip")}
                       >
                         <Edit2 className="w-5 h-5" />
@@ -230,7 +230,7 @@ export const BookingDetailsDrawer: React.FC<BookingDetailsDrawerProps> = ({
                     {booking.notes && (
                       <div className="space-y-3">
                         <h4 className="font-semibold text-gray-900">{t("internalNotes")}</h4>
-                        <p className="text-sm text-gray-700 bg-blue-50 p-3 rounded-lg">
+                        <p className="text-sm text-gray-700 bg-primary/5 p-3 rounded-lg">
                           {booking.notes}
                         </p>
                       </div>

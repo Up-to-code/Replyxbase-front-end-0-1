@@ -23,7 +23,7 @@ export const Rating: React.FC<RatingProps> = ({ rating }) => {
           className={`w-4 h-4 ${
             i < rating
               ? 'text-amber-400 fill-current'
-              : 'text-gray-300'
+              : 'text-gray-200'
           }`}
         />
       ))}

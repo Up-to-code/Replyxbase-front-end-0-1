@@ -200,7 +200,7 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
         <div className="flex flex-col gap-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+              <h1 className="text-2xl font-bold text-primary">{t("title")}</h1>
               <p className="text-sm text-gray-500 mt-1">{t("subtitle")}</p>
             </div>
             <div className="flex items-center gap-3">
@@ -211,7 +211,7 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
                   setSelectedBooking(null);
                   setIsFormOpen(true);
                 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium shadow-sm shadow-blue-200"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors duration-200 font-medium shadow-none"
               >
                 <Plus className="w-4 h-4" />
                 {t("newCustomer")}
@@ -309,24 +309,11 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
                   setSelectedBooking(booking);
                   setIsDetailsOpen(true);
                 }}
-                onStatusChange={async (bookingId, newStatus) => {
-                   // Optimistic update
-                   setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status: newStatus } : b));
-                   try {
-                     const { updateBookingStatus } = await import('./actions/bookings');
-                     await updateBookingStatus(bookingId, newStatus);
-                     showToast('Status updated');
-                   } catch (error) {
-                     console.error('Failed to update status', error);
-                     showToast('Failed to update status', 'error');
-                     fetchBookings();
-                   }
-                }}
                 onUpdateBooking={async (updatedBooking) => {
                   // Optimistic update
                   setBookings(prev => prev.map(b => b.id === updatedBooking.id ? updatedBooking : b));
                   try {
-                    const { updateBooking } = await import('./actions/bookings');
+                    const { updateBooking } = await import('@/app/actions/crm');
                     // We need to convert Booking to BookingFormData
                     const formData: BookingFormData = {
                       customer: {

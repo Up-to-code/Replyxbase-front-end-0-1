@@ -23,7 +23,7 @@ export const SidebarHeader: React.FC<SidebarHeaderProps> = ({ searchTerm, setSea
             placeholder={t("searchPlaceholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 rounded-xl transition-all duration-200 text-base rtl:pl-4 rtl:pr-10"
+            className="w-full pl-10 pr-4 py-3 bg-gray-50 border-transparent focus:bg-white focus:border-[#2A4D9A] focus:ring-1 focus:ring-[#2A4D9A] rounded-xl transition-all duration-200 text-base rtl:pl-4 rtl:pr-10"
           />
         </div>
       </div>

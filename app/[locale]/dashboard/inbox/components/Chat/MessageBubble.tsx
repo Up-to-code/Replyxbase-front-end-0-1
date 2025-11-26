@@ -44,9 +44,9 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
             isError
               ? 'bg-red-50 border border-red-100 text-red-800 rounded-br-none'
               : isUser 
-              ? 'bg-gray-900 text-white rounded-br-none' 
+              ? 'bg-[#2A4D9A] text-white rounded-br-none' 
               : isAI
-              ? 'bg-purple-600 text-white rounded-br-none'
+              ? 'bg-gradient-to-r from-[#2A4D9A] to-blue-600 text-white rounded-br-none'
               : 'bg-gray-100 text-gray-800 rounded-bl-none'
           }`}
         >

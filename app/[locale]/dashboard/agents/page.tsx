@@ -1,38 +1,12 @@
-'use client';
-
 import React from 'react';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Plus, Search, Filter } from 'lucide-react';
 import Link from 'next/link';
 import { AgentCard } from './components/AgentCard';
+import { agentsList } from '@/app/lib/mock-data';
 
-export default function AgentsPage() {
-  const t = useTranslations("Dashboard.Agents");
-
-  // Mock data - replace with real data fetching
-  const agents = [
-    {
-      id: '1',
-      name: 'Support Bot',
-      role: 'Customer Support',
-      status: 'active' as const,
-      stats: { conversations: 1250, users: 850, satisfaction: 98 }
-    },
-    {
-      id: '2',
-      name: 'Sales Assistant',
-      role: 'Sales',
-      status: 'active' as const,
-      stats: { conversations: 850, users: 420, satisfaction: 95 }
-    },
-    {
-      id: '3',
-      name: 'Onboarding Helper',
-      role: 'Assistant',
-      status: 'training' as const,
-      stats: { conversations: 120, users: 45, satisfaction: 88 }
-    }
-  ];
+export default async function AgentsPage() {
+  const t = await getTranslations("Dashboard.Agents");
 
   return (
     <div className="p-8 max-w-7xl mx-auto animate-fade-in">
@@ -44,7 +18,7 @@ export default function AgentsPage() {
         </div>
         <Link 
           href="/dashboard/agents/create"
-          className="inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition-colors font-medium shadow-lg shadow-gray-200"
+          className="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-xl hover:bg-primary/90 transition-colors font-medium"
         >
           <Plus className="w-5 h-5" />
           {t('createAgent')}
@@ -58,10 +32,10 @@ export default function AgentsPage() {
           <input 
             type="text" 
             placeholder={t('searchPlaceholder')}
-            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all outline-none"
+            className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-100 focus:border-gray-300 focus:ring-0 transition-all outline-none bg-white"
           />
         </div>
-        <button className="flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors font-medium text-gray-700">
+        <button className="flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-100 hover:bg-gray-50 transition-colors font-medium text-gray-700 bg-white">
           <Filter className="w-5 h-5" />
           {t('filter')}
         </button>
@@ -69,7 +43,7 @@ export default function AgentsPage() {
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {agents.map((agent) => (
+        {agentsList.map((agent) => (
           <AgentCard key={agent.id} {...agent} />
         ))}
       </div>

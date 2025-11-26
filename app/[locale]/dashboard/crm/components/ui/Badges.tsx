@@ -24,16 +24,16 @@ interface PriorityBadgeProps {
  */
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   const t = useTranslations("Dashboard.CRM.Status");
-  
-  const statusConfig: Record<Booking['status'], { color: string, icon: React.ElementType }> = {
-    pending: { color: 'bg-amber-100 text-amber-800 border-amber-200', icon: Clock },
-    confirmed: { color: 'bg-emerald-100 text-emerald-800 border-emerald-200', icon: CheckCircle },
-    cancelled: { color: 'bg-rose-100 text-rose-800 border-rose-200', icon: XCircle },
-    completed: { color: 'bg-blue-100 text-blue-800 border-blue-200', icon: CheckCircle },
-    'no-show': { color: 'bg-gray-100 text-gray-800 border-gray-200', icon: AlertCircle }
+
+  const statusConfig: Record<Booking['status'], { icon: any; color: string }> = {
+    pending: { icon: Clock, color: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+    confirmed: { icon: CheckCircle, color: 'bg-blue-100 text-blue-800 border-blue-200' },
+    completed: { icon: CheckCircle, color: 'bg-primary/10 text-primary border-primary/20' },
+    cancelled: { icon: XCircle, color: 'bg-red-100 text-red-800 border-red-200' },
+    'no-show': { icon: AlertCircle, color: 'bg-gray-100 text-gray-800 border-gray-200' }
   };
 
-  const config = statusConfig[status];
+  const config = statusConfig[status] || statusConfig.pending;
   const Icon = config.icon;
 
   return (

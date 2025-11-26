@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { Camera } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 export const ProfileSettings: React.FC = () => {
   const t = useTranslations("Dashboard.Settings.Profile");
@@ -62,13 +63,13 @@ export const ProfileSettings: React.FC = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-4 pt-8 border-t border-gray-100">
-          <button className="bg-gray-900 text-white hover:bg-gray-800 px-8 py-3.5 rounded-lg text-sm font-semibold transition-all">
+        <div className="flex items-center gap-4 pt-8 border-t border-border">
+          <Button variant="primary" className="px-8 py-3.5 h-auto text-sm font-semibold">
             {t("form.save")}
-          </button>
-          <button className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 px-6 py-3.5 rounded-lg text-sm font-medium transition-colors">
+          </Button>
+          <Button variant="ghost" className="px-6 py-3.5 h-auto text-sm font-medium">
             {t("form.cancel")}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

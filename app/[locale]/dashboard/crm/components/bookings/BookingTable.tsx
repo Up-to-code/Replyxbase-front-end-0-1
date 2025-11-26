@@ -84,20 +84,16 @@ export const BookingTable: React.FC<BookingTableProps> = ({
             {bookings.map((booking) => (
               <tr 
                 key={booking.id} 
-                className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                className="hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
                 onClick={() => onView(booking)}
               >
                 <td className="py-3 px-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                      <span className="text-blue-600 font-medium text-sm">
-                        {booking.customer.fullName.charAt(0)}
-                      </span>
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-medium text-sm">
+                      {booking.customer.fullName.charAt(0)}
                     </div>
                     <div>
-                      <div className="font-medium text-gray-900 text-sm">
-                        {booking.customer.fullName}
-                      </div>
+                      <div className="font-medium text-gray-900">{booking.customer.fullName}</div>
                       {booking.customer.company && (
                         <div className="text-xs text-gray-500">
                           {booking.customer.company}
@@ -147,7 +143,7 @@ export const BookingTable: React.FC<BookingTableProps> = ({
                         e.stopPropagation();
                         onView(booking);
                       }}
-                      className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors duration-200"
+                      className="p-2 text-primary hover:bg-primary/10 rounded transition-colors duration-200"
                     >
                       <Eye className="w-4 h-4" />
                     </button>

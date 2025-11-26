@@ -19,9 +19,37 @@ export default defineSchema({
     updatedAt: v.number(),
     ipAddress: v.optional(v.string()),
     userAgent: v.optional(v.string()),
+    activeOrganizationId: v.optional(v.string()),
   })
     .index("by_token", ["token"])
     .index("by_userId", ["userId"]),
+  organization: defineTable({
+    name: v.string(),
+    slug: v.string(),
+    logo: v.optional(v.string()),
+    createdAt: v.number(),
+    metadata: v.optional(v.any()),
+  }).index("by_slug", ["slug"]),
+  member: defineTable({
+    organizationId: v.id("organization"),
+    userId: v.id("user"),
+    role: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_orgId", ["organizationId"])
+    .index("by_userId", ["userId"])
+    .index("by_orgId_userId", ["organizationId", "userId"]),
+  invitation: defineTable({
+    organizationId: v.id("organization"),
+    email: v.string(),
+    role: v.optional(v.string()),
+    status: v.string(),
+    expiresAt: v.number(),
+    inviterId: v.id("user"),
+    createdAt: v.number(),
+  })
+    .index("by_orgId", ["organizationId"])
+    .index("by_email", ["email"]),
   account: defineTable({
     userId: v.id("user"),
     accountId: v.string(),

@@ -37,3 +37,23 @@ export interface ProfileMenuItem {
   action?: string;
   description?: string;
 }
+
+export interface Organization {
+  id: string;
+  name: string;
+  slug: string;
+  logo?: string;
+  createdAt: number;
+  metadata?: {
+    plan?: string;
+    [key: string]: any;
+  };
+}
+
+export interface OrganizationMember {
+  id: string;
+  organizationId: string;
+  userId: string;
+  role: "owner" | "admin" | "member";
+  createdAt: number;
+}

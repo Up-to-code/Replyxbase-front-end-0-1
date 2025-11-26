@@ -58,7 +58,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         {/* CRM Profile Link */}
         <button
           onClick={() => router.push(`/dashboard/crm?customerId=${conversation.customerId}`)}
-          className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+          className="p-2 text-gray-400 hover:text-[#2A4D9A] hover:bg-blue-50 rounded-full transition-colors"
           title={t("goToCRM")}
         >
           <UserCheck className="w-5 h-5" />
@@ -81,7 +81,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
             onClick={() => setIsAIMode(true)}
             className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
               isAIMode 
-                ? 'bg-purple-600 text-white shadow-sm' 
+                ? 'bg-[#2A4D9A] text-white shadow-sm' 
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >

@@ -31,8 +31,8 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({ activeTab, set
             onClick={() => setActiveTab(item.id)}
             className={`w-full flex items-center gap-4 px-6 py-4 text-base font-medium rounded-lg transition-all duration-200
               ${isActive 
-                ? 'bg-gray-900 text-white' 
-                : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
+                ? 'bg-primary text-primary-foreground' 
+                : 'text-muted-foreground hover:text-foreground hover:bg-accent'
               }`}
           >
             <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-900'}`} />

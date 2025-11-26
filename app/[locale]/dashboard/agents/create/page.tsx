@@ -15,7 +15,7 @@ export default function CreateAgentPage() {
       <div className="mb-10">
         <Link 
           href="/dashboard/agents" 
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 mb-4 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary mb-4 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 rtl:hidden" />
           <ArrowRight className="w-4 h-4 ltr:hidden" />

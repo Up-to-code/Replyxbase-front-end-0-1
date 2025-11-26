@@ -15,13 +15,13 @@ const cairo = Cairo({
 
 // SEO Configuration
 const SITE_CONFIG = {
-  title: "ChatLink - AI Agent Platform",
-  description: "Build, manage, and deploy AI agents with ChatLink's powerful platform",
-  keywords: "AI, chatbots, automation, CRM, agents, automation",
-  authors: [{ name: "ChatLink Team" }],
-  creator: "ChatLink",
-  publisher: "ChatLink",
-  metadataBase: new URL("https://chatlink.ai"),
+  title: "Replyxbase - AI Customer Support & Sales Automation",
+  description: "Connect WhatsApp, Telegram, and Webchat to a single AI that handles support, sales, and bookings automatically.",
+  keywords: "AI, chatbots, automation, CRM, agents, whatsapp, telegram, customer support, sales automation",
+  authors: [{ name: "Replyxbase Team" }],
+  creator: "Replyxbase",
+  publisher: "Replyxbase",
+  metadataBase: new URL("https://replyxbase.com"),
 };
 
 export const metadata: Metadata = {
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_CONFIG.title,
     description: SITE_CONFIG.description,
-    creator: "@chatconnect",
+    creator: "@replyxbase",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -147,7 +147,7 @@ export default async function RootLayout({
         <meta name="theme-color" content="#0064e0" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="ChatConnect" />
+        <meta name="apple-mobile-web-app-title" content="Replyxbase" />
         
         {/* Preload critical resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

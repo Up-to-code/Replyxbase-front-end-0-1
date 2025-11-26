@@ -167,25 +167,23 @@ export const Filters: React.FC<FiltersProps> = ({
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   {t("dateRange")}
                 </label>
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2">
                   <input
                     type="date"
-                    value={dateRange?.start ? dateRange.start.toISOString().split('T')[0] : ''}
-                    onChange={(e) => setDateRange?.({ ...dateRange, start: e.target.value ? new Date(e.target.value) : null, end: dateRange.end })}
-                    className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={dateRange.start ? dateRange.start.toISOString().split('T')[0] : ''}
+                    onChange={(e) => setDateRange && setDateRange({ ...dateRange, start: e.target.value ? new Date(e.target.value) : null })}
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   />
-                  <span className="text-gray-500">-</span>
                   <input
                     type="date"
-                    value={dateRange?.end ? dateRange.end.toISOString().split('T')[0] : ''}
-                    onChange={(e) => setDateRange?.({ ...dateRange, start: dateRange.start, end: e.target.value ? new Date(e.target.value) : null })}
-                    className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    value={dateRange.end ? dateRange.end.toISOString().split('T')[0] : ''}
+                    onChange={(e) => setDateRange && setDateRange({ ...dateRange, end: e.target.value ? new Date(e.target.value) : null })}
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Dynamic Filters Section */}
             {addDynamicFilter && (
               <div className="border-t border-gray-200 pt-4">
                 <div className="flex justify-between items-center mb-3">

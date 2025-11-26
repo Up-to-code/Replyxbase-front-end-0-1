@@ -208,22 +208,19 @@
         "help": "Help Center",
         "privacy": "Privacy",
         "terms": "Terms",
-        "security": "Security",
-        "status": "Status",
-        "resources": "Resources",
-        "company": "Company"
+        "security": "Security"
       }
     },
     "Widget": {
       "callout": "Chat with AI",
       "title": "Replyxbase AI",
       "online": "Online",
-      "welcome": "Hello! 👋 I'm the Replyxbase AI assistant. How can I help you today?",
+      "welcome": "Hello! 👋 I'm Replyxbase's AI assistant. How can I help you today?",
       "placeholder": "Type your message...",
       "poweredBy": "Powered by Replyxbase",
-      "aiResponseDefault": "I can help with that! Replyxbase is designed to streamline your support. Want a demo?",
-      "aiResponsePricing": "Our pricing starts at $0/mo. The Pro plan is $39/mo. Check out the Pricing section!",
-      "aiResponseWhatsapp": "Yes, we support WhatsApp Business API! You can manage it all from here."
+      "aiResponseDefault": "I can help you with that! Replyxbase is designed to streamline your customer support. Would you like a demo?",
+      "aiResponsePricing": "Our plans start at $0/mo. Pro plan is $39/mo. Visit our pricing page for details!",
+      "aiResponseWhatsapp": "Yes, we fully support WhatsApp Business API! You can manage everything from here."
     }
   },
   "Auth": {
@@ -231,31 +228,107 @@
       "title": "Welcome back",
       "subtitle": "Enter your email to sign in to your account",
       "google": "Google",
-      "github": "Github",
+      "github": "GitHub",
       "or": "Or continue with",
       "emailPlaceholder": "name@example.com",
       "passwordPlaceholder": "Password",
       "submit": "Sign In",
-      "forgotPassword": "Forgot your password?",
+      "forgotPassword": "Forgot password?",
       "noAccount": "Don't have an account?",
-      "signUpLink": "Sign up"
+      "signUpLink": "Sign Up",
+      "error": "Something went wrong. Please try again.",
+      "success": "Signed in successfully!",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "signIn": "Sign In",
+      "signUp": "Sign Up"
     },
     "Signup": {
       "title": "Create an account",
-      "subtitle": "Enter your email below to create your account",
+      "subtitle": "Start your free trial today",
       "namePlaceholder": "Full Name",
       "submit": "Create Account",
       "hasAccount": "Already have an account?",
-      "signInLink": "Sign in"
+      "signInLink": "Sign In",
+      "error": "Something went wrong. Please try again.",
+      "success": "Account created successfully!",
+      "fullName": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "signOut": "Sign Out"
+    },
+    "LogoutModal": {
+      "title": "Sign Out",
+      "description": "Are you sure you want to sign out? You will need to sign in again to access your account.",
+      "cancel": "Cancel",
+      "confirm": "Sign Out"
     }
   },
   "Dashboard": {
+    "createAgent": "Create Agent",
+    "existingAgents": "Existing Agents",
+    "Header": {
+      "organizations": "Organizations",
+      "available": "Available",
+      "createOrganization": "Create Organization"
+    },
+    "ProfileMenu": {
+      "profile": "Profile",
+      "profileDesc": "View your personal profile",
+      "billing": "Billing",
+      "billingDesc": "Manage billing and subscription",
+      "security": "Security",
+      "securityDesc": "Security and privacy settings",
+      "downloads": "Downloads",
+      "downloadsDesc": "Your downloaded files",
+      "settings": "Settings",
+      "settingsDesc": "Account and app settings",
+      "help": "Help",
+      "helpDesc": "Get help and support",
+      "signOut": "Sign Out",
+      "signOutDesc": "Sign out of your account"
+    },
+    "Notifications": {
+      "messageFromSarah": "New message from Sarah",
+      "paymentReceived": "Payment received for order #2842",
+      "systemUpdate": "System update available",
+      "securityAlert": "Security alert: New login detected",
+      "subscriptionRenew": "Your subscription renews in 7 days",
+      "newFollower": "New follower: TechCorp Inc",
+      "downloadCompleted": "Download completed: Monthly report",
+      "2minAgo": "2 min ago",
+      "1hourAgo": "1 hour ago",
+      "2hoursAgo": "2 hours ago",
+      "3hoursAgo": "3 hours ago",
+      "5hoursAgo": "5 hours ago",
+      "6hoursAgo": "6 hours ago",
+      "1dayAgo": "1 day ago"
+    },
+    "Sidebar": {
+      "dashboard": "Dashboard",
+      "home": "Home",
+      "inbox": "Inbox",
+      "agents": "Agents",
+      "crm": "CRM",
+      "settings": "Settings"
+    },
     "Home": {
       "title": "Dashboard",
-      "subtitle": "Welcome back, here's what's happening with your agents today.",
+      "subtitle": "Welcome back! Here's what's happening with your business today.",
       "downloadReport": "Download Report",
       "createAgent": "Create New Agent",
       "stats": {
+        "totalConversations": "Total Conversations",
+        "activeUsers": "Active Users",
+        "avgResponseTime": "Avg Response Time",
+        "satisfactionRate": "Satisfaction Rate",
+        "conversations": "Conversations",
+        "revenue": "Revenue",
+        "leads": "Leads",
+        "customers": "Customers",
+        "loading": "Loading chart data...",
         "messages": "Total Messages",
         "sales": "Sales Conversions",
         "csat": "CSAT Score",
@@ -304,17 +377,6 @@
         "viewDashboard": "View Dashboard"
       },
       "Stats": {
-        "totalConversations": "Total Conversations",
-        "activeUsers": "Active Users",
-        "avgResponseTime": "Avg Response Time",
-        "satisfactionRate": "Satisfaction Rate"
-      },
-      "Detail": {
-        "backToAgents": "Back to Agents",
-        "lastActive": "Active {time}",
-        "share": "Share",
-        "settings": "Settings",
-        "testAgent": "Test Agent",
         "overview": "Overview",
         "tabs": {
           "overview": "Overview",
@@ -326,143 +388,8 @@
           "title": "Active Integrations",
           "subtitle": "Manage connected channels",
           "add": "Add Channel"
-        },
-        "settingsTab": {
-          "title": "Agent Configuration",
-          "subtitle": "Update your agent's core settings",
-          "save": "Save Changes"
-        },
-        "activity": {
-          "title": "Recent Activity",
-          "subtitle": "Latest actions performed by this agent",
-          "2": "Knowledge",
-          "3": "Channels"
-        },
-        "basicInfo": {
-          "title": "Agent Identity",
-          "subtitle": "Give your agent a name and personality."
-        },
-        "form": {
-          "name": "Agent Name",
-          "namePlaceholder": "e.g. Support Bot",
-          "role": "Primary Role",
-          "tone": "Tone of Voice",
-          "model": "LLM Model",
-          "capabilities": "Capabilities"
-        },
-        "roles": {
-          "support": "Customer Support",
-          "sales": "Sales Representative",
-          "assistant": "Personal Assistant"
-        },
-        "models": {
-          "gpt4": "GPT-4o",
-          "claude": "Claude 3.5 Sonnet",
-          "gemini": "Gemini 1.5 Pro"
-        },
-        "capabilitiesList": {
-          "crm": "CRM Access",
-          "booking": "Booking Management",
-          "support": "General Support"
-        },
-        "tones": {
-          "professional": "Professional",
-          "friendly": "Friendly",
-          "empathetic": "Empathetic"
-        },
-        "knowledge": {
-          "title": "Knowledge Base",
-          "subtitle": "Manage agent knowledge sources",
-          "manage": "Manage",
-          "uploadTitle": "Upload Documents",
-          "uploadDesc": "Drag and drop your files here or click to browse.",
-          "systemPromptPlaceholder": "You are a helpful assistant...",
-          "systemPromptLabel": "System Prompt",
-          "improveWithAI": "Improve with AI"
-        },
-        "successTitle": "Agent Created Successfully!",
-        "successSubtitle": "Your agent is now ready to be trained and deployed.",
-        "goToDashboard": "Go to Dashboard",
-        "industry": "Industry",
-        "industries": {
-          "realEstate": "Real Estate",
-          "ecommerce": "E-commerce",
-          "healthcare": "Healthcare",
-          "technology": "Technology",
-          "finance": "Finance",
-          "other": "Other"
-        },
-        "channels": {
-          "title": "Connect Channels",
-          "subtitle": "Where should this agent be active?",
-          "whatsappDesc": "Connect to WhatsApp Business API",
-          "telegramDesc": "Connect via Telegram Bot API",
-          "webDesc": "Embed on your website"
-        },
-        "common": {
-          "or": "OR",
-          "back": "Back",
-          "next": "Next Step",
-          "create": "Create Agent"
         }
       }
-    },
-    "createAgent": "Create Agent",
-    "existingAgents": "Existing Agents",
-    "Header": {
-      "searchPlaceholder": "Search...",
-      "notifications": "Notifications",
-      "markAllRead": "Mark all read",
-      "viewAll": "View all",
-      "unreadMessages": "You have {count} unread messages",
-      "viewAllNotifications": "View all notifications",
-      "profile": "Profile",
-      "billing": "Billing",
-      "security": "Security",
-      "downloads": "Downloads",
-      "settings": "Settings",
-      "help": "Help",
-      "signOut": "Sign Out",
-      "Notifications": {
-        "messageFromSarah": "New message from Sarah",
-        "paymentReceived": "Payment received for order #2842",
-        "systemUpdate": "System update available",
-        "securityAlert": "Security alert: New login detected",
-        "subscriptionRenew": "Your subscription renews in 7 days",
-        "newFollower": "New follower: TechCorp Inc",
-        "downloadCompleted": "Download completed: Monthly report",
-        "2minAgo": "2 min ago",
-        "1hourAgo": "1 hour ago",
-        "2hoursAgo": "2 hours ago",
-        "3hoursAgo": "3 hours ago",
-        "5hoursAgo": "5 hours ago",
-        "6hoursAgo": "6 hours ago",
-        "1dayAgo": "1 day ago"
-      },
-      "ProfileMenu": {
-        "profile": "Profile",
-        "profileDesc": "View your personal profile",
-        "billing": "Billing",
-        "billingDesc": "Manage billing and subscription",
-        "security": "Security",
-        "securityDesc": "Security and privacy settings",
-        "downloads": "Downloads",
-        "downloadsDesc": "Your downloaded files",
-        "settings": "Settings",
-        "settingsDesc": "Account and app settings",
-        "help": "Help",
-        "helpDesc": "Get help and support",
-        "signOut": "Sign Out",
-        "signOutDesc": "Sign out of your account"
-      }
-    },
-    "Sidebar": {
-      "dashboard": "Dashboard",
-      "home": "Home",
-      "inbox": "Inbox",
-      "agents": "Agents",
-      "crm": "CRM",
-      "settings": "Settings"
     },
     "CRM": {
       "title": "Bookings & CRM",
@@ -488,7 +415,7 @@
       "Form": {
         "newTitle": "New Booking",
         "editTitle": "Edit Booking",
-        "customerInfo": "Customer Information",
+        "customerInfo": "Customer Info",
         "fullName": "Full Name",
         "email": "Email",
         "phone": "Phone",
@@ -496,11 +423,27 @@
         "bookingDetails": "Booking Details",
         "date": "Date",
         "startTime": "Start Time",
-        "duration": "Duration (minutes)",
-        "people": "Number of People",
+        "duration": "Duration (min)",
+        "people": "People",
         "serviceType": "Service Type",
         "status": "Status",
-        "additionalInfo": "Additional Information"
+        "additionalInfo": "Additional Info",
+        "specialRequests": "Special Requests",
+        "internalNotes": "Internal Notes",
+        "cancel": "Cancel",
+        "create": "Create Booking",
+        "update": "Update Booking"
+      },
+      "Header": {
+        "title": "Bookings Management",
+        "subtitle": "Manage all your bookings in one place",
+        "refresh": "Refresh",
+        "newBooking": "New Booking"
+      },
+      "ViewToggle": {
+        "table": "Table View",
+        "calendar": "Calendar View",
+        "kanban": "Kanban"
       },
       "Filters": {
         "searchPlaceholder": "Search by customer name, email, or phone...",
@@ -535,42 +478,53 @@
       "Status": {
         "pending": "Pending",
         "confirmed": "Confirmed",
-        "cancelled": "Cancelled"
+        "cancelled": "Cancelled",
+        "completed": "Completed",
+        "no-show": "No Show"
       },
-      "Table": {
-        "dateTime": "Date & Time",
-        "service": "Service",
-        "status": "Status",
-        "actions": "Actions"
+      "Priority": {
+        "normal": "Normal",
+        "high": "High",
+        "urgent": "Urgent"
       },
-      "Details": {
-        "title": "Booking Details",
-        "customerDetails": "Customer Details",
-        "bookingInfo": "Booking Information",
-        "internalNotes": "Internal Notes",
-        "tags": "Tags",
-        "activityLog": "Activity Log",
-        "chatTooltip": "Chat with Customer",
-        "editTooltip": "Edit Booking",
-        "deleteTooltip": "Delete Booking",
-        "closeTooltip": "Close",
-        "status": "Status",
-        "priority": "Priority",
-        "rating": "Rating",
-        "serviceType": "Service Type",
-        "duration": "Duration",
-        "people": "People",
-        "occasion": "Occasion",
-        "location": "Location",
-        "specialRequests": "Special Requests",
-        "minutes": "minutes"
-      },
-      "DeleteModal": {
-        "title": "Delete Booking",
-        "subtitle": "This action cannot be undone",
-        "confirmation": "Are you sure you want to delete this booking? All associated data will be permanently removed.",
-        "cancel": "Cancel",
-        "delete": "Delete Booking"
+      "Bookings": {
+        "Table": {
+          "customer": "Customer",
+          "contact": "Contact",
+          "dateTime": "Date & Time",
+          "service": "Service",
+          "status": "Status",
+          "actions": "Actions"
+        },
+        "Details": {
+          "title": "Booking Details",
+          "customerDetails": "Customer Details",
+          "bookingInfo": "Booking Information",
+          "internalNotes": "Internal Notes",
+          "tags": "Tags",
+          "activityLog": "Activity Log",
+          "chatTooltip": "Chat with Customer",
+          "editTooltip": "Edit Booking",
+          "deleteTooltip": "Delete Booking",
+          "closeTooltip": "Close",
+          "status": "Status",
+          "priority": "Priority",
+          "rating": "Rating",
+          "serviceType": "Service Type",
+          "duration": "Duration",
+          "people": "People",
+          "occasion": "Occasion",
+          "location": "Location",
+          "specialRequests": "Special Requests",
+          "minutes": "minutes"
+        },
+        "DeleteModal": {
+          "title": "Delete Booking",
+          "subtitle": "This action cannot be undone",
+          "confirmation": "Are you sure you want to delete this booking? All associated data will be permanently removed.",
+          "cancel": "Cancel",
+          "delete": "Delete Booking"
+        }
       },
       "Activities": {
         "Form": {
@@ -599,26 +553,6 @@
         }
       },
       "Kanban": {
-        "customerName": "Customer Name",
-        "overdue": "Overdue",
-        "viewDetails": "View Details",
-        "noBookings": "No bookings",
-        "renameTooltip": "Double click to rename"
-      }
-    },
-    "Settings": {
-      "title": "Settings",
-      "subtitle": "Manage your account preferences and workspace settings.",
-      "nav": {
-        "profile": "Profile",
-        "account": "Account",
-        "notifications": "Notifications",
-        "appearance": "Appearance",
-        "billing": "Billing"
-      },
-      "Profile": {
-        "title": "Profile Settings",
-        "description": "Update your personal information and profile picture.",
         "form": {
           "fullName": "Full Name",
           "email": "Email Address",

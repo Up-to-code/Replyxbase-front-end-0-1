@@ -82,7 +82,7 @@ export const CreateAgentForm: React.FC = () => {
         <p className="text-gray-500 mb-8">{t("successSubtitle")}</p>
         <button 
           onClick={() => window.location.href = '/dashboard/agents'}
-          className="bg-gray-900 text-white hover:bg-gray-800 px-8 py-3 rounded-xl text-sm font-semibold transition-all shadow-lg hover:shadow-xl"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-xl text-sm font-semibold transition-all shadow-lg hover:shadow-xl"
         >
           {t("goToDashboard")}
         </button>
@@ -109,13 +109,13 @@ export const CreateAgentForm: React.FC = () => {
               onClick={() => setStep(s)}
               className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all text-left
                 ${step === s 
-                  ? 'bg-gray-900 text-white shadow-none' 
+                  ? 'bg-primary text-primary-foreground shadow-none' 
                   : 'text-gray-500 hover:bg-gray-50'
                 }`}
             >
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all
                 ${step === s 
-                  ? 'bg-white text-gray-900 border-white' 
+                  ? 'bg-white text-primary border-white' 
                   : 'bg-transparent border-gray-200'}`}>
                 {s}
               </div>
@@ -133,7 +133,7 @@ export const CreateAgentForm: React.FC = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-white border border-gray-200 rounded-2xl p-8 min-h-[600px]">
+      <div className="flex-1 bg-white border border-gray-100 rounded-xl p-8 min-h-[600px]">
         {step === 1 && (
           <div className="space-y-8 animate-fade-in">
             <div>
@@ -170,7 +170,7 @@ export const CreateAgentForm: React.FC = () => {
                 </button>
 
                 {isModelDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-10 overflow-hidden">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-10 overflow-hidden">
                     {models.map((model) => (
                       <button
                         key={model.id}
@@ -185,7 +185,7 @@ export const CreateAgentForm: React.FC = () => {
                           <div className="font-semibold text-gray-900">{model.name}</div>
                           <div className="text-xs text-gray-500">{model.desc}</div>
                         </div>
-                        {selectedModel === model.id && <Check className="w-4 h-4 text-blue-600 ml-auto" />}
+                        {selectedModel === model.id && <Check className="w-4 h-4 text-gray-900 ml-auto" />}
                       </button>
                     ))}
                   </div>
@@ -208,7 +208,7 @@ export const CreateAgentForm: React.FC = () => {
                         onClick={() => toggleCapability(cap.id)}
                         className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all text-left rtl:text-right
                           ${isSelected 
-                            ? 'border-gray-900 bg-gray-50' 
+                            ? 'border-primary bg-primary/5' 
                             : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50'
                           }`}
                       >
@@ -264,7 +264,7 @@ export const CreateAgentForm: React.FC = () => {
                 </button>
 
                 {isIndustryDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-10 overflow-hidden max-h-60 overflow-y-auto">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-10 overflow-hidden max-h-60 overflow-y-auto">
                     {industries.map((industry) => (
                       <button
                         key={industry.id}
@@ -276,7 +276,7 @@ export const CreateAgentForm: React.FC = () => {
                       >
                         <industry.icon className="w-5 h-5 text-gray-700" />
                         <span className="font-semibold text-gray-900">{t(industry.label)}</span>
-                        {selectedIndustry === industry.id && <Check className="w-4 h-4 text-blue-600 ml-auto" />}
+                        {selectedIndustry === industry.id && <Check className="w-4 h-4 text-gray-900 ml-auto" />}
                       </button>
                     ))}
                   </div>
@@ -289,7 +289,7 @@ export const CreateAgentForm: React.FC = () => {
                   <button
                     onClick={handleImprovePrompt}
                     disabled={isImproving}
-                    className="flex items-center gap-1.5 text-xs font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-2 py-1 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/10 px-2 py-1 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isImproving ? (
                       <Loader2 className="w-3 h-3 animate-spin" />
@@ -307,8 +307,8 @@ export const CreateAgentForm: React.FC = () => {
                 />
               </div>
 
-              <div className="border-2 border-dashed border-gray-200 rounded-2xl p-10 text-center hover:bg-gray-50 transition-colors cursor-pointer group">
-                <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+              <div className="border-2 border-dashed border-gray-200 rounded-xl p-10 text-center hover:bg-gray-50 transition-colors cursor-pointer group">
+                <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <Upload className="w-8 h-8" />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900">{t("knowledge.uploadTitle")}</h3>
@@ -334,7 +334,7 @@ export const CreateAgentForm: React.FC = () => {
           <button
             onClick={() => step < 2 ? setStep(prev => prev + 1) : handleSubmit()}
             disabled={isSubmitting}
-            className={`bg-gray-900 text-white hover:bg-gray-800 px-8 py-3 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 shadow-none disabled:opacity-70 disabled:cursor-not-allowed
+            className={`bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 shadow-none disabled:opacity-70 disabled:cursor-not-allowed
               ${isSubmitting ? 'pl-6 pr-8' : ''}`}
           >
             {isSubmitting ? (

@@ -76,7 +76,7 @@ const CalendarSwitcher: React.FC<CalendarSwitcherProps> = ({
           </button>
           <button
             onClick={() => onDateChange(new Date())}
-            className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-200"
+            className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-200"
           >
             {t("today")}
           </button>
@@ -204,12 +204,12 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                       ? 'bg-white hover:bg-gray-50' 
                       : 'bg-gray-50 text-gray-400'
                   } ${
-                    isToday ? 'ring-2 ring-blue-500 ring-inset' : ''
+                    isToday ? 'ring-2 ring-primary ring-inset' : ''
                   }`}
                   onClick={() => onDayClick(date, dayBookings)}
                 >
                   <div className={`text-sm font-medium mb-1 ${
-                    isToday ? 'text-blue-600' : 'text-gray-900'
+                    isToday ? 'text-primary' : 'text-gray-900'
                   }`}>
                     {date.getDate()}
                   </div>
@@ -224,7 +224,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                             ? 'bg-amber-100 text-amber-800'
                             : booking.status === 'cancelled'
                             ? 'bg-rose-100 text-rose-800'
-                            : 'bg-blue-100 text-blue-800'
+                            : 'bg-primary/10 text-primary'
                         }`}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -257,7 +257,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
               return (
                 <div key={index} className="min-h-[500px]">
                   <div className={`text-center mb-2 p-2 ${
-                    isToday ? 'bg-blue-600 text-white rounded-lg' : ''
+                    isToday ? 'bg-primary text-primary-foreground rounded-lg' : ''
                   }`}>
                     <div className="text-sm font-medium">
                       {date.toLocaleDateString('en-US', { weekday: 'short' })}
@@ -277,7 +277,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                             ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
                             : booking.status === 'cancelled'
                             ? 'border-rose-200 bg-rose-50 hover:bg-rose-100'
-                            : 'border-blue-200 bg-blue-50 hover:bg-blue-100'
+                            : 'border-primary/20 bg-primary/5 hover:bg-primary/10'
                         }`}
                         onClick={() => onBookingClick(booking)}
                       >
@@ -329,22 +329,15 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                     </div>
                     <div className="flex-1 space-y-2">
                       {timeBookings.map(booking => (
-                        <div
+                        <div 
                           key={booking.id}
-                          className={`p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
-                            booking.status === 'confirmed' 
-                              ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100' 
-                              : booking.status === 'pending'
-                              ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
-                              : booking.status === 'cancelled'
-                              ? 'border-rose-200 bg-rose-50 hover:bg-rose-100'
-                              : 'border-blue-200 bg-blue-50 hover:bg-blue-100'
-                          }`}
+                          className="p-3 rounded-lg border border-gray-200 hover:border-primary transition-colors cursor-pointer bg-white"
                           onClick={() => onBookingClick(booking)}
                         >
-                          <div className="flex items-center justify-between">
-                            <div className="font-medium text-gray-900">
-                              {booking.customer.fullName}
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <div className="font-medium text-gray-900">{booking.customer.fullName}</div>
+                              <div className="text-xs text-gray-500">{booking.customer.phone}</div>
                             </div>
                             <StatusBadge status={booking.status} />
                           </div>

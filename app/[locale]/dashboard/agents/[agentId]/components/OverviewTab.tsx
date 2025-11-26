@@ -9,7 +9,7 @@ export const OverviewTab = () => {
     <div className="space-y-8 animate-fade-in">
       <AgentStats />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white border border-gray-200 rounded-2xl p-6">
+        <div className="bg-white border border-gray-100 rounded-xl p-6">
           <h3 className="font-bold text-lg mb-4">{t("activity.title")}</h3>
           <div className="space-y-6">
             {[1, 2, 3].map((_, i) => (

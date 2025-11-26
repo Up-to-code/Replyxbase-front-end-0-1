@@ -41,14 +41,14 @@ export const ActivityForm: React.FC<ActivityFormProps> = ({ onSubmit, isLoading 
         <button
           type="button"
           onClick={() => setType('call')}
-          className={`p-2 rounded-md flex-1 flex justify-center items-center gap-2 text-sm transition-colors ${type === 'call' ? 'bg-blue-100 text-blue-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'}`}
+          className={`p-2 rounded-md flex-1 flex justify-center items-center gap-2 text-sm transition-colors ${type === 'call' ? 'bg-green-100 text-green-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'}`}
         >
           <Phone className="w-4 h-4" /> {t("call")}
         </button>
         <button
           type="button"
           onClick={() => setType('email')}
-          className={`p-2 rounded-md flex-1 flex justify-center items-center gap-2 text-sm transition-colors ${type === 'email' ? 'bg-green-100 text-green-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'}`}
+          className={`p-2 rounded-md flex-1 flex justify-center items-center gap-2 text-sm transition-colors ${type === 'email' ? 'bg-blue-100 text-blue-700' : 'bg-gray-50 text-gray-600 hover:bg-gray-100'}`}
         >
           <Mail className="w-4 h-4" /> {t("email")}
         </button>

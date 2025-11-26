@@ -44,7 +44,7 @@ export const NotificationsSettings: React.FC = () => {
                   <span className="block text-sm font-semibold text-gray-900 capitalize">{key}</span>
                   <span className="block text-xs text-gray-500 mt-0.5">Receive emails about {key}</span>
                 </div>
-                <div className={`w-11 h-6 rounded-full transition-colors relative ${value ? 'bg-gray-900' : 'bg-gray-200'}`}>
+                <div className={`w-11 h-6 rounded-full transition-colors relative ${value ? 'bg-primary' : 'bg-gray-200'}`}>
                   <input 
                     type="checkbox" 
                     checked={value}
@@ -77,7 +77,7 @@ export const NotificationsSettings: React.FC = () => {
                   <span className="block text-sm font-semibold text-gray-900 capitalize">{key}</span>
                   <span className="block text-xs text-gray-500 mt-0.5">Receive push notifications for {key}</span>
                 </div>
-                <div className={`w-11 h-6 rounded-full transition-colors relative ${value ? 'bg-gray-900' : 'bg-gray-200'}`}>
+                <div className={`w-11 h-6 rounded-full transition-colors relative ${value ? 'bg-primary' : 'bg-gray-200'}`}>
                   <input 
                     type="checkbox" 
                     checked={value}

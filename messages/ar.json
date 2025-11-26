@@ -333,6 +333,7 @@
         "satisfactionRate": "معدل الرضا"
       },
       "Detail": {
+        "title": "تفاصيل الوكيل",
         "backToAgents": "العودة للوكلاء",
         "lastActive": "نشط {time}",
         "share": "مشاركة",
@@ -450,6 +451,10 @@
     "createAgent": "إنشاء وكيل",
     "existingAgents": "الوكلاء الحاليين",
     "Header": {
+      "organizations": "المؤسسات",
+      "createOrganization": "إنشاء مؤسسة",
+      "available": "متاحة",
+      "account": "الحساب",
       "searchPlaceholder": "بحث...",
       "notifications": "الإشعارات",
       "markAllRead": "تحديد الكل كمقروء",
@@ -493,7 +498,13 @@
         "help": "المساعدة",
         "helpDesc": "الحصول على المساعدة والدعم",
         "signOut": "تسجيل الخروج",
-        "signOutDesc": "تسجيل الخروج من حسابك"
+        "signOutDesc": "تسجيل الخروج من حسابك",
+        "LogoutModal": {
+          "title": "تسجيل الخروج",
+          "description": "هل أنت متأكد أنك تريد تسجيل الخروج؟ ستحتاج إلى تسجيل الدخول مرة أخرى للوصول إلى حسابك.",
+          "cancel": "إلغاء",
+          "confirm": "تسجيل الخروج"
+        }
       }
     },
     "Sidebar": {

@@ -39,14 +39,18 @@ export const ConversationItem: React.FC<ConversationItemProps> = ({
       <div
         onClick={onClick}
         onContextMenu={handleContextMenu}
-        className={`p-6 cursor-pointer hover:bg-gray-50 transition-colors duration-200 border-b border-gray-50 ${
-          isSelected ? 'bg-gray-50' : ''
+        className={`p-6 cursor-pointer hover:bg-gray-50 transition-all duration-200 border-b border-gray-50 ${
+          isSelected 
+            ? 'bg-blue-50/50 border-l-4 border-l-[#2A4D9A]' 
+            : conversation.unreadCount > 0
+            ? 'bg-gray-50/30 border-l-4 border-l-gray-200'
+            : 'border-l-4 border-l-transparent'
         }`}
       >
         <div className="flex justify-between items-start mb-2">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-lg">
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-lg transition-colors ${isSelected ? 'bg-[#2A4D9A] text-white' : 'bg-gray-100 text-gray-600'}`}>
                 {conversation.customerName.charAt(0)}
               </div>
               <div className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${
@@ -55,7 +59,7 @@ export const ConversationItem: React.FC<ConversationItemProps> = ({
               }`} />
             </div>
             <div>
-              <h3 className={`font-semibold text-base ${isSelected ? 'text-gray-900' : 'text-gray-900'}`}>
+              <h3 className={`text-base ${isSelected ? 'text-[#2A4D9A]' : 'text-gray-900'} ${conversation.unreadCount > 0 ? 'font-bold' : 'font-semibold'}`}>
                 {conversation.customerName}
               </h3>
               <div className="flex items-center gap-2 mt-1">
@@ -69,11 +73,11 @@ export const ConversationItem: React.FC<ConversationItemProps> = ({
           </span>
         </div>
         <div className="flex justify-between items-center mt-2 pl-16">
-          <p className="text-base text-gray-500 truncate max-w-[200px]">
+          <p className={`text-base truncate max-w-[200px] ${isSelected ? 'text-gray-700' : conversation.unreadCount > 0 ? 'text-gray-900 font-medium' : 'text-gray-500'}`}>
             {conversation.lastMessage}
           </p>
           {conversation.unreadCount > 0 && (
-            <span className="w-6 h-6 bg-gray-900 text-white text-xs font-medium flex items-center justify-center rounded-full">
+            <span className="w-6 h-6 bg-[#2A4D9A] text-white text-xs font-medium flex items-center justify-center rounded-full shadow-sm">
               {conversation.unreadCount}
             </span>
           )}

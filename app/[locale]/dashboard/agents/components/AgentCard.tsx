@@ -23,14 +23,14 @@ export const AgentCard: React.FC<AgentCardProps> = ({ id, name, role, status, st
   const statusColors = {
     active: 'bg-green-100 text-green-700',
     inactive: 'bg-gray-100 text-gray-700',
-    training: 'bg-blue-100 text-blue-700'
+    training: 'bg-primary/10 text-primary'
   };
 
   return (
-    <div className="group bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-500 transition-all duration-300">
+    <div className="group bg-white border border-gray-100 rounded-xl p-6 hover:border-gray-200 transition-all duration-300">
       <div className="flex justify-between items-start mb-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-900 font-bold text-xl border border-gray-100 group-hover:scale-110 transition-transform">
+          <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center text-gray-900 font-bold text-xl border border-gray-100 group-hover:scale-105 transition-transform">
             {name.charAt(0)}
           </div>
           <div>
@@ -74,7 +74,7 @@ export const AgentCard: React.FC<AgentCardProps> = ({ id, name, role, status, st
 
       <Link 
         href={`/dashboard/agents/${id}`}
-        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gray-50 text-gray-900 font-medium hover:bg-gray-900 hover:text-white transition-all group-hover:bg-blue-600 group-hover:text-white"
+        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gray-50 text-gray-900 font-medium hover:bg-primary hover:text-primary-foreground transition-all group-hover:bg-primary group-hover:text-primary-foreground"
       >
         {t('viewDashboard')}
         <ArrowRight className="w-4 h-4" />

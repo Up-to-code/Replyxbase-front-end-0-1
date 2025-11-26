@@ -34,17 +34,17 @@ export const AppearanceSettings: React.FC = () => {
                   onClick={() => setTheme(item.id)}
                   className={`relative flex flex-col items-center gap-3 p-6 rounded-xl border-2 transition-all
                     ${isSelected 
-                      ? 'border-gray-900 bg-gray-50' 
+                      ? 'border-primary bg-primary/5' 
                       : 'border-gray-100 hover:border-gray-200 hover:bg-gray-50'
                     }`}
                 >
                   {isSelected && (
-                    <div className="absolute top-3 right-3 w-5 h-5 bg-gray-900 rounded-full flex items-center justify-center">
-                      <Check className="w-3 h-3 text-white" />
+                    <div className="absolute top-3 right-3 w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                      <Check className="w-3 h-3 text-primary-foreground" />
                     </div>
                   )}
-                  <Icon className={`w-8 h-8 ${isSelected ? 'text-gray-900' : 'text-gray-400'}`} />
-                  <span className={`text-sm font-semibold ${isSelected ? 'text-gray-900' : 'text-gray-500'}`}>
+                  <Icon className={`w-8 h-8 ${isSelected ? 'text-primary' : 'text-gray-400'}`} />
+                  <span className={`text-sm font-semibold ${isSelected ? 'text-primary' : 'text-gray-500'}`}>
                     {item.label}
                   </span>
                 </button>

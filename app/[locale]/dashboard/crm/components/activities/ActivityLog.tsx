@@ -19,7 +19,7 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => {
   
   const getIcon = (type: Activity['type']) => {
     switch (type) {
-      case 'call': return <Phone className="w-4 h-4 text-blue-500" />;
+      case 'call': return <Phone className="w-4 h-4 text-primary" />;
       case 'email': return <Mail className="w-4 h-4 text-green-500" />;
       case 'meeting': return <Users className="w-4 h-4 text-purple-500" />;
       case 'note': return <FileText className="w-4 h-4 text-yellow-500" />;

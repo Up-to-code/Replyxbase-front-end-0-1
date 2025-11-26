@@ -39,6 +39,29 @@ export const USER = {
   plan: "Pro Plan",
 };
 
+export const ORGANIZATION = {
+  id: "org_1",
+  name: "Replyxbase",
+  plan: "Enterprise",
+  avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=32&h=32&fit=crop&crop=entropy",
+};
+
+export const MOCK_ORGANIZATIONS = [
+  ORGANIZATION,
+  {
+    id: "org_2",
+    name: "Acme Corp",
+    plan: "Pro",
+    avatar: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=32&h=32&fit=crop&crop=entropy",
+  },
+  {
+    id: "org_3",
+    name: "Startup Inc",
+    plan: "Starter",
+    avatar: "https://images.unsplash.com/photo-1516876437184-593fda40c7ce?w=32&h=32&fit=crop&crop=entropy",
+  },
+];
+
 export const NOTIFICATIONS: Notification[] = [
   { id: 1, label: "messageFromSarah", time: "2minAgo", type: "message", read: false },
   { id: 2, label: "paymentReceived", time: "1hourAgo", type: "payment", read: false },
@@ -51,11 +74,7 @@ export const NOTIFICATIONS: Notification[] = [
 
 export const PROFILE_MENU: ProfileMenuItem[] = [
   { label: "profile", icon: User, href: "/dashboard/profile", description: "profileDesc" },
-  { label: "billing", icon: CreditCard, href: "/dashboard/billing", description: "billingDesc" },
-  { label: "security", icon: Shield, href: "/dashboard/security", description: "securityDesc" },
-  { label: "downloads", icon: Download, href: "/dashboard/downloads", description: "downloadsDesc" },
   { label: "settings", icon: Settings, href: "/dashboard/settings", description: "settingsDesc" },
-  { label: "help", icon: HelpCircle, href: "/dashboard/help", description: "helpDesc" },
   { label: "signOut", icon: LogOut, action: "logout", description: "signOutDesc" },
 ];
 

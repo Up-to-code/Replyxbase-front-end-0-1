@@ -147,31 +147,39 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
             <div className={`p-4 border-b ${column.color.replace('bg-', 'border-').replace('50', '200')} bg-white rounded-t-xl sticky top-0 z-10`}>
               <div className="flex items-center justify-between">
                 {editingColumnId === column.id ? (
-                  <input
-                    autoFocus
-                    type="text"
-                    value={tempColumnTitle}
-                    onChange={(e) => setTempColumnTitle(e.target.value)}
-                    onBlur={saveColumnTitle}
-                    onKeyDown={(e) => e.key === 'Enter' && saveColumnTitle()}
-                    className="font-semibold text-gray-900 bg-white border border-blue-300 rounded px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+                  <div className="flex items-center gap-2 w-full">
+                    <input
+                      type="text"
+                      value={tempColumnTitle}
+                      onChange={(e) => setTempColumnTitle(e.target.value)}
+                      className="flex-1 text-sm border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      autoFocus
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') saveColumnTitle();
+                        if (e.key === 'Escape') setEditingColumnId(null);
+                      }}
+                    />
+                    <button onClick={saveColumnTitle} className="p-1 text-green-600 hover:bg-green-50 rounded">
+                      <Check className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => setEditingColumnId(null)} className="p-1 text-gray-500 hover:bg-gray-100 rounded">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
                 ) : (
-                  <h3 
-                    className="font-semibold text-gray-900 cursor-text hover:bg-gray-50 px-2 py-1 rounded"
+                  <div 
+                    className="font-semibold text-gray-700 flex items-center gap-2 cursor-pointer hover:text-blue-600"
                     onDoubleClick={() => startEditingColumn(column.id, currentTitle)}
-                    title={t("renameTooltip")}
                   >
                     {currentTitle}
-                  </h3>
+                    <span className="text-xs font-normal text-gray-500 bg-white/50 px-2 py-0.5 rounded-full border border-gray-200">
+                      {columnBookings.length}
+                    </span>
+                  </div>
                 )}
-                <span className="px-2 py-0.5 bg-white rounded-full text-xs font-medium text-gray-600 border border-gray-200">
-                  {columnBookings.length}
-                </span>
               </div>
             </div>
 
-            {/* Column Content */}
             <div className="p-3 space-y-3 flex-1 overflow-y-auto custom-scrollbar">
               {columnBookings.map((booking) => (
                 <motion.div

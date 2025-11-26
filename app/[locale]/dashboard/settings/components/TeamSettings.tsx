@@ -9,6 +9,10 @@ const initialMembers = [
   { id: 3, name: 'Mike Johnson', email: 'mike@example.com', role: 'member', status: 'invited', avatar: null },
 ];
 
+import { Button } from '@/components/ui/Button';
+
+// ... (keep existing imports and initialMembers)
+
 export const TeamSettings: React.FC = () => {
   const t = useTranslations("Dashboard.Settings.Team");
   const tModals = useTranslations("Dashboard.Settings.Team.Modals");
@@ -29,14 +33,14 @@ export const TeamSettings: React.FC = () => {
       <div className="animate-fade-in">
         <div className="mb-10">
           <h2 className="text-2xl font-bold text-gray-900">{tModals("AddMember.title")}</h2>
-          <p className="text-base text-gray-500 mt-2">{t("description")}</p>
+          <p className="text-base text-muted-foreground mt-2">{t("description")}</p>
         </div>
 
         <div className="max-w-2xl space-y-8">
           <div className="grid gap-4">
             <label className="text-base font-semibold text-gray-900">{tModals("AddMember.email")}</label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 rtl:left-auto rtl:right-4" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground rtl:left-auto rtl:right-4" />
               <input 
                 type="email" 
                 placeholder="colleague@company.com"
@@ -49,35 +53,37 @@ export const TeamSettings: React.FC = () => {
             <label className="text-base font-semibold text-gray-900">{tModals("AddMember.role")}</label>
             <div className="grid gap-4">
               <label className="flex items-start gap-4 p-4 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
-                <input type="radio" name="role" value="member" defaultChecked className="mt-1 w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-900" />
+                <input type="radio" name="role" value="member" defaultChecked className="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-primary" />
                 <div>
                   <span className="block text-sm font-bold text-gray-900">{t("roles.member")}</span>
-                  <span className="block text-sm text-gray-500 mt-1">Can view and edit own tasks, but cannot manage team settings.</span>
+                  <span className="block text-sm text-muted-foreground mt-1">Can view and edit own tasks, but cannot manage team settings.</span>
                 </div>
               </label>
               <label className="flex items-start gap-4 p-4 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
-                <input type="radio" name="role" value="admin" className="mt-1 w-4 h-4 text-gray-900 border-gray-300 focus:ring-gray-900" />
+                <input type="radio" name="role" value="admin" className="mt-1 w-4 h-4 text-primary border-gray-300 focus:ring-primary" />
                 <div>
                   <span className="block text-sm font-bold text-gray-900">{t("roles.admin")}</span>
-                  <span className="block text-sm text-gray-500 mt-1">Full access to all settings and team management features.</span>
+                  <span className="block text-sm text-muted-foreground mt-1">Full access to all settings and team management features.</span>
                 </div>
               </label>
             </div>
           </div>
 
           <div className="flex items-center gap-4 pt-8 border-t border-gray-100">
-            <button 
+            <Button 
               onClick={() => setIsInviteMode(false)}
-              className="bg-gray-900 text-white hover:bg-gray-800 px-8 py-3.5 rounded-lg text-sm font-semibold transition-all"
+              variant="primary"
+              className="px-8 py-3.5 h-auto rounded-lg text-sm font-semibold"
             >
               {tModals("AddMember.submit")}
-            </button>
-            <button 
+            </Button>
+            <Button 
               onClick={() => setIsInviteMode(false)}
-              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 px-6 py-3.5 rounded-lg text-sm font-medium transition-colors"
+              variant="ghost"
+              className="px-6 py-3.5 h-auto rounded-lg text-sm font-medium"
             >
               {tModals("AddMember.cancel")}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -89,15 +95,16 @@ export const TeamSettings: React.FC = () => {
       <div className="flex items-center justify-between mb-10">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">{t("title")}</h2>
-          <p className="text-base text-gray-500 mt-2">{t("description")}</p>
+          <p className="text-base text-muted-foreground mt-2">{t("description")}</p>
         </div>
-        <button 
+        <Button 
           onClick={() => setIsInviteMode(true)}
-          className="flex items-center gap-3 bg-gray-900 text-white hover:bg-gray-800 px-6 py-3 rounded-lg text-sm font-semibold transition-all"
+          variant="primary"
+          className="flex items-center gap-3 px-6 py-3 h-auto rounded-lg text-sm font-semibold"
         >
           <Plus className="w-5 h-5" />
           {t("invite")}
-        </button>
+        </Button>
       </div>
 
       <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
