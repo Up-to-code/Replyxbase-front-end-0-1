@@ -1,17 +1,9 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { ChevronDown, Check, Plus, Building2, Loader2 } from "lucide-react";
-import { Translator } from "./types";
+import { Translator, Organization } from "./types";
 import { authClient } from "@/lib/auth-client";
-
-interface Organization {
-  id: string;
-  name: string;
-  slug: string;
-  logo?: string;
-  metadata?: any;
-}
 
 function useClickOutside(callback: () => void) {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,12 +27,15 @@ export function OrganizationSwitcher({ t }: { t: Translator }) {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [newOrgName, setNewOrgName] = useState("");
   const [isCreating, setIsCreating] = useState(false);
-  const ref = useClickOutside(() => setIsOpen(false));
+  
+  // Use useCallback for the click outside handler to prevent unnecessary re-renders of the hook
+  const closeDropdown = useCallback(() => setIsOpen(false), []);
+  const ref = useClickOutside(closeDropdown);
 
   // Fetch user organizations using Better Auth
   const { data: session } = authClient.useSession();
-  const { data: organizations, isLoading: isLoadingOrgs } = authClient.useListOrganizations();
-  const { data: activeOrganization, isLoading: isLoadingActive } = authClient.useActiveOrganization();
+  const { data: organizations, isPending: isLoadingOrgs } = authClient.useListOrganizations();
+  const { data: activeOrganization, isPending: isLoadingActive } = authClient.useActiveOrganization();
 
   const handleSwitchOrganization = async (orgId: string) => {
     try {
@@ -65,7 +60,7 @@ export function OrganizationSwitcher({ t }: { t: Translator }) {
       });
       setNewOrgName("");
       setShowCreateDialog(false);
-      setIsOpen(false);
+      setIsOpen(false); // Close the main dropdown after creating an organization
     } catch (error) {
       console.error("Failed to create organization:", error);
     } finally {
@@ -133,7 +128,7 @@ export function OrganizationSwitcher({ t }: { t: Translator }) {
                   No organizations yet. Create one to get started!
                 </div>
               )}
-              {!isLoadingOrgs && organizations && organizations.map((org: Organization) => (
+              {!isLoadingOrgs && organizations && organizations.map((org) => (
                 <button
                   key={org.id}
                   onClick={() => handleSwitchOrganization(org.id)}
@@ -197,10 +192,11 @@ export function OrganizationSwitcher({ t }: { t: Translator }) {
 
             <form onSubmit={handleCreateOrganization} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor="organization-name" className="block text-sm font-semibold text-gray-700 mb-2">
                   Organization Name
                 </label>
                 <input
+                  id="organization-name" // Added id for accessibility
                   type="text"
                   value={newOrgName}
                   onChange={(e) => setNewOrgName(e.target.value)}

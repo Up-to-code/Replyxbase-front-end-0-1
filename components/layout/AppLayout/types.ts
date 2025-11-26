@@ -42,8 +42,8 @@ export interface Organization {
   id: string;
   name: string;
   slug: string;
-  logo?: string;
-  createdAt: number;
+  logo?: string | null;
+  createdAt: Date;
   metadata?: {
     plan?: string;
     [key: string]: any;
@@ -55,5 +55,5 @@ export interface OrganizationMember {
   organizationId: string;
   userId: string;
   role: "owner" | "admin" | "member";
-  createdAt: number;
+  createdAt: Date;
 }
