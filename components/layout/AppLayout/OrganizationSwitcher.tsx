@@ -5,6 +5,14 @@ import { ChevronDown, Check, Plus, Building2, Loader2 } from "lucide-react";
 import { Translator } from "./types";
 import { authClient } from "@/lib/auth-client";
 
+interface Organization {
+  id: string;
+  name: string;
+  slug: string;
+  logo?: string;
+  metadata?: any;
+}
+
 function useClickOutside(callback: () => void) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -66,7 +74,7 @@ export function OrganizationSwitcher({ t }: { t: Translator }) {
   };
 
   // Default avatar for organizations
-  const getOrgAvatar = (org: any) => {
+  const getOrgAvatar = (org: Organization) => {
     return org.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(org.name)}&background=2A4D9A&color=fff`;
   };
 
@@ -125,7 +133,7 @@ export function OrganizationSwitcher({ t }: { t: Translator }) {
                   No organizations yet. Create one to get started!
                 </div>
               )}
-              {!isLoadingOrgs && organizations && organizations.map((org) => (
+              {!isLoadingOrgs && organizations && organizations.map((org: Organization) => (
                 <button
                   key={org.id}
                   onClick={() => handleSwitchOrganization(org.id)}
