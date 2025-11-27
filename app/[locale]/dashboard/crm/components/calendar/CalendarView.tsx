@@ -70,31 +70,31 @@ const CalendarSwitcher: React.FC<CalendarSwitcherProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => navigateDate('prev')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 rtl:rotate-180"
+            className="p-2 hover:bg-gray-100 rounded-xl transition-colors duration-200 rtl:rotate-180"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={() => onDateChange(new Date())}
-            className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-200"
+            className="px-3 py-1 text-sm bg-gray-900 text-white rounded-xl font-medium hover:bg-gray-800 transition-all duration-200"
           >
             {t("today")}
           </button>
           <button
             onClick={() => navigateDate('next')}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 rtl:rotate-180"
+            className="p-2 hover:bg-gray-100 rounded-xl transition-colors duration-200 rtl:rotate-180"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       </div>
       
-      <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
+      <div className="flex gap-1 bg-gray-100 p-1 rounded-xl">
         {(['month', 'week', 'day'] as CalendarView[]).map((viewType) => (
           <button
             key={viewType}
             onClick={() => onViewChange(viewType)}
-            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
               view === viewType
                 ? 'bg-white text-gray-900 shadow-sm'
                 : 'text-gray-600 hover:text-gray-900'
@@ -170,7 +170,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-200 mx-4">
+    <div className="bg-white border border-gray-200 rounded-[20px] overflow-hidden transition-all duration-200 mx-4">
       <CalendarSwitcher
         currentDate={currentDate}
         onDateChange={onDateChange}
@@ -199,17 +199,17 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
               return (
                 <div
                   key={index}
-                  className={`min-h-[100px] border border-gray-200 p-2 cursor-pointer transition-all duration-200 ${
+                  className={`min-h-[100px] border border-gray-200 p-2 cursor-pointer transition-all duration-200 rounded-lg ${
                     isCurrentMonth 
                       ? 'bg-white hover:bg-gray-50' 
                       : 'bg-gray-50 text-gray-400'
                   } ${
-                    isToday ? 'ring-2 ring-primary ring-inset' : ''
+                    isToday ? 'ring-2 ring-gray-900 ring-inset' : ''
                   }`}
                   onClick={() => onDayClick(date, dayBookings)}
                 >
                   <div className={`text-sm font-medium mb-1 ${
-                    isToday ? 'text-primary' : 'text-gray-900'
+                    isToday ? 'text-gray-900' : 'text-gray-900'
                   }`}>
                     {date.getDate()}
                   </div>
@@ -224,7 +224,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                             ? 'bg-amber-100 text-amber-800'
                             : booking.status === 'cancelled'
                             ? 'bg-rose-100 text-rose-800'
-                            : 'bg-primary/10 text-primary'
+                            : 'bg-gray-100 text-gray-800'
                         }`}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -257,7 +257,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
               return (
                 <div key={index} className="min-h-[500px]">
                   <div className={`text-center mb-2 p-2 ${
-                    isToday ? 'bg-primary text-primary-foreground rounded-lg' : ''
+                    isToday ? 'bg-gray-900 text-white rounded-xl' : ''
                   }`}>
                     <div className="text-sm font-medium">
                       {date.toLocaleDateString('en-US', { weekday: 'short' })}
@@ -270,14 +270,14 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                     {dayBookings.map(booking => (
                       <div
                         key={booking.id}
-                        className={`p-2 rounded-lg border cursor-pointer transition-all duration-200 ${
+                        className={`p-2 rounded-xl border cursor-pointer transition-all duration-200 ${
                           booking.status === 'confirmed' 
                             ? 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100' 
                             : booking.status === 'pending'
                             ? 'border-amber-200 bg-amber-50 hover:bg-amber-100'
                             : booking.status === 'cancelled'
                             ? 'border-rose-200 bg-rose-50 hover:bg-rose-100'
-                            : 'border-primary/20 bg-primary/5 hover:bg-primary/10'
+                            : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
                         }`}
                         onClick={() => onBookingClick(booking)}
                       >
@@ -331,7 +331,7 @@ export const CalendarViewComponent: React.FC<CalendarViewProps> = ({
                       {timeBookings.map(booking => (
                         <div 
                           key={booking.id}
-                          className="p-3 rounded-lg border border-gray-200 hover:border-primary transition-colors cursor-pointer bg-white"
+                          className="p-3 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors cursor-pointer bg-white"
                           onClick={() => onBookingClick(booking)}
                         >
                           <div className="flex justify-between items-start">

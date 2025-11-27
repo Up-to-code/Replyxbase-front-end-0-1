@@ -1,10 +1,10 @@
 import React from "react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/Button";
 
-const CTASection = () => {
-    const t = useTranslations("Landing.CTA");
-    const tCommon = useTranslations("Common");
+const CTASection = async () => {
+    const t = await getTranslations("Landing.CTA");
+    const tCommon = await getTranslations("Common");
     return (
         <section className="py-24 bg-white">
             <div className="container mx-auto px-6">

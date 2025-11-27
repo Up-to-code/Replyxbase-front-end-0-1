@@ -1,6 +1,8 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
-import { Zap } from 'lucide-react';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
 export default function AuthLayout({
@@ -8,36 +10,73 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const year = new Date().getFullYear();
-
+  const t = useTranslations('Auth.Branding');
+  
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
-      {/* Abstract Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-3xl opacity-60"></div>
-          <div className="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-purple-100/50 rounded-full blur-3xl opacity-60"></div>
-      </div>
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+      {/* Left Side - Branding/Image */}
+      <div 
+        className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
+        style={{ backgroundColor: '#2A4D9A' }}
+      >
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#2A4D9A] via-[#3d5fa8] to-[#5171b6] opacity-90" />
+        
+        {/* Content */}
+        <div className="relative z-10 flex flex-col justify-between p-12 text-white w-full">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <Image 
+              src="/logo.png" 
+              alt="Replyxbase Logo" 
+              width={48} 
+              height={48}
+              className="object-contain"
+            />
+            <span className="font-bold text-2xl tracking-tight">Replyxbase</span>
+          </Link>
 
-      {/* Logo */}
-      <div className="relative z-10 mb-8">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
-            <Zap className="w-5 h-5 text-white" />
+          {/* Center Content */}
+          <div className="space-y-6">
+            <h1 className="text-4xl font-bold leading-tight">
+              {t('welcome')}
+            </h1>
+            <p className="text-lg text-white/80 max-w-md">
+              {t('description')}
+            </p>
           </div>
-          <span className="font-bold text-2xl text-gray-900 tracking-tight">
-            ChatLink
-          </span>
-        </Link>
+
+          {/* Footer */}
+          <div className="text-sm text-white/60">
+            &copy; {new Date().getFullYear()} Replyxbase Inc. All rights reserved.
+          </div>
+        </div>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full blur-3xl" />
       </div>
 
-      {/* Content Card */}
-      <div className="relative z-10 w-full max-w-md">
-        {children}
-      </div>
+      {/* Right Side - Form */}
+      <div className="flex-1 flex flex-col justify-center px-6 py-12 lg:px-12 xl:px-24">
+        {/* Mobile Logo */}
+        <div className="lg:hidden mb-8">
+          <Link href="/" className="flex items-center gap-2">
+            <Image 
+              src="/logo.png" 
+              alt="Replyxbase Logo" 
+              width={40} 
+              height={40}
+              className="object-contain"
+            />
+            <span className="font-bold text-2xl text-gray-900 tracking-tight">Replyxbase</span>
+          </Link>
+        </div>
 
-      {/* Footer */}
-      <div className="relative z-10 mt-8 text-center text-sm text-gray-500">
-        &copy; {year} ChatLink Inc.
+        {/* Form Content */}
+        <div className="w-full max-w-md mx-auto">
+          {children}
+        </div>
       </div>
     </div>
   );

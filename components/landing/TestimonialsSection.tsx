@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Star } from "lucide-react";
 
 const TestimonialCard = ({ quote, author, role, company }: { quote: string, author: string, role: string, company: string }) => (
@@ -22,8 +22,8 @@ const TestimonialCard = ({ quote, author, role, company }: { quote: string, auth
     </div>
 );
 
-const TestimonialsSection = () => {
-    const t = useTranslations("Landing.Testimonials");
+const TestimonialsSection = async () => {
+    const t = await getTranslations("Landing.Testimonials");
     return (
         <section className="py-24 bg-white border-t border-gray-100">
             <div className="container mx-auto px-6">

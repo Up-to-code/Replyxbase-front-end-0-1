@@ -81,7 +81,7 @@
           "msg3": { "sender": "زائر الموقع", "text": "ما هي خطط الأسعار لديكم؟" }
         },
         "Mock": {
-          "headerTitle": "صندوق وارد ChatLink",
+          "headerTitle": "صندوق وارد Replyxbase",
           "statusTitle": "الحالة",
           "statusOnline": "جميع الأنظمة تعمل",
           "aiFormPlaceholder": "اكتب ردك..."
@@ -207,7 +207,7 @@
     },
     "CTA": {
       "title": "جاهز للبدء؟",
-      "subtitle": "انضم إلى آلاف الشركات التي تستخدم ChatLink اليوم."
+      "subtitle": "انضم إلى آلاف الشركات التي تستخدم Replyxbase اليوم."
     },
     "Footer": {
       "desc": "مستقبل التواصل مع العملاء.",
@@ -269,6 +269,10 @@
       "submit": "إنشاء حساب",
       "hasAccount": "لديك حساب بالفعل؟",
       "signInLink": "تسجيل الدخول"
+    },
+    "Branding": {
+      "welcome": "مرحباً بك في مستقبل التواصل التجاري",
+      "description": "تواصل مع عملائك عبر جميع المنصات في صندوق وارد موحد مدعوم بالذكاء الاصطناعي."
     }
   },
   "Dashboard": {
@@ -534,7 +538,8 @@
         "confirmed": "مؤكد",
         "activeCustomers": "العملاء النشطين",
         "revenue": "الإيرادات",
-        "growth": "النمو"
+        "growth": "النمو",
+        "cancelled": "ملغى"
       },
       "Form": {
         "newTitle": "حجز جديد",

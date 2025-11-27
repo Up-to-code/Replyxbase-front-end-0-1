@@ -4,7 +4,6 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import locales from "@/i18n/request";
 import "./globals.css";
-import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { Toaster } from "sonner";
 
 // Font configuration
@@ -162,10 +161,8 @@ export default async function RootLayout({
           messages={messages}
           timeZone="UTC"
         >
-          <ConvexClientProvider>
-            {children}
-            <Toaster />
-          </ConvexClientProvider>
+          {children}
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -22,7 +22,7 @@ const PricingCard = ({
   isAnnual: boolean;
   tCommon: any;
 }) => (
-  <div className={`h-full p-10 rounded-[2rem] flex flex-col transition-all duration-300 relative ${highlight ? 'bg-[#2A4D9A] text-white shadow-xl scale-105 z-10' : 'bg-white border border-gray-100 text-gray-900 hover:border-[#2A4D9A]/20'}`}>
+  <div className={`h-full p-10 rounded-[2rem] flex flex-col transition-all duration-300 relative will-change-transform ${highlight ? 'bg-[#2A4D9A] text-white shadow-xl scale-105 z-10' : 'bg-white border border-gray-100 text-gray-900 hover:border-[#2A4D9A]/20'}`}>
         {highlight && (
             <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-white text-[#2A4D9A] px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide shadow-lg">
                 Most Popular

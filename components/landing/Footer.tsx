@@ -1,10 +1,10 @@
 import React from "react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Zap, Linkedin, Instagram, Globe } from "lucide-react";
 
-const Footer = () => {
-  const t = useTranslations("Landing.Footer");
-  const tCommon = useTranslations("Common");
+const Footer = async () => {
+  const t = await getTranslations("Landing.Footer");
+  const tCommon = await getTranslations("Common");
   const year = new Date().getFullYear();
 
   return (

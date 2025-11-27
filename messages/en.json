@@ -208,7 +208,10 @@
         "help": "Help Center",
         "privacy": "Privacy",
         "terms": "Terms",
-        "security": "Security"
+        "security": "Security",
+        "status": "System Status",
+        "resources": "Resources",
+        "company": "Company"
       }
     },
     "Widget": {
@@ -264,6 +267,10 @@
       "description": "Are you sure you want to sign out? You will need to sign in again to access your account.",
       "cancel": "Cancel",
       "confirm": "Sign Out"
+    },
+    "Branding": {
+      "welcome": "Welcome to the future of business communication",
+      "description": "Connect with your customers across all platforms in one unified inbox powered by AI."
     }
   },
   "Dashboard": {
@@ -410,7 +417,8 @@
         "confirmed": "Confirmed",
         "activeCustomers": "Active Customers",
         "revenue": "Revenue",
-        "growth": "Growth"
+        "growth": "Growth",
+        "cancelled": "Cancelled"
       },
       "Form": {
         "newTitle": "New Booking",
@@ -494,7 +502,9 @@
           "dateTime": "Date & Time",
           "service": "Service",
           "status": "Status",
-          "actions": "Actions"
+          "actions": "Actions",
+          "viewDetails": "View Details",
+          "deleteBooking": "Delete Booking"
         },
         "Details": {
           "title": "Booking Details",
@@ -553,13 +563,17 @@
         }
       },
       "Kanban": {
-        "form": {
-          "fullName": "Full Name",
-          "email": "Email Address",
-          "bio": "Bio",
-          "save": "Save Changes",
-          "cancel": "Cancel"
-        }
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "overdue": "Overdue",
+        "viewDetails": "View Details",
+        "noBookings": "No bookings"
+      },
+      "Settings": {
+        "title": "Settings",
+        "subtitle": "Manage your account settings"
       },
       "Organization": {
         "title": "Organization Settings",

@@ -21,12 +21,12 @@ interface KanbanBoardProps {
   isLoading?: boolean;
 }
 
-const defaultColumns: { id: Booking['status']; titleKey: string; color: string }[] = [
-  { id: 'pending', titleKey: 'pending', color: 'bg-amber-50 border-amber-200' },
-  { id: 'confirmed', titleKey: 'confirmed', color: 'bg-emerald-50 border-emerald-200' },
-  { id: 'completed', titleKey: 'completed', color: 'bg-blue-50 border-blue-200' },
-  { id: 'cancelled', titleKey: 'cancelled', color: 'bg-rose-50 border-rose-200' },
-  { id: 'no-show', titleKey: 'no-show', color: 'bg-gray-50 border-gray-200' },
+const defaultColumns: { id: Booking['status']; titleKey: string }[] = [
+  { id: 'pending', titleKey: 'pending' },
+  { id: 'confirmed', titleKey: 'confirmed' },
+  { id: 'completed', titleKey: 'completed' },
+  { id: 'cancelled', titleKey: 'cancelled' },
+  { id: 'no-show', titleKey: 'no-show' },
 ];
 
 /**
@@ -139,12 +139,12 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
         return (
           <div
             key={column.id}
-            className={`min-w-[320px] max-w-[320px] flex flex-col rounded-xl border ${column.color.replace('bg-', 'border-').replace('50', '200')} bg-gray-50/50`}
+            className="min-w-[320px] max-w-[320px] flex flex-col rounded-xl border border-gray-100 bg-gray-50/30 shadow-sm"
             onDragOver={handleDragOver}
             onDrop={(e) => handleDrop(e, column.id)}
           >
             {/* Column Header */}
-            <div className={`p-4 border-b ${column.color.replace('bg-', 'border-').replace('50', '200')} bg-white rounded-t-xl sticky top-0 z-10`}>
+            <div className="p-4 border-b border-gray-100 bg-white rounded-t-xl sticky top-0 z-10">
               <div className="flex items-center justify-between">
                 {editingColumnId === column.id ? (
                   <div className="flex items-center gap-2 w-full">
@@ -152,27 +152,27 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
                       type="text"
                       value={tempColumnTitle}
                       onChange={(e) => setTempColumnTitle(e.target.value)}
-                      className="flex-1 text-sm border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      className="flex-1 text-sm bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-0 transition-all"
                       autoFocus
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') saveColumnTitle();
                         if (e.key === 'Escape') setEditingColumnId(null);
                       }}
                     />
-                    <button onClick={saveColumnTitle} className="p-1 text-green-600 hover:bg-green-50 rounded">
+                    <button onClick={saveColumnTitle} className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors">
                       <Check className="w-4 h-4" />
                     </button>
-                    <button onClick={() => setEditingColumnId(null)} className="p-1 text-gray-500 hover:bg-gray-100 rounded">
+                    <button onClick={() => setEditingColumnId(null)} className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                 ) : (
                   <div 
-                    className="font-semibold text-gray-700 flex items-center gap-2 cursor-pointer hover:text-blue-600"
+                    className="font-semibold text-gray-900 flex items-center gap-2 cursor-pointer hover:text-primary transition-colors"
                     onDoubleClick={() => startEditingColumn(column.id, currentTitle)}
                   >
                     {currentTitle}
-                    <span className="text-xs font-normal text-gray-500 bg-white/50 px-2 py-0.5 rounded-full border border-gray-200">
+                    <span className="text-xs font-normal text-gray-500 bg-gray-50 px-2.5 py-0.5 rounded-full border border-gray-100">
                       {columnBookings.length}
                     </span>
                   </div>
@@ -187,35 +187,35 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({ bookings, onView, onSt
                   layoutId={booking.id}
                   draggable={!editingBookingId}
                   onDragStart={(e) => handleDragStart(e as any, booking.id)}
-                  className={`bg-white p-4 rounded-lg border border-gray-200 transition-all duration-200 group ${
-                    draggedBookingId === booking.id ? 'opacity-50' : ''
-                  } ${!editingBookingId ? 'cursor-grab active:cursor-grabbing hover:border-blue-400' : ''}`}
+                  className={`bg-white p-4 rounded-xl border border-gray-100 shadow-sm transition-all duration-200 group ${
+                    draggedBookingId === booking.id ? 'opacity-50 scale-95' : ''
+                  } ${!editingBookingId ? 'cursor-grab active:cursor-grabbing hover:border-gray-300 hover:shadow-md' : ''}`}
                   whileHover={!editingBookingId ? { y: -2 } : {}}
                 >
                   {editingBookingId === booking.id ? (
                     <div className="space-y-3">
                       <div>
-                        <label className="text-xs text-gray-500 block mb-1">{t("customerName")}</label>
+                        <label className="text-xs font-medium text-gray-500 block mb-2">Customer Name</label>
                         <input
                           type="text"
                           value={editForm.fullName}
                           onChange={(e) => setEditForm(prev => ({ ...prev, fullName: e.target.value }))}
-                          className="w-full text-sm border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                          className="w-full text-sm bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 rounded-xl px-3 py-2 focus:outline-none focus:ring-0 transition-all"
                           autoFocus
                         />
                       </div>
-                      <div className="flex justify-end gap-2 mt-2">
+                      <div className="flex justify-end gap-2">
                         <button
                           onClick={() => setEditingBookingId(null)}
-                          className="p-1 text-gray-500 hover:bg-gray-100 rounded"
+                          className="px-3 py-1.5 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors text-sm font-medium"
                         >
-                          <X className="w-4 h-4" />
+                          Cancel
                         </button>
                         <button
                           onClick={() => saveCardEdit(booking)}
-                          className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                          className="px-3 py-1.5 bg-gray-900 text-white hover:bg-gray-800 rounded-lg transition-colors text-sm font-medium"
                         >
-                          <Check className="w-4 h-4" />
+                          Save
                         </button>
                       </div>
                     </div>

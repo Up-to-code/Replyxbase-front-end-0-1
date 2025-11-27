@@ -176,6 +176,50 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
     setIsFormOpen(true);
   };
 
+  const handleKanbanUpdate = async (updatedBooking: Booking) => {
+    // Optimistic update
+    setBookings(prev => prev.map(b => b.id === updatedBooking.id ? updatedBooking : b));
+    try {
+      const { updateBooking } = await import('@/app/actions/crm');
+      // We need to convert Booking to BookingFormData
+      const formData: BookingFormData = {
+        customer: {
+          fullName: updatedBooking.customer.fullName,
+          email: updatedBooking.customer.email || '',
+          phone: updatedBooking.customer.phone || '',
+          company: updatedBooking.customer.company || '',
+          address: updatedBooking.customer.address || '',
+          notes: updatedBooking.customer.notes || ''
+        },
+        booking: {
+          ...updatedBooking,
+          date: new Date(updatedBooking.date),
+          occasion: updatedBooking.occasion || '',
+          specialRequests: updatedBooking.specialRequests || '',
+          location: updatedBooking.location || '',
+          staffAssigned: updatedBooking.staffAssigned || '',
+          notes: updatedBooking.notes || '',
+          source: updatedBooking.source || 'website',
+          tags: updatedBooking.tags || []
+        }
+      };
+      await updateBooking(updatedBooking.id, formData);
+      showToast('Booking updated');
+    } catch (error) {
+      console.error('Failed to update booking', error);
+      showToast('Failed to update booking', 'error');
+      fetchBookings();
+    }
+  };
+
+  const handleStatusChange = async (bookingId: string, newStatus: Booking['status']) => {
+    const booking = bookings.find(b => b.id === bookingId);
+    if (!booking) return;
+
+    const updatedBooking = { ...booking, status: newStatus };
+    await handleKanbanUpdate(updatedBooking);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50/50 relative">
       {/* Toast Notification */}
@@ -188,6 +232,7 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
             className={`fixed top-4 right-4 z-50 px-4 py-2 rounded-lg shadow-lg text-white font-medium ${
               toast.type === 'success' ? 'bg-emerald-600' : 'bg-rose-600'
             } rtl:right-auto rtl:left-4`}
+            role="alert"
           >
             {toast.message}
           </motion.div>
@@ -207,19 +252,24 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
               <ViewToggle mainView={view} setMainView={setView} />
               <button
                 onClick={() => {
-                  // Logic for new customer or just open form with empty customer
                   setSelectedBooking(null);
                   setIsFormOpen(true);
                 }}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition-colors duration-200 font-medium shadow-none"
+                aria-label={t("Header.newBooking")}
               >
                 <Plus className="w-4 h-4" />
-                {t("newCustomer")}
+                {t("Header.newBooking")}
               </button>
             </div>
           </div>
           
-          <StatsOverview bookings={bookings} isLoading={isLoading} />
+          <StatsOverview 
+            bookings={bookings} 
+            isLoading={isLoading} 
+            currentFilter={statusFilter}
+            onFilterChange={setStatusFilter}
+          />
         </div>
 
         {/* Filters */}
@@ -309,41 +359,8 @@ export default function CRM({ initialBookings, initialPagination, initialCustome
                   setSelectedBooking(booking);
                   setIsDetailsOpen(true);
                 }}
-                onUpdateBooking={async (updatedBooking) => {
-                  // Optimistic update
-                  setBookings(prev => prev.map(b => b.id === updatedBooking.id ? updatedBooking : b));
-                  try {
-                    const { updateBooking } = await import('@/app/actions/crm');
-                    // We need to convert Booking to BookingFormData
-                    const formData: BookingFormData = {
-                      customer: {
-                        fullName: updatedBooking.customer.fullName,
-                        email: updatedBooking.customer.email || '',
-                        phone: updatedBooking.customer.phone || '',
-                        company: updatedBooking.customer.company || '',
-                        address: updatedBooking.customer.address || '',
-                        notes: updatedBooking.customer.notes || ''
-                      },
-                      booking: {
-                        ...updatedBooking,
-                        date: new Date(updatedBooking.date),
-                        occasion: updatedBooking.occasion || '',
-                        specialRequests: updatedBooking.specialRequests || '',
-                        location: updatedBooking.location || '',
-                        staffAssigned: updatedBooking.staffAssigned || '',
-                        notes: updatedBooking.notes || '',
-                        source: updatedBooking.source || 'website',
-                        tags: updatedBooking.tags || []
-                      }
-                    };
-                    await updateBooking(updatedBooking.id, formData);
-                    showToast('Booking updated');
-                  } catch (error) {
-                    console.error('Failed to update booking', error);
-                    showToast('Failed to update booking', 'error');
-                    fetchBookings();
-                  }
-                }}
+                onStatusChange={handleStatusChange}
+                onUpdateBooking={handleKanbanUpdate}
                 isLoading={isLoading}
               />
             </motion.div>

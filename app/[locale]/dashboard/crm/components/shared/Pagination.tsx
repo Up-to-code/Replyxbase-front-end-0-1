@@ -136,7 +136,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
+            className={`flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
           >
             <ChevronLeft className="w-4 h-4 rtl:rotate-180" />
           </button>
@@ -146,7 +146,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
+            className={`flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
           >
             <ChevronRight className="w-4 h-4 rtl:rotate-180" />
           </button>
@@ -165,7 +165,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
+            className={`flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
           >
             <ChevronLeft className="w-4 h-4 rtl:rotate-180" />
           </button>
@@ -187,10 +187,10 @@ export const Pagination: React.FC<PaginationProps> = ({
                 <button
                   key={page}
                   onClick={() => onPageChange(page as number)}
-                  className={`flex items-center justify-center rounded border font-medium transition-colors ${buttonSizeClasses[size]} ${
+                  className={`flex items-center justify-center rounded-xl border font-medium transition-colors ${buttonSizeClasses[size]} ${
                     currentPage === page
-                      ? 'border-blue-600 bg-blue-600 text-white'
-                      : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50'
+                      ? 'border-gray-900 bg-gray-900 text-white'
+                      : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
                   } ${sizeClasses[size]}`}
                 >
                   {page}
@@ -202,7 +202,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`flex items-center justify-center rounded border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
+            className={`flex items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]}`}
           >
             <ChevronRight className="w-4 h-4 rtl:rotate-180" />
           </button>
@@ -224,7 +224,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className={`flex items-center justify-center rounded-l-md border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]} rtl:rotate-180`}
+            className={`flex items-center justify-center rounded-l-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]} rtl:rotate-180`}
             aria-label="Previous page"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -249,10 +249,10 @@ export const Pagination: React.FC<PaginationProps> = ({
                   <button
                     key={page}
                     onClick={() => onPageChange(page as number)}
-                    className={`flex items-center justify-center rounded border font-medium transition-colors ${buttonSizeClasses[size]} ${
+                    className={`flex items-center justify-center rounded-xl border font-medium transition-colors ${buttonSizeClasses[size]} ${
                       currentPage === page
-                        ? 'border-blue-600 bg-blue-600 text-white shadow-sm'
-                        : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50'
+                        ? 'border-gray-900 bg-gray-900 text-white'
+                        : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
                     } ${sizeClasses[size]}`}
                     aria-current={currentPage === page ? 'page' : undefined}
                     aria-label={`Go to page ${page}`}
@@ -268,7 +268,7 @@ export const Pagination: React.FC<PaginationProps> = ({
           <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className={`flex items-center justify-center rounded-r-md border border-gray-300 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]} rtl:rotate-180`}
+            className={`flex items-center justify-center rounded-r-xl border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${buttonSizeClasses[size]} ${sizeClasses[size]} rtl:rotate-180`}
             aria-label="Next page"
           >
             <ChevronRight className="w-4 h-4" />

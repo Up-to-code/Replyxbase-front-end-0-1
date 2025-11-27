@@ -1,6 +1,13 @@
-import { createAuth } from "@/convex/auth";
-import { getToken as getTokenNextjs } from "@convex-dev/better-auth/nextjs";
+import { auth } from "./auth";
+import { headers } from "next/headers";
 
-export const getToken = () => {
-  return getTokenNextjs(createAuth);
+export const getSession = async () => {
+  return await auth.api.getSession({
+    headers: await headers(),
+  });
+};
+
+export const getUser = async () => {
+  const session = await getSession();
+  return session?.user || null;
 };

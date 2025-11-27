@@ -50,7 +50,7 @@ export const DayBookingsDrawer: React.FC<DayBookingsDrawerProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100]"
             onClick={onClose}
           />
           
@@ -60,7 +60,7 @@ export const DayBookingsDrawer: React.FC<DayBookingsDrawerProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-xl z-50 overflow-y-auto rtl:right-auto rtl:left-0 rtl:transform rtl:-scale-x-100"
+            className="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-xl z-[101] overflow-y-auto rtl:right-auto rtl:left-0 rtl:transform rtl:-scale-x-100"
           >
             <div className="flex flex-col h-full rtl:transform rtl:-scale-x-100">
               <div className="flex items-center justify-between p-4 border-b border-gray-200">

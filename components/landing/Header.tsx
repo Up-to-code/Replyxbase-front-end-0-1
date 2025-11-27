@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Zap, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
+import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 
 const Header = () => {
@@ -16,14 +17,18 @@ const Header = () => {
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-xl z-50 border-b border-gray-100">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between h-24">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#2A4D9A] rounded-xl flex items-center justify-center shadow-lg shadow-[#2A4D9A]/20">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
+            <Link href="/" className="flex items-center gap-3">
+              <Image 
+                src="/logo.png" 
+                alt="Replyxbase Logo" 
+                width={40} 
+                height={40}
+                className="object-contain"
+              />
               <span className="font-bold text-2xl text-gray-900 tracking-tight">
                 Replyxbase
               </span>
-            </div>
+            </Link>
             
             <nav className="hidden md:flex items-center gap-10">
               {["features", "pricing", "resources", "company"].map((item) => (

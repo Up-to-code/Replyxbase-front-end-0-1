@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import HeroSection from "@/components/landing/hero/HeroSection";
@@ -15,7 +15,7 @@ import CTASection from "@/components/landing/CTASection";
 import Footer from "@/components/landing/Footer";
 import ChatWidget from "@/components/landing/ChatWidget";
 import Header from "@/components/landing/Header";
-import { authClient } from "@/lib/auth-client"; // This might need adjustment if authClient is client-side only
+import SectionSkeleton from "@/components/ui/SectionSkeleton";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -55,15 +55,6 @@ export default async function LandingPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Landing" });
 
-  // Note: authClient.useSession() is a client-side hook. 
-  // We can't use it directly here in a Server Component.
-  // The Header component is a Client Component, so it handles session state.
-  // HeroSection also needs session, so we might need to pass it or let it handle it.
-  // However, HeroSection is 'use client' so it can use the hook internally if needed, 
-  // OR we pass null/undefined and let it fetch on client.
-  // For now, we'll let HeroSection handle its own session fetching or pass a prop if we had server session.
-  // Since we don't have easy server session here without headers/cookies logic, we'll let client components handle auth state.
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -93,14 +84,8 @@ export default async function LandingPage({ params }: Props) {
       <Header />
       
       <main>
-        {/* HeroSection is a Client Component, so it's fine to render here. 
-            We pass session={null} initially, it can fetch on client if needed 
-            or we can refactor HeroSection to use useSession internally. 
-            Let's assume HeroSection uses useSession internally or we update it.
-        */}
         <HeroSection session={null} /> 
         <TrustedBy />
-        <Marquee />
         <OmnichannelFlow />
         <div id="features">
           <FeatureInbox />
@@ -108,12 +93,22 @@ export default async function LandingPage({ params }: Props) {
           <FeatureCRM />
           <FeatureAnalytics />
         </div>
-        <TestimonialsSection />
+        
+        <Suspense fallback={<SectionSkeleton height="h-[600px]" />}>
+          <TestimonialsSection />
+        </Suspense>
+        
         <PricingSection />
-        <CTASection />
+        
+        <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
+          <CTASection />
+        </Suspense>
       </main>
       
-      <Footer />
+      <Suspense fallback={<SectionSkeleton height="h-[400px]" />}>
+        <Footer />
+      </Suspense>
+      
       <ChatWidget />
     </div>
   );

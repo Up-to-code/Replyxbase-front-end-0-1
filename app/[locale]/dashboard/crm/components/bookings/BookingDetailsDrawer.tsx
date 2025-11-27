@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   X, 
@@ -10,7 +10,13 @@ import {
   Trash2, 
   UserCheck,
   MapPin,
-  Tag
+  Tag,
+  Calendar,
+  Clock,
+  Users,
+  Briefcase,
+  AlertCircle,
+  Star
 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Booking } from '../../types';
@@ -44,6 +50,7 @@ interface BookingDetailsDrawerProps {
 
 /**
  * Drawer component to display detailed information about a booking.
+ * Positioned with high z-index to appear above sidebar and header.
  */
 export const BookingDetailsDrawer: React.FC<BookingDetailsDrawerProps> = ({ 
   isOpen, 
@@ -64,200 +71,205 @@ export const BookingDetailsDrawer: React.FC<BookingDetailsDrawerProps> = ({
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* Backdrop with high z-index */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-gray-900/20 backdrop-blur-sm z-[100]"
             onClick={onClose}
           />
           
+          {/* Minimal Drawer with highest z-index */}
           <motion.div
             ref={drawerRef}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 h-full w-full max-w-2xl bg-white shadow-xl z-50 overflow-y-auto rtl:right-auto rtl:left-0 rtl:transform rtl:-scale-x-100"
+            className="fixed right-0 top-0 h-screen w-full max-w-2xl bg-white shadow-2xl z-[101] rtl:right-auto rtl:left-0 rtl:transform rtl:-scale-x-100 border-l border-gray-100"
           >
-            <div className="rtl:transform rtl:-scale-x-100 h-full">
+            <div className="rtl:transform rtl:-scale-x-100 h-full flex flex-col">
               {isLoading ? (
                 <BookingDetailsSkeleton />
               ) : booking ? (
-                <div className="flex flex-col h-full">
-                  {/* Header */}
-                  <div className="flex items-center justify-between p-6 border-b border-gray-200">
-                    <div>
-                      <h2 className="text-xl font-semibold text-gray-900">{t("title")}</h2>
-                      <p className="text-sm text-gray-600 mt-1">
-                        {booking.date.toLocaleDateString()} • {booking.startTime} - {booking.endTime}
-                      </p>
+                <>
+                  {/* Sticky Header */}
+                  <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-3 mb-1">
+                        <h2 className="text-lg font-bold text-gray-900 truncate">{booking.customer.fullName}</h2>
+                        <StatusBadge status={booking.status} />
+                      </div>
+                      <div className="flex items-center gap-3 text-xs text-gray-500">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {booking.date.toLocaleDateString()}
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-gray-300" />
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5" />
+                          {booking.startTime} - {booking.endTime}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 ml-4">
                       <button
                         onClick={() => {
                           if (booking) {
                              router.push(`/dashboard/inbox?customerId=${booking.customer.id}`);
                           }
                         }}
-                        className="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
+                        className="p-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
                         title={t("chatTooltip")}
                       >
-                        <MessageSquare className="w-5 h-5" />
+                        <MessageSquare className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => onEdit(booking)}
-                        className="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-full transition-colors"
+                        className="p-2 text-gray-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors"
                         title={t("editTooltip")}
                       >
-                        <Edit2 className="w-5 h-5" />
+                        <Edit2 className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => onDelete(booking.id)}
-                        className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-colors"
+                        className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                         title={t("deleteTooltip")}
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="w-4 h-4" />
                       </button>
+                      <div className="w-px h-6 bg-gray-200 mx-1" />
                       <button
                         onClick={onClose}
-                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-full transition-colors"
+                        className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
                         title={t("closeTooltip")}
                       >
-                        <X className="w-5 h-5" />
+                        <X className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
 
-                  {/* Main Content Area */}
-                  <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                    {/* Customer Details */}
-                    <div className="space-y-3">
-                      <h4 className="font-semibold text-gray-900">{t("customerDetails")}</h4>
-                      <div className="flex items-center gap-3">
-                        <UserCheck className="w-5 h-5 text-gray-500" />
-                        <p className="text-sm font-medium text-gray-900">
-                          {booking.customer.fullName}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <Mail className="w-5 h-5 text-gray-500" />
-                        <p className="text-sm text-gray-700">{booking.customer.email}</p>
-                      </div>
-                      {booking.customer.phone && (
-                        <div className="flex items-center gap-3">
-                          <Phone className="w-5 h-5 text-gray-500" />
-                          <p className="text-sm text-gray-700">{booking.customer.phone}</p>
+                  {/* Scrollable Content */}
+                  <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                    
+                    {/* Key Info Grid */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-4 rounded-xl bg-gray-50/50 border border-gray-100 space-y-3">
+                        <div className="flex items-center gap-2 text-gray-900 font-medium text-sm">
+                          <UserCheck className="w-4 h-4 text-gray-400" />
+                          {t("customerDetails")}
                         </div>
-                      )}
-                      {booking.customer.company && (
-                        <div className="flex items-center gap-3">
-                          <Building className="w-5 h-5 text-gray-500" />
-                          <p className="text-sm text-gray-700">{booking.customer.company}</p>
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <Mail className="w-3.5 h-3.5 text-gray-400" />
+                            <span className="truncate">{booking.customer.email}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <Phone className="w-3.5 h-3.5 text-gray-400" />
+                            <span>{booking.customer.phone}</span>
+                          </div>
+                          {booking.customer.company && (
+                            <div className="flex items-center gap-2 text-sm text-gray-600">
+                              <Building className="w-3.5 h-3.5 text-gray-400" />
+                              <span>{booking.customer.company}</span>
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {booking.customer.address && (
-                        <div className="flex items-center gap-3">
-                          <MapPin className="w-5 h-5 text-gray-500" />
-                          <p className="text-sm text-gray-700">{booking.customer.address}</p>
+                      </div>
+
+                      <div className="p-4 rounded-xl bg-gray-50/50 border border-gray-100 space-y-3">
+                        <div className="flex items-center gap-2 text-gray-900 font-medium text-sm">
+                          <Briefcase className="w-4 h-4 text-gray-400" />
+                          {t("bookingInfo")}
+                        </div>
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">{t("serviceType")}</span>
+                            <span className="font-medium text-gray-900">{booking.serviceType}</span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">{t("duration")}</span>
+                            <span className="font-medium text-gray-900">{booking.duration} {t("minutes")}</span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-500">{t("people")}</span>
+                            <span className="font-medium text-gray-900 flex items-center gap-1">
+                              <Users className="w-3 h-3 text-gray-400" />
+                              {booking.people}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Additional Details */}
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="p-3 rounded-xl border border-gray-100 bg-white">
+                        <p className="text-xs text-gray-500 mb-1">{t("priority")}</p>
+                        <PriorityBadge priority={booking.priority} />
+                      </div>
+                      <div className="p-3 rounded-xl border border-gray-100 bg-white">
+                        <p className="text-xs text-gray-500 mb-1">{t("rating")}</p>
+                        <Rating rating={booking.rating || 0} />
+                      </div>
+                      {booking.location && (
+                        <div className="p-3 rounded-xl border border-gray-100 bg-white">
+                          <p className="text-xs text-gray-500 mb-1">{t("location")}</p>
+                          <div className="flex items-center gap-1 text-sm font-medium text-gray-900 truncate">
+                            <MapPin className="w-3.5 h-3.5 text-gray-400" />
+                            {booking.location}
+                          </div>
                         </div>
                       )}
                     </div>
 
-                    {/* Booking Details */}
+                    {/* Notes & Special Requests */}
                     <div className="space-y-4">
-                      <h4 className="font-semibold text-gray-900">{t("bookingInfo")}</h4>
-                      <div className="space-y-3">
-                        <div>
-                          <p className="text-xs text-gray-500">{t("status")}</p>
-                          <StatusBadge status={booking.status} />
-                        </div>
-                        <div>
-                          <p className="text-xs text-gray-500">{t("priority")}</p>
-                          <PriorityBadge priority={booking.priority} />
-                        </div>
-                        <div>
-                          <p className="text-xs text-gray-500">{t("rating")}</p>
-                          <Rating rating={booking.rating || 0} />
-                        </div>
-                        <div>
-                          <p className="text-xs text-gray-500">{t("serviceType")}</p>
-                          <p className="text-sm font-medium text-gray-900">
-                            {booking.serviceType}
+                      {booking.specialRequests && (
+                        <div className="p-4 rounded-xl bg-amber-50/50 border border-amber-100">
+                          <h4 className="text-sm font-medium text-amber-900 mb-2 flex items-center gap-2">
+                            <AlertCircle className="w-4 h-4" />
+                            {t("specialRequests")}
+                          </h4>
+                          <p className="text-sm text-amber-800 leading-relaxed">
+                            {booking.specialRequests}
                           </p>
                         </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <p className="text-xs text-gray-500">{t("duration")}</p>
-                            <p className="text-sm font-medium text-gray-900">
-                              {booking.duration} {t("minutes")}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-500">{t("people")}</p>
-                            <p className="text-sm font-medium text-gray-900">
-                              {booking.people}
-                            </p>
+                      )}
+
+                      {booking.notes && (
+                        <div className="space-y-2">
+                          <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("internalNotes")}</h4>
+                          <p className="text-sm text-gray-600 bg-gray-50 p-4 rounded-xl border border-gray-100 leading-relaxed">
+                            {booking.notes}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Tags */}
+                      {booking.tags && booking.tags.length > 0 && (
+                        <div className="space-y-2">
+                          <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{t("tags")}</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {booking.tags.map((tag, index) => (
+                              <span
+                                key={index}
+                                className="inline-flex items-center gap-1 px-2.5 py-1 bg-white border border-gray-200 text-gray-600 rounded-lg text-xs font-medium"
+                              >
+                                <Tag className="w-3 h-3 text-gray-400" />
+                                {tag}
+                              </span>
+                            ))}
                           </div>
                         </div>
-                        {booking.occasion && (
-                          <div>
-                            <p className="text-xs text-gray-500">{t("occasion")}</p>
-                            <p className="text-sm font-medium text-gray-900">
-                              {booking.occasion}
-                            </p>
-                          </div>
-                        )}
-                        {booking.location && (
-                          <div>
-                            <p className="text-xs text-gray-500">{t("location")}</p>
-                            <p className="text-sm font-medium text-gray-900">
-                              {booking.location}
-                            </p>
-                          </div>
-                        )}
-                        {booking.specialRequests && (
-                          <div>
-                            <p className="text-xs text-gray-500">{t("specialRequests")}</p>
-                            <p className="text-sm font-medium text-gray-900">
-                              {booking.specialRequests}
-                            </p>
-                          </div>
-                        )}
-                      </div>
+                      )}
                     </div>
 
-                    {booking.notes && (
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-gray-900">{t("internalNotes")}</h4>
-                        <p className="text-sm text-gray-700 bg-primary/5 p-3 rounded-lg">
-                          {booking.notes}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* Tags */}
-                    {booking.tags && booking.tags.length > 0 && (
-                      <div className="space-y-3">
-                        <h4 className="font-semibold text-gray-900">{t("tags")}</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {booking.tags.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium"
-                            >
-                              <Tag className="w-3 h-3" />
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
                     {/* Activities Section */}
-                    <div className="border-t border-gray-200 pt-6">
-                      <h4 className="font-semibold text-gray-900 mb-4">{t("activityLog")}</h4>
-                      <div className="mb-6">
+                    <div className="border-t border-gray-100 pt-8">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-6 uppercase tracking-wider">{t("activityLog")}</h4>
+                      <div className="mb-8">
                         <ActivityForm 
                           onSubmit={async (type, content) => {
                             if (onAddActivity && booking) {
@@ -269,7 +281,7 @@ export const BookingDetailsDrawer: React.FC<BookingDetailsDrawerProps> = ({
                       <ActivityLog activities={booking.activities || []} />
                     </div>
                   </div>
-                </div>
+                </>
               ) : null}
             </div>
           </motion.div>

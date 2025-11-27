@@ -26,10 +26,10 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   const t = useTranslations("Dashboard.CRM.Status");
 
   const statusConfig: Record<Booking['status'], { icon: any; color: string }> = {
-    pending: { icon: Clock, color: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
-    confirmed: { icon: CheckCircle, color: 'bg-blue-100 text-blue-800 border-blue-200' },
-    completed: { icon: CheckCircle, color: 'bg-primary/10 text-primary border-primary/20' },
-    cancelled: { icon: XCircle, color: 'bg-red-100 text-red-800 border-red-200' },
+    pending: { icon: Clock, color: 'bg-amber-100 text-amber-800 border-amber-200' },
+    confirmed: { icon: CheckCircle, color: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
+    completed: { icon: CheckCircle, color: 'bg-gray-900 text-white border-gray-900' },
+    cancelled: { icon: XCircle, color: 'bg-rose-100 text-rose-800 border-rose-200' },
     'no-show': { icon: AlertCircle, color: 'bg-gray-100 text-gray-800 border-gray-200' }
   };
 
@@ -37,7 +37,7 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   const Icon = config.icon;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2 py-1.5 rounded-full text-xs font-medium border ${config.color}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${config.color}`}>
       <Icon className="w-3 h-3" />
       {t(status)}
     </span>
@@ -53,13 +53,13 @@ export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority }) => {
   const priorityConfig: Record<Booking['priority'], { color: string }> = {
     normal: { color: 'bg-gray-100 text-gray-800 border-gray-200' },
     high: { color: 'bg-orange-100 text-orange-800 border-orange-200' },
-    urgent: { color: 'bg-red-100 text-red-800 border-red-200' }
+    urgent: { color: 'bg-rose-100 text-rose-800 border-rose-200' }
   };
 
   const config = priorityConfig[priority];
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2 py-1.5 rounded-full text-xs font-medium border ${config.color}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${config.color}`}>
       {t(priority)}
     </span>
   );

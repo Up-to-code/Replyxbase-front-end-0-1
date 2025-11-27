@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Save, Loader2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -119,7 +119,7 @@ export const BookingFormDrawer: React.FC<BookingFormDrawerProps> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100]"
             onClick={onClose}
           />
           
@@ -129,7 +129,7 @@ export const BookingFormDrawer: React.FC<BookingFormDrawerProps> = ({
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 h-full w-full max-w-2xl bg-white shadow-xl z-50 overflow-y-auto rtl:right-auto rtl:left-0 rtl:transform rtl:-scale-x-100"
+            className="fixed right-0 top-0 h-full w-full max-w-2xl bg-white shadow-xl z-[101] overflow-y-auto rtl:right-auto rtl:left-0 rtl:transform rtl:-scale-x-100"
           >
             <div className="flex flex-col h-full rtl:transform rtl:-scale-x-100">
               <div className="flex items-center justify-between p-6 border-b border-gray-200">
@@ -250,19 +250,19 @@ export const BookingFormDrawer: React.FC<BookingFormDrawerProps> = ({
                   </div>
                 </div>
                 
-                <div className="p-6 border-t border-gray-200">
+                <div className="p-6 border-t border-gray-100">
                   <div className="flex gap-3">
                     <button
                       type="button"
                       onClick={onClose}
-                      className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-all duration-200"
+                      className="flex-1 px-4 py-2.5 border border-gray-200 bg-white text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors"
                     >
                       {t("cancel")}
                     </button>
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 px-4 py-2.5 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isLoading ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
