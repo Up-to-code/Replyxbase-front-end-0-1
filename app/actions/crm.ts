@@ -2,33 +2,19 @@
 
 import { Booking, BookingFormData, SortField, SortDirection, Customer } from '@/app/[locale]/dashboard/crm/types';
 import { calculateEndTime } from '@/app/[locale]/dashboard/crm/utils';
-import { generateMinimalBookings, mockCustomers } from '@/app/[locale]/dashboard/crm/mockData';
+import prisma from '@/lib/prisma';
+import { getSession } from '@/lib/auth-server';
+import { revalidatePath } from 'next/cache';
+import { Prisma } from '@prisma/client';
 
-// --- DB Simulation ---
-// Simulate a database in memory
-// Note: In a real serverless environment, this wouldn't persist.
-// For this demo, it works as long as the server process stays alive.
-let dbBookings: Booking[] = [];
-let dbCustomers: Customer[] = [...mockCustomers];
-let isInitialized = false;
-
-function initializeDb() {
-  if (!isInitialized) {
-    dbBookings = generateMinimalBookings();
-    isInitialized = true;
+// Helper to get organization ID
+async function getOrganizationId() {
+  const session = await getSession();
+  if (!session?.session?.activeOrganizationId) {
+    throw new Error('No active organization');
   }
+  return session.session.activeOrganizationId;
 }
-
-function setDbBookings(bookings: Booking[]) {
-  dbBookings = bookings;
-}
-
-function setDbCustomers(customers: Customer[]) {
-  dbCustomers = customers;
-}
-
-// Helper to simulate network delay
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // --- Activities Actions ---
 export async function logActivity(
@@ -37,29 +23,25 @@ export async function logActivity(
   relatedTo: 'booking' | 'customer',
   relatedId: string
 ) {
-  initializeDb();
-  await delay(300);
+  try {
+    const session = await getSession();
+    if (!session?.user) throw new Error('Unauthorized');
 
-  const activity: any = {
-    id: `activity-${Date.now()}`,
-    type,
-    content,
-    createdAt: new Date(),
-    createdBy: 'CurrentUser', // Mock user
-    relatedTo,
-    relatedId
-  };
+    const activity = await prisma.activity.create({
+      data: {
+        type,
+        content,
+        createdBy: session.user.name || 'Unknown',
+        bookingId: relatedTo === 'booking' ? relatedId : undefined,
+        // customerId: relatedTo === 'customer' ? relatedId : undefined, // Add this to schema if needed
+      }
+    });
 
-  if (relatedTo === 'booking') {
-    const booking = dbBookings.find(b => b.id === relatedId);
-    if (booking) {
-      booking.activities = [...(booking.activities || []), activity];
-    }
-  } else {
-    // Handle customer activities if needed
+    return { success: true, activity };
+  } catch (error) {
+    console.error('Failed to log activity:', error);
+    return { success: false, error: 'Failed to log activity' };
   }
-
-  return { success: true, activity };
 }
 
 // --- Bookings Actions ---
@@ -82,228 +64,306 @@ export async function getBookings(
     value: string;
   }[]
 ) {
-  initializeDb();
-  await delay(500); // Simulate latency
+  try {
+    const organizationId = await getOrganizationId();
 
-  let filtered = [...dbBookings];
+    const where: Prisma.BookingWhereInput = {
+      organizationId,
+    };
 
-  // Apply filters
-  if (filters) {
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      filtered = filtered.filter(b =>
-        b.customer.fullName.toLowerCase().includes(searchLower) ||
-        b.customer.email.toLowerCase().includes(searchLower) ||
-        b.customer.phone.includes(filters.search!)
-      );
+    // Apply filters
+    if (filters) {
+      if (filters.search) {
+        where.OR = [
+          { customer: { fullName: { contains: filters.search, mode: 'insensitive' } } },
+          { customer: { email: { contains: filters.search, mode: 'insensitive' } } },
+          { customer: { phone: { contains: filters.search, mode: 'insensitive' } } },
+        ];
+      }
+
+      if (filters.status && filters.status !== 'all') {
+        where.status = filters.status;
+      }
+
+      if (filters.service && filters.service !== 'all') {
+        where.serviceType = filters.service;
+      }
     }
 
-    if (filters.status && filters.status !== 'all') {
-      filtered = filtered.filter(b => b.status === filters.status);
-    }
+    // Apply dynamic filters
+    if (dynamicFilters && dynamicFilters.length > 0) {
+      const dynamicConditions: Prisma.BookingWhereInput[] = [];
+      
+      for (const filter of dynamicFilters) {
+        if (!filter.value) continue;
 
-    if (filters.service && filters.service !== 'all') {
-      filtered = filtered.filter(b => b.serviceType === filters.service);
-    }
-  }
-
-  // Apply dynamic filters
-  if (dynamicFilters && dynamicFilters.length > 0) {
-    filtered = filtered.filter(booking => {
-      return dynamicFilters.every(filter => {
-        if (!filter.value) return true; // Skip empty values
+        // This is a simplified mapping. You might need more complex logic depending on field types.
+        // Assuming most fields are strings for now or handled specifically.
+        const field = filter.field as keyof Prisma.BookingWhereInput; 
         
-        const bookingValue = (booking as any)[filter.field];
-        const filterValue = filter.value;
+        // Note: Prisma types are strict. We might need to cast or handle specific fields.
+        // For safety, let's handle known fields.
+        
+        let condition: any = {};
 
         switch (filter.operator) {
           case 'equals':
-            return String(bookingValue).toLowerCase() === String(filterValue).toLowerCase();
+            condition = { equals: filter.value, mode: 'insensitive' };
+            break;
           case 'contains':
-            return String(bookingValue).toLowerCase().includes(String(filterValue).toLowerCase());
+            condition = { contains: filter.value, mode: 'insensitive' };
+            break;
           case 'gt':
-            return Number(bookingValue) > Number(filterValue);
+             // Handle numbers/dates
+             if (field === 'price' || field === 'people') {
+                 condition = { gt: Number(filter.value) };
+             }
+            break;
           case 'lt':
-            return Number(bookingValue) < Number(filterValue);
-          default:
-            return true;
+             if (field === 'price' || field === 'people') {
+                 condition = { lt: Number(filter.value) };
+             }
+            break;
         }
-      });
-    });
-  }
 
-  // Apply sorting
-  if (sort) {
-    filtered.sort((a, b) => {
-      let aValue: any;
-      let bValue: any;
+        if (Object.keys(condition).length > 0) {
+             // @ts-ignore - Dynamic field access is tricky with Prisma types
+            dynamicConditions.push({ [field]: condition });
+        }
+      }
+      
+      if (dynamicConditions.length > 0) {
+          where.AND = dynamicConditions;
+      }
+    }
 
+    // Apply sorting
+    let orderBy: Prisma.BookingOrderByWithRelationInput = { date: 'desc' };
+    if (sort) {
       switch (sort.field) {
         case 'date':
-          aValue = new Date(a.date).getTime();
-          bValue = new Date(b.date).getTime();
+          orderBy = { date: sort.direction };
           break;
         case 'customer':
-          aValue = a.customer.fullName.toLowerCase();
-          bValue = b.customer.fullName.toLowerCase();
+          orderBy = { customer: { fullName: sort.direction } };
           break;
         case 'status':
-          aValue = a.status;
-          bValue = b.status;
+          orderBy = { status: sort.direction };
           break;
         case 'service':
-          aValue = a.serviceType.toLowerCase();
-          bValue = b.serviceType.toLowerCase();
+          orderBy = { serviceType: sort.direction };
           break;
         case 'priority':
-          const priorityOrder = { 'urgent': 3, 'high': 2, 'normal': 1 };
-          aValue = priorityOrder[a.priority as keyof typeof priorityOrder] || 0;
-          bValue = priorityOrder[b.priority as keyof typeof priorityOrder] || 0;
+           // Priority is an enum/string, so alphabetical sort might not be what we want.
+           // But for simplicity:
+           orderBy = { priority: sort.direction };
           break;
-        default:
-          return 0;
       }
+    }
 
-      if (aValue < bValue) return sort.direction === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sort.direction === 'asc' ? 1 : -1;
-      return 0;
-    });
+    const [bookings, totalItems] = await Promise.all([
+      prisma.booking.findMany({
+        where,
+        orderBy,
+        skip: (page - 1) * itemsPerPage,
+        take: itemsPerPage,
+        include: {
+          customer: true,
+          activities: true,
+        },
+      }),
+      prisma.booking.count({ where }),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    return {
+      bookings: bookings as unknown as Booking[], // Cast to match frontend type if needed
+      totalItems,
+      totalPages,
+      currentPage: page
+    };
+  } catch (error) {
+    console.error('Failed to fetch bookings:', error);
+    return {
+      bookings: [],
+      totalItems: 0,
+      totalPages: 0,
+      currentPage: 1
+    };
   }
-
-  // Pagination
-  const totalItems = filtered.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const startIndex = (page - 1) * itemsPerPage;
-  const paginatedBookings = filtered.slice(startIndex, startIndex + itemsPerPage);
-
-  return {
-    bookings: paginatedBookings,
-    totalItems,
-    totalPages,
-    currentPage: page
-  };
 }
 
 export async function createBooking(formData: BookingFormData) {
-  initializeDb();
-  await delay(800);
+  try {
+    const organizationId = await getOrganizationId();
 
-  // Check if customer exists or create new
-  let customer = dbCustomers.find(c => c.email === formData.customer.email);
-  
-  if (!customer) {
-    customer = {
-      id: `customer-${Date.now()}`,
-      ...formData.customer,
-      totalBookings: 0,
-    };
-    setDbCustomers([...dbCustomers, customer]);
-  } else {
+    // Check if customer exists or create new
+    let customer = await prisma.customer.findFirst({
+      where: {
+        organizationId,
+        email: formData.customer.email,
+      }
+    });
+
+    if (!customer) {
+      customer = await prisma.customer.create({
+        data: {
+          organizationId,
+          fullName: formData.customer.fullName,
+          email: formData.customer.email,
+          phone: formData.customer.phone,
+          company: formData.customer.company,
+          address: formData.customer.address,
+          notes: formData.customer.notes,
+        }
+      });
+    } else {
       // Update existing customer info
-      const updatedCustomer = { ...customer, ...formData.customer };
-      setDbCustomers(dbCustomers.map(c => c.id === updatedCustomer.id ? updatedCustomer : c));
-      customer = updatedCustomer;
+      customer = await prisma.customer.update({
+        where: { id: customer.id },
+        data: {
+          fullName: formData.customer.fullName,
+          phone: formData.customer.phone,
+          company: formData.customer.company,
+          address: formData.customer.address,
+          notes: formData.customer.notes,
+        }
+      });
+    }
+
+    const newBooking = await prisma.booking.create({
+      data: {
+        organizationId,
+        customerId: customer.id,
+        date: formData.booking.date,
+        startTime: formData.booking.startTime,
+        endTime: calculateEndTime(formData.booking.startTime, formData.booking.duration),
+        duration: formData.booking.duration,
+        people: formData.booking.people,
+        serviceType: formData.booking.serviceType,
+        occasion: formData.booking.occasion,
+        specialRequests: formData.booking.specialRequests,
+        location: formData.booking.location,
+        status: formData.booking.status,
+        priority: formData.booking.priority,
+        staffAssigned: formData.booking.staffAssigned,
+        notes: formData.booking.notes,
+        source: formData.booking.source,
+        tags: formData.booking.tags,
+      },
+      include: {
+        customer: true,
+        activities: true,
+      }
+    });
+
+    // Update customer stats
+    await prisma.customer.update({
+      where: { id: customer.id },
+      data: {
+        totalBookings: { increment: 1 },
+        lastVisit: newBooking.date,
+      }
+    });
+
+    revalidatePath('/dashboard/crm');
+    return { success: true, booking: newBooking as unknown as Booking };
+  } catch (error) {
+    console.error('Failed to create booking:', error);
+    return { success: false, error: 'Failed to create booking' };
   }
-
-  const newBooking: Booking = {
-    id: `booking-${Date.now()}`,
-    customerId: customer.id,
-    customer: customer,
-    date: formData.booking.date,
-    startTime: formData.booking.startTime,
-    endTime: calculateEndTime(formData.booking.startTime, formData.booking.duration),
-    duration: formData.booking.duration,
-    people: formData.booking.people,
-    serviceType: formData.booking.serviceType,
-    occasion: formData.booking.occasion || '',
-    specialRequests: formData.booking.specialRequests || '',
-    location: formData.booking.location || '',
-    status: formData.booking.status,
-    priority: formData.booking.priority,
-    staffAssigned: formData.booking.staffAssigned || '',
-    notes: formData.booking.notes || '',
-    source: formData.booking.source || 'website',
-    tags: formData.booking.tags || [],
-    activities: [],
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
-
-  setDbBookings([...dbBookings, newBooking]);
-  
-  // Update customer stats
-  customer.totalBookings = (customer.totalBookings || 0) + 1;
-  customer.lastVisit = newBooking.date;
-
-  return { success: true, booking: newBooking };
 }
 
 export async function updateBooking(bookingId: string, formData: BookingFormData) {
-  initializeDb();
-  await delay(800);
+  try {
+    const organizationId = await getOrganizationId();
 
-  const index = dbBookings.findIndex(b => b.id === bookingId);
-  if (index === -1) {
-    throw new Error('Booking not found');
+    const existingBooking = await prisma.booking.findUnique({
+      where: { id: bookingId },
+    });
+
+    if (!existingBooking) {
+      throw new Error('Booking not found');
+    }
+
+    // Update customer info
+    if (existingBooking.customerId) {
+      await prisma.customer.update({
+        where: { id: existingBooking.customerId },
+        data: {
+          fullName: formData.customer.fullName,
+          email: formData.customer.email,
+          phone: formData.customer.phone,
+          company: formData.customer.company,
+          address: formData.customer.address,
+          notes: formData.customer.notes,
+        }
+      });
+    }
+
+    const updatedBooking = await prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        date: formData.booking.date,
+        startTime: formData.booking.startTime,
+        endTime: calculateEndTime(formData.booking.startTime, formData.booking.duration),
+        duration: formData.booking.duration,
+        people: formData.booking.people,
+        serviceType: formData.booking.serviceType,
+        occasion: formData.booking.occasion,
+        specialRequests: formData.booking.specialRequests,
+        location: formData.booking.location,
+        status: formData.booking.status,
+        priority: formData.booking.priority,
+        staffAssigned: formData.booking.staffAssigned,
+        notes: formData.booking.notes,
+        source: formData.booking.source,
+        tags: formData.booking.tags,
+      },
+      include: {
+        customer: true,
+        activities: true,
+      }
+    });
+
+    revalidatePath('/dashboard/crm');
+    return { success: true, booking: updatedBooking as unknown as Booking };
+  } catch (error) {
+    console.error('Failed to update booking:', error);
+    return { success: false, error: 'Failed to update booking' };
   }
-
-  const oldBooking = dbBookings[index];
-  
-  // Update customer info
-  let customer = dbCustomers.find(c => c.id === oldBooking.customerId);
-  if (customer) {
-      const updatedCustomer = { ...customer, ...formData.customer };
-      setDbCustomers(dbCustomers.map(c => c.id === updatedCustomer.id ? updatedCustomer : c));
-      customer = updatedCustomer;
-  }
-
-  const updatedBooking: Booking = {
-    ...oldBooking,
-    customer: customer || oldBooking.customer,
-    date: formData.booking.date,
-    startTime: formData.booking.startTime,
-    endTime: calculateEndTime(formData.booking.startTime, formData.booking.duration),
-    duration: formData.booking.duration,
-    people: formData.booking.people,
-    serviceType: formData.booking.serviceType,
-    occasion: formData.booking.occasion,
-    specialRequests: formData.booking.specialRequests,
-    location: formData.booking.location,
-    status: formData.booking.status,
-    priority: formData.booking.priority,
-    staffAssigned: formData.booking.staffAssigned,
-    notes: formData.booking.notes,
-    source: formData.booking.source,
-    tags: formData.booking.tags,
-    updatedAt: new Date(),
-  };
-
-  const newBookings = [...dbBookings];
-  newBookings[index] = updatedBooking;
-  setDbBookings(newBookings);
-  
-  return { success: true, booking: updatedBooking };
 }
 
 export async function deleteBooking(bookingId: string) {
-  initializeDb();
-  await delay(500);
-  
-  setDbBookings(dbBookings.filter(b => b.id !== bookingId));
-  return { success: true };
+  try {
+    await prisma.booking.delete({
+      where: { id: bookingId },
+    });
+    revalidatePath('/dashboard/crm');
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to delete booking:', error);
+    return { success: false, error: 'Failed to delete booking' };
+  }
 }
 
 export async function updateBookingStatus(bookingId: string, status: Booking['status']) {
-  initializeDb();
-  await delay(300);
-
-  const booking = dbBookings.find(b => b.id === bookingId);
-  if (booking) {
-    booking.status = status;
-    booking.updatedAt = new Date();
-    return { success: true, booking };
+  try {
+    const booking = await prisma.booking.update({
+      where: { id: bookingId },
+      data: { status },
+      include: {
+        customer: true,
+        activities: true,
+      }
+    });
+    revalidatePath('/dashboard/crm');
+    return { success: true, booking: booking as unknown as Booking };
+  } catch (error) {
+    console.error('Failed to update booking status:', error);
+    return { success: false, error: 'Failed to update booking status' };
   }
-  return { success: false, error: 'Booking not found' };
 }
 
 // --- Calendar Actions ---
@@ -314,37 +374,54 @@ export async function getAllBookingsForCalendar(
         service?: string;
     }
 ) {
-    initializeDb();
-    await delay(300);
-
-    let filtered = [...dbBookings];
-
-    // Apply filters (same as above, could be refactored)
-    if (filters) {
-        if (filters.search) {
-            const searchLower = filters.search.toLowerCase();
-            filtered = filtered.filter(b =>
-                b.customer.fullName.toLowerCase().includes(searchLower) ||
-                b.customer.email.toLowerCase().includes(searchLower) ||
-                b.customer.phone.includes(filters.search!)
-            );
-        }
-
-        if (filters.status && filters.status !== 'all') {
-            filtered = filtered.filter(b => b.status === filters.status);
-        }
-
-        if (filters.service && filters.service !== 'all') {
-            filtered = filtered.filter(b => b.serviceType === filters.service);
-        }
-    }
+  try {
+    const organizationId = await getOrganizationId();
     
-    return filtered;
+    const where: Prisma.BookingWhereInput = {
+      organizationId,
+    };
+
+    if (filters) {
+      if (filters.search) {
+        where.OR = [
+          { customer: { fullName: { contains: filters.search, mode: 'insensitive' } } },
+          { customer: { email: { contains: filters.search, mode: 'insensitive' } } },
+        ];
+      }
+      if (filters.status && filters.status !== 'all') {
+        where.status = filters.status;
+      }
+      if (filters.service && filters.service !== 'all') {
+        where.serviceType = filters.service;
+      }
+    }
+
+    const bookings = await prisma.booking.findMany({
+      where,
+      include: {
+        customer: true,
+        activities: true,
+      }
+    });
+
+    return bookings as unknown as Booking[];
+  } catch (error) {
+    console.error('Failed to fetch calendar bookings:', error);
+    return [];
+  }
 }
 
 // --- Customers Actions ---
 export async function getCustomers() {
-  initializeDb();
-  await delay(200);
-  return dbCustomers;
+  try {
+    const organizationId = await getOrganizationId();
+    const customers = await prisma.customer.findMany({
+      where: { organizationId },
+      orderBy: { createdAt: 'desc' },
+    });
+    return customers as unknown as Customer[];
+  } catch (error) {
+    console.error('Failed to fetch customers:', error);
+    return [];
+  }
 }

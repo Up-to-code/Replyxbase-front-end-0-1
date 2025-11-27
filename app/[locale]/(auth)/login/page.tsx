@@ -22,7 +22,7 @@ export default function LoginPage() {
       setError(null);
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/",
+        callbackURL: "/dashboard",
       });
     } catch (err: any) {
       setError(err.message || "Failed to sign in with Google");
@@ -38,7 +38,7 @@ export default function LoginPage() {
       setError(null);
       await authClient.signIn.social({
         provider: "github",
-        callbackURL: "/",
+        callbackURL: "/dashboard",
       });
     } catch (err: any) {
       setError(err.message || "Failed to sign in with GitHub");
@@ -74,7 +74,7 @@ export default function LoginPage() {
         toast.error(error.message || t("error"));
       } else {
         toast.success(t("success"));
-        router.push("/");
+        router.push("/dashboard");
       }
     } catch (err: any) {
       const errorMessage = err.message || t("error");

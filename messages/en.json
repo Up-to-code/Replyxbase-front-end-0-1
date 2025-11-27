@@ -271,6 +271,24 @@
     "Branding": {
       "welcome": "Welcome to the future of business communication",
       "description": "Connect with your customers across all platforms in one unified inbox powered by AI."
+    },
+    "CreateOrganization": {
+      "title": "Create Organization",
+      "subtitle": "Set up your workspace to get started",
+      "nameLabel": "Organization Name",
+      "namePlaceholder": "e.g. Acme Corp",
+      "slugLabel": "Workspace URL",
+      "slugPlaceholder": "acme-corp",
+      "slugDescription": "This will be your unique identifier",
+      "submit": "Create Workspace",
+      "success": "Workspace Created!",
+      "error": "Failed to create organization",
+      "terms": "By creating an organization, you agree to our Terms of Service",
+      "slugAvailable": "Workspace URL is available",
+      "slugTaken": "This URL is already taken",
+      "slugChecking": "Checking availability...",
+      "slugTooShort": "URL must be at least 3 characters",
+      "slugInvalid": "URL can only contain lowercase letters, numbers, and hyphens"
     }
   },
   "Dashboard": {

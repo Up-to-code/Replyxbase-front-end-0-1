@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Plus, Trash2, Calendar, User, Clock, ArrowUpDown } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { SortField, SortDirection } from '../../types';
-import { serviceTypes } from '../../mockData';
+import { serviceTypes } from '../../constants';
 import { DynamicFilter } from '../../hooks/useFilters';
 import { Select } from '../../components/ui/Select';
 

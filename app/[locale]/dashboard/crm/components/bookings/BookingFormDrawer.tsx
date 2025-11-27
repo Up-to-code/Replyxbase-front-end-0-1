@@ -6,7 +6,7 @@ import { Booking, BookingFormData } from '../../types';
 import { InputField } from '../ui/Inputs';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { formatDateForInput } from '../../utils';
-import { serviceTypes } from '../../mockData';
+import { serviceTypes } from '../../constants';
 
 /**
  * Props for the BookingFormDrawer component.

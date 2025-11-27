@@ -10,7 +10,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-
 }
 
 model User {
@@ -80,7 +79,8 @@ model Verification {
 }
 
 model Organization {
-  id          String       @id
+  id String @id
+
   name        String
   slug        String
   logo        String?
@@ -88,6 +88,8 @@ model Organization {
   metadata    String?
   members     Member[]
   invitations Invitation[]
+  customers   Customer[]
+  bookings    Booking[]
 
   @@unique([slug])
   @@map("organization")
@@ -117,4 +119,96 @@ model Invitation {
   user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
 
   @@map("invitation")
+}
+
+model Customer {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  fullName       String
+  email          String
+  phone          String
+  company        String?
+  address        String?
+  notes          String?
+  avatar         String?
+  loyaltyTier    String?      @default("bronze") // bronze, silver, gold, platinum
+  totalBookings  Int          @default(0)
+  totalSpent     Float        @default(0)
+  lastVisit      DateTime?
+  preferences    String[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  bookings       Booking[]
+  crmNotes       Note[]       @relation("CustomerNotes")
+
+  @@index([organizationId])
+  @@map("customer")
+}
+
+model Booking {
+  id              String       @id @default(cuid())
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  customerId      String
+  customer        Customer     @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  date            DateTime
+  startTime       String
+  endTime         String
+  duration        Int // in minutes
+  people          Int          @default(1)
+  serviceType     String
+  occasion        String?
+  specialRequests String?
+  location        String?
+  status          String       @default("pending") // pending, confirmed, cancelled, completed, no-show
+  priority        String       @default("normal") // normal, high, urgent
+  staffAssigned   String?
+  notes           String?
+  rating          Int?
+  feedback        String?
+  source          String? // website, phone, walk-in, referral, social
+  tags            String[]
+  price           Float?
+  deposit         Float?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  activities      Activity[]
+  crmNotes        Note[]       @relation("BookingNotes")
+
+  @@index([organizationId])
+  @@index([customerId])
+  @@map("booking")
+}
+
+model Note {
+  id         String   @id @default(cuid())
+  content    String
+  isInternal Boolean  @default(true)
+  priority   String   @default("low") // low, medium, high
+  tags       String[]
+  createdAt  DateTime @default(now())
+  createdBy  String
+
+  // Relations
+  customerId String?
+  customer   Customer? @relation("CustomerNotes", fields: [customerId], references: [id], onDelete: Cascade)
+  bookingId  String?
+  booking    Booking?  @relation("BookingNotes", fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("note")
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  type      String // call, email, note, meeting
+  content   String
+  createdAt DateTime @default(now())
+  createdBy String
+
+  // Relations
+  bookingId String?
+  booking   Booking? @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("activity")
 }
