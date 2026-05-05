@@ -19,9 +19,9 @@
   --color-base-content: #18181b;
   /* zinc-900 */
 
-  /* Primary - Blue (#0064e0, #0082fb) */
-  --color-primary: #0064e0;
-  --color-primary-focus: #0082fb;
+  /* Primary - premium real estate navy/emerald */
+  --color-primary: #0B1F3A;
+  --color-primary-focus: #123B63;
   --color-primary-content: #FFFFFF;
 
   /* Secondary - Orange (#FF6A00) */
@@ -36,7 +36,7 @@
   /* State Colors */
   --color-info: #0082fb;
   /* Using the second blue */
-  --color-success: #10B981;
+  --color-success: #0F8B6F;
   --color-warning: #FFD700;
   --color-error: #FF6A00;
 
@@ -58,7 +58,7 @@
   --popover: #ffffff;
   --popover-foreground: #18181b;
   /* zinc-900 */
-  --primary: #2A4D9A;
+  --primary: #0B1F3A;
   --primary-foreground: #ffffff;
   /* zinc-50 */
   --secondary: #f4f4f5;
@@ -101,7 +101,7 @@
   /* zinc-200 */
   --sidebar-ring: #a1a1aa;
   /* zinc-400 */
-  --background: #ffffff;
+  --background: #F6F8FA;
   --foreground: #18181b;
   /* zinc-900 */
 }

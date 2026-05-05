@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Upload, Building2, Loader2, Check, Users, Mail, Trash2 } from 'lucide-react';
 import { authClient } from '@/lib/auth-client';
-import { useUploadThing } from '@/lib/uploadthing';
 import { toast } from 'sonner';
 
 export const OrganizationSettings: React.FC = () => {
@@ -17,22 +16,6 @@ export const OrganizationSettings: React.FC = () => {
   const [orgName, setOrgName] = useState(activeOrg?.name || "");
   const [orgSlug, setOrgSlug] = useState(activeOrg?.slug || "");
   const [logoUrl, setLogoUrl] = useState(activeOrg?.logo || "");
-
-  // UploadThing hook
-  const { startUpload } = useUploadThing("organizationLogo", {
-    onClientUploadComplete: (res) => {
-      if (res && res[0]) {
-        setLogoUrl(res[0].url);
-        toast.success("Logo uploaded successfully!");
-      }
-      setIsUploading(false);
-    },
-    onUploadError: (error) => {
-      console.error("Upload error:", error);
-      toast.error("Failed to upload logo");
-      setIsUploading(false);
-    },
-  });
 
   // Update org name when active org changes
   React.useEffect(() => {
@@ -48,7 +31,9 @@ export const OrganizationSettings: React.FC = () => {
     if (!file) return;
 
     setIsUploading(true);
-    await startUpload([file]);
+    setLogoUrl(URL.createObjectURL(file));
+    toast.success("Logo preview updated");
+    setIsUploading(false);
   };
 
   const handleSave = async () => {

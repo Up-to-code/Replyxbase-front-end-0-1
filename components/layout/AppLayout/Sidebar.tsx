@@ -3,12 +3,12 @@ import { usePathname, useRouter } from "@/navigation";
 import {
   ChevronLeft,
   ChevronRight,
-  Zap,
+  Building2,
   Plus,
   Sparkles,
 } from "lucide-react";
-import { Agent, NavigationItem, Translator } from "./types";
-import { AGENT_ICONS, NAVIGATION, USER } from "./constants";
+import { Agent, NavigationItem } from "./types";
+import { AGENT_ICONS, NAVIGATION } from "./constants";
 import { useRTL } from "@/hooks/useRTL";
 
 // Logo Component
@@ -22,22 +22,22 @@ function LogoSection({
   const { isRTL } = useRTL();
   
   return (
-    <div className="h-16 border-b border-gray-100 flex items-center px-6 bg-white">
+    <div className="h-16 border-b border-slate-200 flex items-center px-5 bg-white">
       <div className="flex items-center justify-between w-full">
         {sidebarOpen && (
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#2A4D9A] rounded-lg flex items-center justify-center shadow-sm shadow-blue-900/20">
-              <Zap className="w-4 h-4 text-white" />
+            <div className="w-9 h-9 bg-[#0B1F3A] rounded-lg flex items-center justify-center shadow-sm shadow-blue-900/20">
+              <Building2 className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h1 className="text-gray-900 text-lg font-bold">Replyxbase</h1>
-              <p className="text-gray-500 text-xs">AI Platform</p>
+              <h1 className="text-slate-950 text-base font-bold">Replyxbase Realty</h1>
+              <p className="text-slate-500 text-xs">Real Estate CRM</p>
             </div>
           </div>
         )}
         <button
           onClick={onToggle}
-          className="text-gray-400 hover:text-gray-600 p-2 rounded-lg hover:bg-gray-100 transition-all duration-300 ease-in-out"
+          className="text-slate-400 hover:text-slate-600 p-2 rounded-lg hover:bg-slate-100 transition-all duration-300 ease-in-out"
           aria-label="Toggle sidebar"
           type="button"
         >
@@ -71,15 +71,15 @@ function NavigationButton({
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-center w-full px-4 py-3 rounded-lg transition-all duration-200 ease-in-out group ${
+      className={`flex items-center w-full px-3 py-2.5 rounded-lg transition-all duration-200 ease-in-out group ${
         isActive
-          ? "bg-[#2A4D9A] text-white shadow-md shadow-blue-900/10"
-          : "text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+          ? "bg-[#0B1F3A] text-white shadow-md shadow-blue-900/10"
+          : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
       }`}
       aria-current={isActive ? "page" : undefined}
     >
-      <Icon className={`w-5 h-5 shrink-0 ${isActive ? "text-white" : "text-gray-400 group-hover:text-gray-600"}`} />
-      {sidebarOpen && <span className="ms-3 font-medium">{label}</span>}
+      <Icon className={`w-5 h-5 shrink-0 ${isActive ? "text-white" : "text-slate-400 group-hover:text-slate-600"}`} />
+      {sidebarOpen && <span className="ms-3 text-sm font-medium">{label}</span>}
     </button>
   );
 }
@@ -102,14 +102,14 @@ function AgentButton({
       onClick={onClick}
       className={`flex items-center w-full px-4 py-3 rounded-lg transition-all duration-200 ease-in-out text-start group ${
         isActive
-          ? "bg-blue-50 text-[#2A4D9A] border border-blue-100 shadow-sm"
-          : "text-gray-500 hover:text-gray-900 hover:bg-gray-100 border border-transparent"
+          ? "bg-emerald-50 text-emerald-800 border border-emerald-100 shadow-sm"
+          : "text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-transparent"
       }`}
     >
       <div className="flex items-center gap-3 w-full">
         <div className="flex items-center gap-3 flex-1 min-w-0">
           <div className="relative flex items-center justify-center">
-            <AgentIcon className={`w-4 h-4 ${isActive ? "text-[#2A4D9A]" : "text-gray-400 group-hover:text-gray-600"}`} />
+            <AgentIcon className={`w-4 h-4 ${isActive ? "text-emerald-700" : "text-slate-400 group-hover:text-slate-600"}`} />
             <div
               className={`absolute -top-0.5 -end-0.5 w-2 h-2 rounded-full border border-white ${
                 agent.status === "active" ? "bg-green-500" : "bg-gray-400"
@@ -119,7 +119,7 @@ function AgentButton({
           <span className="truncate text-sm font-medium flex-1">{agent.name}</span>
         </div>
         {isActive && (
-          <Sparkles className="w-3 h-3 text-[#2A4D9A] shrink-0" />
+            <Sparkles className="w-3 h-3 text-emerald-700 shrink-0" />
         )}
       </div>
     </button>
@@ -134,14 +134,12 @@ export function Sidebar({
   agents,
   onAgentClick,
   onCreateAgent,
-  t,
 }: {
   sidebarOpen: boolean;
   onToggle: () => void;
   agents: Agent[];
   onAgentClick: (agentId: string) => void;
   onCreateAgent: () => void;
-  t: Translator;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -153,14 +151,14 @@ export function Sidebar({
 
   return (
     <aside
-      className={`bg-white border-e border-gray-200 flex flex-col transition-all duration-300 ease-in-out h-full sticky top-0 z-30 ${
+      className={`bg-white border-e border-slate-200 flex flex-col transition-all duration-300 ease-in-out h-full sticky top-0 z-30 ${
         sidebarOpen ? "w-64" : "w-20"
       }`}
     >
       <LogoSection sidebarOpen={sidebarOpen} onToggle={onToggle} />
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto bg-white scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
+      <nav className="flex-1 p-3 space-y-1 overflow-y-auto bg-white scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
         {/* Main Navigation */}
         {NAVIGATION.map((item) => (
           <NavigationButton
@@ -169,29 +167,29 @@ export function Sidebar({
             isActive={isActiveRoute(item.href)}
             sidebarOpen={sidebarOpen}
             onClick={() => router.push(item.href)}
-            label={t(`Sidebar.${item.label.toLowerCase()}`)}
+            label={item.label}
           />
         ))}
 
         {/* Divider */}
-        <div className="border-t border-gray-100 my-4" />
+        <div className="border-t border-slate-100 my-4" />
 
         {/* Create Agent */}
         <button
           onClick={onCreateAgent}
-          className="flex items-center w-full px-4 py-3 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-300 ease-in-out group"
+          className="flex items-center w-full px-3 py-2.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-all duration-300 ease-in-out group"
         >
-          <Plus className="w-5 h-5 group-hover:text-[#2A4D9A] transition-colors" />
+          <Plus className="w-5 h-5 group-hover:text-emerald-700 transition-colors" />
           {sidebarOpen && (
-            <span className="ms-3 font-medium">{t("createAgent")}</span>
+            <span className="ms-3 text-sm font-medium">Create AI agent</span>
           )}
         </button>
 
         {/* Existing Agents */}
         {sidebarOpen && (
           <div className="mt-6">
-            <h3 className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-3 px-1">
-              {t("existingAgents")}
+            <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-normal mb-3 px-1">
+              AI agents
             </h3>
             <div className="space-y-1">
               {agents.map((agent) => (

@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter, usePathname } from "@/navigation";
+import { useRouter } from "@/navigation";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { Agent, AppLayoutProps } from "./types";
@@ -43,14 +43,13 @@ export function AppLayout({ children }: AppLayoutProps) {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-[#F6F8FA]">
       <Sidebar
         sidebarOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(!sidebarOpen)}
         agents={agents}
         onAgentClick={handleAgentClick}
         onCreateAgent={handleCreateAgent}
-        t={t}
       />
 
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -59,7 +58,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           t={t}
         />
 
-        <main className="flex-1 overflow-auto bg-gray-50">
+        <main className="flex-1 overflow-auto bg-[#F6F8FA]">
           <div className="h-full w-full">{children}</div>
         </main>
       </div>

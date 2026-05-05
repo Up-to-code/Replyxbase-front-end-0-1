@@ -9,6 +9,7 @@ export interface Customer {
   avatar?: string;
   loyaltyTier?: 'bronze' | 'silver' | 'gold' | 'platinum';
   totalBookings?: number;
+  totalSpent?: number;
   lastVisit?: Date;
   preferences?: string[];
 }
@@ -52,6 +53,8 @@ export interface Booking {
   priority: 'normal' | 'high' | 'urgent';
   createdAt: Date;
   updatedAt: Date;
+  price?: number;
+  deposit?: number;
   staffAssigned?: string;
   notes?: string;
   notesCount?: number;

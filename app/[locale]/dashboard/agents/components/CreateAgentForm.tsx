@@ -1,20 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { createAgent } from '@/app/actions/agents';
-import { Bot, Upload, MessageSquare, Smartphone, Check, Brain, Database, Calendar, Users, ChevronDown, Loader2, Sparkles, Zap, ArrowRight, Building, ShoppingBag, HeartPulse, Cpu, Banknote, MoreHorizontal } from 'lucide-react';
+import { MessageSquare, Check, Brain, Calendar, Users, ChevronDown, Loader2, Sparkles, Zap, Building, ShoppingBag, HeartPulse, Cpu, Banknote, MoreHorizontal } from 'lucide-react';
 
 export const CreateAgentForm: React.FC = () => {
   const t = useTranslations("Dashboard.Agents.Create");
-  const [step, setStep] = useState(1);
-  const [channels, setChannels] = useState<string[]>([]);
   // Default all capabilities to selected
   const [capabilities, setCapabilities] = useState<string[]>(['crm', 'booking', 'support']);
   const [selectedModel, setSelectedModel] = useState('gpt4');
   const [isModelDropdownOpen, setIsModelDropdownOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isImproving, setIsImproving] = useState(false);
   const [name, setName] = useState('');
   const [systemPrompt, setSystemPrompt] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState('');
@@ -29,12 +26,6 @@ export const CreateAgentForm: React.FC = () => {
     { id: 'other', label: 'industries.other', icon: MoreHorizontal },
   ];
 
-  const toggleChannel = (channel: string) => {
-    setChannels(prev => 
-      prev.includes(channel) ? prev.filter(c => c !== channel) : [...prev, channel]
-    );
-  };
-
   const toggleCapability = (cap: string) => {
     setCapabilities(prev => 
       prev.includes(cap) ? prev.filter(c => c !== cap) : [...prev, cap]
@@ -42,13 +33,6 @@ export const CreateAgentForm: React.FC = () => {
   };
 
   const [isSuccess, setIsSuccess] = useState(false);
-
-  const handleImprovePrompt = async () => {
-    setIsImproving(true);
-    // Simulate AI improvement
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsImproving(false);
-  };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
@@ -99,43 +83,9 @@ export const CreateAgentForm: React.FC = () => {
   const selectedModelData = models.find(m => m.id === selectedModel);
 
   return (
-    <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
-      {/* Vertical Steps Sidebar */}
-      <div className="w-full lg:w-64 flex-shrink-0">
-        <div className="sticky top-8 space-y-1">
-          {[1, 2].map((s) => (
-            <button
-              key={s}
-              onClick={() => setStep(s)}
-              className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all text-left
-                ${step === s 
-                  ? 'bg-primary text-primary-foreground shadow-none' 
-                  : 'text-gray-500 hover:bg-gray-50'
-                }`}
-            >
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all
-                ${step === s 
-                  ? 'bg-white text-primary border-white' 
-                  : 'bg-transparent border-gray-200'}`}>
-                {s}
-              </div>
-              <div className="flex flex-col">
-                <span className={`text-sm font-bold ${step === s ? 'text-white' : 'text-gray-900'}`}>
-                  {s === 1 ? t("steps.1") : t("steps.2")}
-                </span>
-                <span className={`text-xs ${step === s ? 'text-gray-300' : 'text-gray-500'}`}>
-                  {s === 1 ? t("basicInfo.title") : t("knowledge.title")}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Content */}
+    <div className="max-w-4xl mx-auto">
       <div className="flex-1 bg-white border border-gray-100 rounded-xl p-8 min-h-[600px]">
-        {step === 1 && (
-          <div className="space-y-8 animate-fade-in">
+        <div className="space-y-8 animate-fade-in">
             <div>
               <h2 className="text-2xl font-bold text-gray-900">{t("basicInfo.title")}</h2>
               <p className="text-gray-500 mt-2">{t("basicInfo.subtitle")}</p>
@@ -225,16 +175,6 @@ export const CreateAgentForm: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {step === 2 && (
-          <div className="space-y-8 animate-fade-in">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900">{t("knowledge.title")}</h2>
-              <p className="text-gray-500 mt-2">{t("knowledge.subtitle")}</p>
-            </div>
-
             <div className="max-w-2xl space-y-8">
               <div className="grid gap-2 relative">
                 <label className="text-sm font-semibold text-gray-900">{t("industry")}</label>
@@ -284,55 +224,20 @@ export const CreateAgentForm: React.FC = () => {
               </div>
 
               <div className="grid gap-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-sm font-semibold text-gray-900">{t("knowledge.systemPromptLabel")}</label>
-                  <button
-                    onClick={handleImprovePrompt}
-                    disabled={isImproving}
-                    className="flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 hover:bg-primary/10 px-2 py-1 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isImproving ? (
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                    ) : (
-                      <Sparkles className="w-3 h-3" />
-                    )}
-                    {t("knowledge.improveWithAI")}
-                  </button>
-                </div>
+                <label className="text-sm font-semibold text-gray-900">System prompt</label>
                 <textarea 
                   value={systemPrompt}
                   onChange={(e) => setSystemPrompt(e.target.value)}
-                  placeholder={t("knowledge.systemPromptPlaceholder")}
+                  placeholder="Describe how this agent should answer customers."
                   className="w-full h-32 bg-gray-50 border-transparent focus:bg-white focus:border-gray-200 focus:ring-0 rounded-xl px-5 py-4 text-base transition-all resize-none"
                 />
               </div>
-
-              <div className="border-2 border-dashed border-gray-200 rounded-xl p-10 text-center hover:bg-gray-50 transition-colors cursor-pointer group">
-                <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                  <Upload className="w-8 h-8" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-900">{t("knowledge.uploadTitle")}</h3>
-                <p className="text-gray-500 mt-2 text-sm max-w-xs mx-auto">{t("knowledge.uploadDesc")}</p>
-              </div>
             </div>
           </div>
-        )}
 
-        <div className="flex items-center justify-between pt-8 mt-8 border-t border-gray-100">
+        <div className="flex items-center justify-end pt-8 mt-8 border-t border-gray-100">
           <button
-            onClick={() => setStep(prev => Math.max(1, prev - 1))}
-            className={`px-6 py-3 rounded-xl text-sm font-semibold transition-colors
-              ${step === 1 
-                ? 'text-gray-300 cursor-not-allowed' 
-                : 'text-gray-600 hover:bg-gray-100'
-              }`}
-            disabled={step === 1}
-          >
-            {t("common.back")}
-          </button>
-
-          <button
-            onClick={() => step < 2 ? setStep(prev => prev + 1) : handleSubmit()}
+            onClick={handleSubmit}
             disabled={isSubmitting}
             className={`bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-3 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 shadow-none disabled:opacity-70 disabled:cursor-not-allowed
               ${isSubmitting ? 'pl-6 pr-8' : ''}`}
@@ -343,10 +248,7 @@ export const CreateAgentForm: React.FC = () => {
                 Creating...
               </>
             ) : (
-              <>
-                {step === 2 ? t("common.create") : t("common.next")}
-                {step < 2 && <ArrowRight className="w-4 h-4 rtl:rotate-180" />} 
-              </>
+              t("common.create")
             )}
           </button>
         </div>

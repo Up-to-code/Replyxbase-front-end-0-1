@@ -2,10 +2,9 @@
 
 import React, { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { ArrowLeft, ArrowRight, Power, PlayCircle, Database, Share2, Settings, AlertCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Power, PlayCircle, Share2, Settings, AlertCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { OverviewTab } from './OverviewTab';
-import { KnowledgeTab } from './KnowledgeTab';
 import { IntegrationsTab } from './IntegrationsTab';
 import { SettingsTab } from './SettingsTab';
 
@@ -34,7 +33,6 @@ export default function AgentDetailsClient({ agent }: AgentDetailsClientProps) {
 
   const tabs = [
     { id: 'overview', label: t('tabs.overview'), icon: PlayCircle },
-    { id: 'knowledge', label: t('tabs.knowledge'), icon: Database },
     { id: 'integrations', label: t('tabs.integrations'), icon: Share2 },
     { id: 'settings', label: t('tabs.settings'), icon: Settings },
   ];
@@ -143,7 +141,6 @@ export default function AgentDetailsClient({ agent }: AgentDetailsClientProps) {
         ) : (
           <div className="bg-white border border-gray-100 rounded-xl p-6">
             {activeTab === 'overview' && <OverviewTab />}
-            {activeTab === 'knowledge' && <KnowledgeTab />}
             {activeTab === 'integrations' && <IntegrationsTab />}
             {activeTab === 'settings' && <SettingsTab agent={agent} />}
           </div>

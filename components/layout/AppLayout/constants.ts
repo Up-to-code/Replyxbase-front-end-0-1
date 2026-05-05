@@ -13,6 +13,13 @@ import {
   Bell,
   MessageCircle,
   Workflow,
+  Building2,
+  CalendarDays,
+  CheckSquare,
+  FileText,
+  Megaphone,
+  BarChart3,
+  Target,
 } from "lucide-react";
 import { Agent, NavigationItem, Notification, ProfileMenuItem } from "./types";
 
@@ -26,8 +33,18 @@ export const MOCK_AGENTS: Agent[] = [
 export const NAVIGATION: NavigationItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Inbox", href: "/dashboard/inbox", icon: MessageSquare },
+  { label: "Contacts", href: "/dashboard/contacts", icon: Users },
+  { label: "Properties", href: "/dashboard/properties", icon: Building2 },
+  { label: "Deals", href: "/dashboard/deals", icon: Target },
+  { label: "Calendar", href: "/dashboard/calendar", icon: CalendarDays },
+  { label: "Tasks", href: "/dashboard/tasks", icon: CheckSquare },
+  { label: "Documents", href: "/dashboard/documents", icon: FileText },
+  { label: "Marketing", href: "/dashboard/marketing", icon: Megaphone },
+  { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+  { label: "AI Assistant", href: "/dashboard/ai", icon: Bot },
+  { label: "Team", href: "/dashboard/team", icon: Users },
   { label: "Agents", href: "/dashboard/agents", icon: Bot },
-  { label: "CRM", href: "/dashboard/crm", icon: Users },
+  { label: "Legacy CRM", href: "/dashboard/crm", icon: Workflow },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
@@ -41,7 +58,7 @@ export const USER = {
 
 export const ORGANIZATION = {
   id: "org_1",
-  name: "Replyxbase",
+  name: "Replyxbase Realty",
   plan: "Enterprise",
   avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=32&h=32&fit=crop&crop=entropy",
 };

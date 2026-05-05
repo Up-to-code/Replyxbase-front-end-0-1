@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import locales from "@/i18n/request";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 
 // Font configuration
 const cairo = Cairo({
@@ -119,7 +120,7 @@ export default async function RootLayout({
   const { locale } = await params;
 
   // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as any)) {
+  if (!(routing.locales as readonly string[]).includes(locale)) {
     notFound();
   }
   
@@ -161,7 +162,7 @@ export default async function RootLayout({
           messages={messages}
           timeZone="UTC"
         >
-          {children}
+          <ConvexClientProvider>{children}</ConvexClientProvider>
           <Toaster />
         </NextIntlClientProvider>
       </body>

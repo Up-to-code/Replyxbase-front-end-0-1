@@ -46,7 +46,7 @@ export interface Organization {
   createdAt: Date;
   metadata?: {
     plan?: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
